@@ -2,21 +2,19 @@ package bill;
 import bill.Item;
 import logic.Customer;
 
-public class Quotation {
+public class Order {
 		
 	private String id;
 	private String date;
 	private Customer customer;
 	private Item[] itemList; 
-	private String attn;
-	private String cr;
+	private String paymentTerm;
 	private double totalAmount;
 	private double tax7;
 	private double plusTax7;
 	
-	public Quotation(String id,String date,Customer customer,Item[] itemList,String attn,String cr) {
-		this.setAttn(attn);
-		this.setCr(cr);
+	public Order(String id,String date,Customer customer,Item[] itemList,String paymentTerm) {
+		this.setPaymentTerm(paymentTerm);
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
@@ -55,13 +53,7 @@ public class Quotation {
 		this.date = date;
 	}
 
-	public String getCr() {
-		return cr;
-	}
-
-	public void setCr(String cr) {
-		this.cr = cr;
-	}
+	
 
 	public Item[] getItemList() {
 		return itemList;
@@ -71,13 +63,7 @@ public class Quotation {
 		this.itemList = itemList;
 	}
 
-	public String getAttn() {
-		return attn;
-	}
-
-	public void setAttn(String attn) {
-		this.attn = attn;
-	}
+	
 
 	public double getTotalAmount() {
 		return totalAmount;
@@ -101,5 +87,13 @@ public class Quotation {
 
 	public void setPlusTax7(double plusTax7) {
 		this.plusTax7 = plusTax7;
+	}
+
+	public String getPaymentTerm() {
+		return paymentTerm;
+	}
+
+	public void setPaymentTerm(String paymentTerm) {
+		this.paymentTerm = paymentTerm;
 	}
 }
