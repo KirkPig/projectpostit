@@ -8,13 +8,12 @@ public class Item {
 	private double discount;
 	private double amount;
 	private Product product;
-	public Item(Product product,int quantity,double discount,double amount) {
+	public Item(Product product,int quantity,double discount) {
 		// TODO Auto-generated constructor stub
 		this.setProduct(product);
-		this.setAmount(amount);
 		this.setDiscount(discount);
 		this.setQuantity(quantity);
-		
+		this.setAmount(this.getProduct().getPrice() * this.getQuantity() * (1- this.getDiscount()/100));
 	}
 
 	public int getQuantity() {
@@ -48,4 +47,9 @@ public class Item {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	
+	
+
+	
 }
