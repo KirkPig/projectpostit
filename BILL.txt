@@ -1,0 +1,109 @@
+วางบิล
+เครดิตโน้ต
+ส่งของ
+กำกับภาษี
+สั่งซื้อ
+ยืมสินค้า
+เสนอราคา
+
+Customer
+- customer no 
+- name
+- Tax ID
+- Address
+- Tel no
+- Fax
+- Email
+
+General:
+- ID
+- Date
+
+
+
+Quotation เสนอราคา naem
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Value Before, Tax 7%, Value After 
+Other
+- ATTN
+- CR
+
+
+Order สั่งซื้อ naem
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Value Before, Tax 7%, Value After 
+Other
+- Term of payment
+
+
+Product Loan Kirk
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Value Before, Tax 7%, Value After 
+Other
+- Contact
+
+Credit note: ดุงจากใบกำกับ๓าษีเก่ามาลดหนี้ JADE
+- Description, Amount
+- Value old, Value Real, Value Before(Old- Real), Tax7, ValueAfter
+Old Invoice
+- ID, Date
+
+
+Delivery Note: Kirk
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Value Before, Tax 7%, Value After 
+Other
+- Contact
+
+Invoice JADE
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Value Before, Tax 7%, Value After 
+
+other
+- PO No.(พิมพ์เอง) , Order By(พิมพ์เอง), Term of payment (พิมพ์เอง),  Date Due, Sales(ชื่อคนขาย)
+
+
+Billing: (ในเดือนนั้น)  Kirk
+- InvoiceID, Date, DateDue, Amount, PS(หมายเหตุ)
+- Value(รวมจากใบกำกับภาษี)
+other 
+- Billing By , Billing Date, PS
+
+
+Database:
+Customer
+- Code
+- Name
+- Tax ID
+- Address
+- Tel
+- Fax
+- Email
+Func: 
+
+Product
+- Code
+- Description
+- Unit
+- Price
+
+
+
+=============================================================================
+General						Customer
+
+
+Other/						
+
+
+
+
+No. Des Amount..........................................................
+
+
+
+
+
+
+
+							Tax Real price
