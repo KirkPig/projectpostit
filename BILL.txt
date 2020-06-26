@@ -11,7 +11,7 @@ Customer
 - name
 - Tax ID
 - Address
--Tel no
+- Tel no
 - Fax
 - Email
 
@@ -21,44 +21,42 @@ General:
 
 
 
-Quotation BIll เสนอราคา
-- No, Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+Quotation เสนอราคา
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
 - Value Before, Tax 7%, Value After 
 Other
 - ATTN
 - CR
 
 
-
 Order สั่งซื้อ
-- No, Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
 - Value Before, Tax 7%, Value After 
 Other
 - Term of payment
 
 
-
-
 Product Loan
-- No, Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
 - Value Before, Tax 7%, Value After 
 Other
 - Contact
 
 Credit note: ดุงจากใบกำกับ๓าษีเก่ามาลดหนี้
-- No. , Description, Amount
+- Description, Amount
 - Value old, Value Real, Value Before(Old- Real), Tax7, ValueAfter
 Old Invoice
 - ID, Date
 
+
 Delivery Note:
-- No, Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
 - Value Before, Tax 7%, Value After 
 Other
 - Contact
 
 Invoice
-- No, Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
+- Description(CODENAME), Quantity, Unit, Price, Discount, Amount.
 - Value Before, Tax 7%, Value After 
 
 other
@@ -66,7 +64,7 @@ other
 
 
 Billing: (ในเดือนนั้น)
-- No, InvoiceID, Date, DateDue, Amount, PS(หมายเหตุ)
+- InvoiceID, Date, DateDue, Amount, PS(หมายเหตุ)
 - Value(รวมจากใบกำกับภาษี)
 other 
 - Billing By , Billing Date, PS
@@ -101,9 +99,6 @@ Other/
 
 
 No. Des Amount..........................................................
-
-
-
 
 
 
