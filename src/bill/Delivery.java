@@ -1,36 +1,32 @@
 package bill;
-import java.util.ArrayList;
 
-import bill.Item;
 import logic.Customer;
 
-public class Quotation {
-		
+public class Delivery {
+
 	private String id;
 	private String date;
 	private Customer customer;
-	private ArrayList<Item> itemList; 
-	private String attn;
-	private String cr;
+	private Item[] itemList;
+	private String contact;
 	private double totalAmount;
 	private double tax7;
 	private double plusTax7;
-	
-	public Quotation(String id,String date,Customer customer,ArrayList<Item> itemList,String attn,String cr) {
-		this.setAttn(attn);
-		this.setCr(cr);
+
+	public Delivery(String id, String date, Customer customer, Item[] itemList, String contact) {
+		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
 		this.setItemList(itemList);
+		this.setContact(contact);
 		double total = 0.00;
-		for (Item e: itemList){
+		for (Item e : itemList) {
 			total += e.getAmount();
-		this.setTotalAmount(total);
-		this.setTax7(total*7/100);
-		this.setPlusTax7(this.getTotalAmount() + this.getTax7());
+			this.setTotalAmount(total);
+			this.setTax7(total * 7 / 100);
+			this.setPlusTax7(this.getTotalAmount() + this.getTax7());
 		}
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getId() {
@@ -41,14 +37,6 @@ public class Quotation {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public String getDate() {
 		return date;
 	}
@@ -57,28 +45,28 @@ public class Quotation {
 		this.date = date;
 	}
 
-	public String getCr() {
-		return cr;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCr(String cr) {
-		this.cr = cr;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public ArrayList<Item> getItemList() {
+	public Item[] getItemList() {
 		return itemList;
 	}
 
-	public void setItemList(ArrayList<Item> itemList) {
+	public void setItemList(Item[] itemList) {
 		this.itemList = itemList;
 	}
 
-	public String getAttn() {
-		return attn;
+	public String getContact() {
+		return contact;
 	}
 
-	public void setAttn(String attn) {
-		this.attn = attn;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
 	public double getTotalAmount() {
@@ -104,4 +92,5 @@ public class Quotation {
 	public void setPlusTax7(double plusTax7) {
 		this.plusTax7 = plusTax7;
 	}
+
 }
