@@ -1,5 +1,7 @@
 package bill;
 
+import java.util.ArrayList;
+
 import logic.Customer;
 
 public class Invoice {
@@ -7,12 +9,12 @@ public class Invoice {
 	private String id;
 	private String date;
 	private Customer customer;
-	private Item[] itemList;
+	private ArrayList<Item> itemList;
 	private double totalAmount;
 	private double tax7;
 	private double plusTax7;
 
-	public Invoice(String id, String date, Customer customer, Item[] itemList, String attn, String cr) {
+	public Invoice(String id, String date, Customer customer, ArrayList<Item> itemList, String attn, String cr) {
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
@@ -50,11 +52,11 @@ public class Invoice {
 		this.date = date;
 	}
 
-	public Item[] getItemList() {
+	public ArrayList<Item> getItemList() {
 		return itemList;
 	}
 
-	public void setItemList(Item[] itemList) {
+	public void setItemList(ArrayList<Item> itemList) {
 		this.itemList = itemList;
 	}
 

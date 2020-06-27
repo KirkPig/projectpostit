@@ -1,13 +1,26 @@
 package main;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.CustomerBox;
+import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.QYBox;
+
+import ui.QYselection;
 public class CustomTESTER extends Application{
+
+
+
+
+
+	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -15,15 +28,22 @@ public class CustomTESTER extends Application{
 	@Override
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
-		CustomerBox a = new CustomerBox(400,200);
-		GeneralBox general = new GeneralBox(100,200);
-		QYBox other = new QYBox(100,200);
-		VBox left = new VBox();
+
 		
-		left.getChildren().addAll(general,other);
+		
+
+		/*
+		CustomerBox a = new CustomerBox(400, 200);
+		GeneralBox general = new GeneralBox(100, 200);
+		QYBox other = new QYBox(100, 200);
+		VBox left = new VBox();
+
+		left.getChildren().addAll(general, other);
 		HBox upper = new HBox();
-		upper.getChildren().addAll(left,a);
-		Scene testScene = new Scene(upper);
+		upper.getChildren().addAll(left, a);
+		*/
+		Scene testScene = new Scene(new DatabaseUI());
+
 		arg0.setScene(testScene);
 		arg0.setResizable(false);
 		arg0.show();
