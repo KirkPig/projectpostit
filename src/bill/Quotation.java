@@ -1,4 +1,6 @@
 package bill;
+import java.util.ArrayList;
+
 import bill.Item;
 import logic.Customer;
 
@@ -7,14 +9,14 @@ public class Quotation {
 	private String id;
 	private String date;
 	private Customer customer;
-	private Item[] itemList; 
+	private ArrayList<Item> itemList; 
 	private String attn;
 	private String cr;
 	private double totalAmount;
 	private double tax7;
 	private double plusTax7;
 	
-	public Quotation(String id,String date,Customer customer,Item[] itemList,String attn,String cr) {
+	public Quotation(String id,String date,Customer customer,ArrayList<Item> itemList,String attn,String cr) {
 		this.setAttn(attn);
 		this.setCr(cr);
 		this.setCustomer(customer);
@@ -63,11 +65,11 @@ public class Quotation {
 		this.cr = cr;
 	}
 
-	public Item[] getItemList() {
+	public ArrayList<Item> getItemList() {
 		return itemList;
 	}
 
-	public void setItemList(Item[] itemList) {
+	public void setItemList(ArrayList<Item> itemList) {
 		this.itemList = itemList;
 	}
 
