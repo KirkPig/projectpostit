@@ -124,8 +124,3 @@ IIYY0MMXXX / IIYY00MMXXX
 2แรก ปี พศ
 3 ตัวกลาง เป็นเดือน / กำกับภาษี 4 ตัว 
 3 ตัวท้าย บิลลำดับที่ของเดือนนั้น
-
-
-
-ITEM DESCRIPTION
-CODE: Description Quantity Unit Price Amount
