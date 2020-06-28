@@ -156,7 +156,7 @@ public class Header extends Pane {
 	public void quotationPushed() {
 		mainBox.getChildren().clear();
 		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new QYselection());
+		mainBox.getChildren().add(new QYSelection());
 	}
 
 	public void orderPushed() {

@@ -12,7 +12,6 @@ import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.QYBox;
 import ui.QYSelection;
-import ui.QYselection;
 
 
 public class CustomTESTER extends Application {
