@@ -14,16 +14,10 @@ import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.POSelection;
 import ui.QYBox;
-
-import ui.QYSelection;
-import ui.QuotationNewUI;
-public class CustomTESTER extends Application{
+import ui.QYselection;
 
 
-
-
-
-	
+public class CustomTESTER extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
@@ -33,10 +27,7 @@ public class CustomTESTER extends Application{
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
 
-		
-		
 
-		/*
 		CustomerBox a = new CustomerBox(400, 200);
 		GeneralBox general = new GeneralBox(100, 200);
 		QYBox other = new QYBox(100, 200);
@@ -46,8 +37,11 @@ public class CustomTESTER extends Application{
 		HBox upper = new HBox();
 		upper.getChildren().addAll(left, a);
 		*/
-		Scene testScene = new Scene(new  DESelection());
+
+		Scene testScene = new Scene(new  QYSelection());
 	
+
+
 		arg0.setScene(testScene);
 		arg0.setFullScreen(true);
 		arg0.setResizable(false);
