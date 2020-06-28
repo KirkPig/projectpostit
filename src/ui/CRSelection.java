@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class QYselection extends VBox {
-	public QYselection() {
+public class CRSelection extends VBox{
+	public CRSelection() {
+		// TODO Auto-generated constructor stub
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();
 		HBox moreFunc = new HBox();
@@ -33,7 +34,7 @@ public class QYselection extends VBox {
 		code.setMinWidth(60);
 		TableColumn date = new TableColumn("date");
 		date.setMinWidth(100);
-		TableColumn customerName = new TableColumn("Customer Name.");
+		TableColumn customerName = new TableColumn("Description");
 		customerName.setMinWidth(200);
 		TableColumn totalAmount = new TableColumn("Total Amount");
 		totalAmount.setMinWidth(120);
