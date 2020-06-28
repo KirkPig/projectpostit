@@ -1,5 +1,7 @@
 package ui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -23,7 +25,7 @@ public class BLSelection extends VBox{
 		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
 		allFunc.setSpacing(20);
 		allFunc.setMaxHeight(610);
-		allFunc.setMinWidth(1280);
+		allFunc.setMinWidth(1200);
 		this.getChildren().add(allFunc);
 		
 		
@@ -46,5 +48,4 @@ public class BLSelection extends VBox{
 		this.setPadding(new Insets(5));
 		// TODO Auto-generated constructor stub
 	}
-
 }
