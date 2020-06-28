@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,6 +13,7 @@ public class DatabaseUI extends VBox {
 	public DatabaseUI() {
 		// Setting
 		this.setSpacing(10);
+		this.setPadding(new Insets(5));
 
 		// Tab Select
 		HBox tab = new HBox();

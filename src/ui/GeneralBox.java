@@ -1,8 +1,12 @@
 package ui;
 
 
+import java.time.LocalDate;
+import java.time.chrono.ThaiBuddhistChronology;
+
+
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 
 public class GeneralBox extends VBox {
@@ -20,8 +24,6 @@ public class GeneralBox extends VBox {
 		dateBox.setSpacing(3);
 		this.getChildren().addAll(header,idBox,dateBox);
 		this.setMinSize(width, height);
-
-		// TODO Auto-generated constructor stub
 	}
 
 }
