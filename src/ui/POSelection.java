@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -14,8 +15,19 @@ public class POSelection extends VBox {
 		HBox simpleFunc = new HBox();
 		HBox moreFunc = new HBox();
 		HBox searchBox = new HBox();
+		Button newButton = new Button("new");
+		newButton.setOnMouseClicked((MouseEvent e) -> {
+			this.getChildren().clear();
+			this.getChildren().add(new ProductOrderNewUI());
+			//Stage newStage = new Stage();
+			//VBox newBox = new VBox(new QuotationNewUI());
+			//Scene newScene = new Scene(newBox);
+			//newStage.setScene(newScene);
+			//newStage.show();
+		
+		});		
 		// Button
-		simpleFunc.getChildren().addAll(new Button("new"), new Button("open/edit"), new Button("delete"),
+		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"),
 				new Button("bin"));
 		moreFunc.getChildren().addAll(new Button("print report"), new Button("Name/Product"), new Button("month/year"));
 		searchBox.getChildren().addAll(new TextField(), new Button("Genre"));
@@ -43,7 +55,7 @@ public class POSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
-		this.setPadding(new Insets(5));
+		//this.setPadding(new Insets(5));
 		// TODO Auto-generated constructor stub// TODO Auto-generated constructor stub
 	}
 

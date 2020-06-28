@@ -7,9 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ui.BLSelection;
 import ui.CustomerBox;
+import ui.DESelection;
 import ui.DatabaseUI;
 import ui.GeneralBox;
+import ui.POSelection;
 import ui.QYBox;
 import ui.QYselection;
 
@@ -34,8 +37,10 @@ public class CustomTESTER extends Application {
 		HBox upper = new HBox();
 		upper.getChildren().addAll(left, a);
 		*/
+
 		Scene testScene = new Scene(new  QYSelection());
-		arg0.setTitle("gay");
+	
+
 
 		arg0.setScene(testScene);
 		arg0.setFullScreen(true);

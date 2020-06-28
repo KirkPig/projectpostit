@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.chrono.ThaiBuddhistChronology;
 
 
+
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -17,7 +18,9 @@ public class GeneralBox extends VBox {
 		Label idGen = new Label();
 		idBox.getChildren().addAll(idLabel,idGen);
 		
-		TextField date = new TextField();
+		DatePicker date = new DatePicker();
+		date.setChronology(ThaiBuddhistChronology.INSTANCE);
+		date.setValue(LocalDate.now());
 		HBox dateBox = new HBox();
 		Label dateLabel = new Label("DATE:");
 		dateBox.getChildren().addAll(dateLabel,date);
