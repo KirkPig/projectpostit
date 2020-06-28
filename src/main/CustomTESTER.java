@@ -11,8 +11,8 @@ import ui.CustomerBox;
 import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.QYBox;
-
 import ui.QYselection;
+
 
 public class CustomTESTER extends Application {
 
@@ -24,17 +24,21 @@ public class CustomTESTER extends Application {
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
 
-		/*
-		 * CustomerBox a = new CustomerBox(400, 200); GeneralBox general = new
-		 * GeneralBox(100, 200); QYBox other = new QYBox(100, 200); VBox left = new
-		 * VBox();
-		 * 
-		 * left.getChildren().addAll(general, other); HBox upper = new HBox();
-		 * upper.getChildren().addAll(left, a);
-		 */
-		Scene testScene = new Scene(new DatabaseUI());
+
+		CustomerBox a = new CustomerBox(400, 200);
+		GeneralBox general = new GeneralBox(100, 200);
+		QYBox other = new QYBox(100, 200);
+		VBox left = new VBox();
+
+		left.getChildren().addAll(general, other);
+		HBox upper = new HBox();
+		upper.getChildren().addAll(left, a);
+		*/
+		Scene testScene = new Scene(new  QYSelection());
+		arg0.setTitle("gay");
 
 		arg0.setScene(testScene);
+		arg0.setFullScreen(true);
 		arg0.setResizable(false);
 		arg0.show();
 	}
