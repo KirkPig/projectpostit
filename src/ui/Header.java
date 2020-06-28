@@ -15,7 +15,7 @@ public class Header extends Pane {
 	private Button quoButton;
 	private Button orderButton;
 	private Button productButton;
-	private Button creditButton;
+	private Button creditButton;	
 	private Button deliveryButton;
 	private Button invoiceButton;
 	private Button BillingButton;
