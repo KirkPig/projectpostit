@@ -12,7 +12,8 @@ import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.QYBox;
 
-import ui.QYselection;
+import ui.QYSelection;
+import ui.QuotationNewUI;
 public class CustomTESTER extends Application{
 
 
@@ -42,9 +43,10 @@ public class CustomTESTER extends Application{
 		HBox upper = new HBox();
 		upper.getChildren().addAll(left, a);
 		*/
-		Scene testScene = new Scene(new DatabaseUI());
-
+		Scene testScene = new Scene(new  QYSelection());
+		arg0.setTitle("gay");
 		arg0.setScene(testScene);
+		arg0.setFullScreen(true);
 		arg0.setResizable(false);
 		arg0.show();
 	}
