@@ -2,14 +2,24 @@ package ui;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class QYBox extends VBox{
 	public QYBox(int width,int height) {
 		Label header = new Label("QYBOX");
 		TextField attn = new TextField();
+		HBox attnBox = new HBox();
+		Label attnLabel = new Label("ATTN:");
+		attnBox.getChildren().addAll(attnLabel,attn);
+		attnBox.setSpacing(5);
+		
 		TextField cr = new TextField();
-		this.getChildren().addAll(header,attn,cr);
+		Label crLabel = new Label("CR:");
+		HBox crBox = new HBox();
+		crBox.getChildren().addAll(crLabel,cr);
+		crBox.setSpacing(19);
+		this.getChildren().addAll(header,attnBox,crBox);
 		this.setMinSize(width, height);
 		// TODO Auto-generated constructor stub
 	}
