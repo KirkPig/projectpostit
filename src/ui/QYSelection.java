@@ -4,6 +4,7 @@ package ui;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -21,6 +22,14 @@ public class QYSelection extends VBox {
 		HBox searchBox = new HBox();
 		Button newButton = new Button("new");
 		Button switchButton = new Button("Customer");
+		ComboBox month = new ComboBox();
+		month.setEditable(true);
+		month.getItems().addAll("January", "February", "March", "April", "May", "June", "July", "August", "September",
+				"October", "November", "December");
+		month.setPromptText("Month");
+		
+		TextField year = new TextField();
+		year.setPromptText("Year(BE)");
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
 			this.getChildren().add(new QuotationNewUI());
@@ -34,16 +43,20 @@ public class QYSelection extends VBox {
 		
 		
 		// Button
-		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"),
-				new Button("bin"));
-		moreFunc.getChildren().addAll(new Button("print report"), switchButton, new Button("month/year"));
-		searchBox.getChildren().addAll(new TextField(), new Button("Genre"));
+		ComboBox genre = new ComboBox();
+		genre.getItems().addAll("Code","Product","Customer Name","Creator","Amount");
 		
-		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
+		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"), new Button("bin"));
+		simpleFunc.setSpacing(3);
+		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month,year);
+		moreFunc.setSpacing(3);
+		searchBox.getChildren().addAll(new TextField(), genre);
+
+		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(20);
-		allFunc.setMaxHeight(610);
-		allFunc.setMinWidth(1280);
+
 		this.getChildren().add(allFunc);
+
 		
 		
 	// =============================================================================

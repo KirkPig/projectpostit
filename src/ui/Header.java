@@ -41,7 +41,7 @@ public class Header extends Pane {
 		homeButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
 		homeButton.setOnAction(new EventHandler<ActionEvent>() {
 			
-			@Override
+		
 			public void handle(ActionEvent arg0) {
 				homePushed();
 			}
