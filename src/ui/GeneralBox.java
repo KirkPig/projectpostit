@@ -4,8 +4,7 @@ package ui;
 import java.time.LocalDate;
 import java.time.chrono.ThaiBuddhistChronology;
 
-
-
+import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +17,7 @@ public class GeneralBox extends VBox {
 		Label idLabel = new Label("ID:");
 		Label idGen = new Label();
 		idBox.getChildren().addAll(idLabel,idGen);
+		idBox.setAlignment(Pos.BOTTOM_LEFT);
 		
 		DatePicker date = new DatePicker();
 		date.setChronology(ThaiBuddhistChronology.INSTANCE);
@@ -26,6 +26,7 @@ public class GeneralBox extends VBox {
 		Label dateLabel = new Label("DATE:");
 		dateBox.getChildren().addAll(dateLabel,date);
 		dateBox.setSpacing(3);
+		dateBox.setAlignment(Pos.BOTTOM_LEFT);
 		this.getChildren().addAll(header,idBox,dateBox);
 		this.setMinSize(width, height);
 	}

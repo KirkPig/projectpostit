@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 
 public class QuotationNewUI extends VBox{
 	public QuotationNewUI() {
+		
 		this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();
