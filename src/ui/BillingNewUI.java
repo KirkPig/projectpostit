@@ -1,15 +1,17 @@
 package ui;
 
-
-
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class QuotationNewUI extends VBox{
-	public QuotationNewUI() {
+public class BillingNewUI extends VBox{
+	public BillingNewUI() {
 		this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();
@@ -72,7 +74,6 @@ public class QuotationNewUI extends VBox{
 		lower.add(tax7, 1,0);
 		lower.add(plusTax, 2,0);
 		this.getChildren().addAll(buttonGang,upper,table,lower);
-		this.setSpacing(5);
 	}
 		
 		
