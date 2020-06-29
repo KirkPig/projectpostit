@@ -14,7 +14,7 @@ import ui.DatabaseUI;
 import ui.GeneralBox;
 import ui.POSelection;
 import ui.QYBox;
-import ui.QYselection;
+import ui.QYSelection;
 
 
 public class CustomTESTER extends Application {
@@ -36,7 +36,7 @@ public class CustomTESTER extends Application {
 		left.getChildren().addAll(general, other);
 		HBox upper = new HBox();
 		upper.getChildren().addAll(left, a);
-		*/
+		
 
 		Scene testScene = new Scene(new  QYSelection());
 	

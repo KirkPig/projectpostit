@@ -1,5 +1,6 @@
 package ui;
 
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +20,7 @@ public class QYSelection extends VBox {
 		HBox moreFunc = new HBox();
 		HBox searchBox = new HBox();
 		Button newButton = new Button("new");
+		Button switchButton = new Button("Customer");
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
 			this.getChildren().add(new QuotationNewUI());
@@ -29,10 +31,12 @@ public class QYSelection extends VBox {
 			//newStage.show();
 		
 		});		
+		
+		
 		// Button
 		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"),
 				new Button("bin"));
-		moreFunc.getChildren().addAll(new Button("print report"), new Button("Name/Product"), new Button("month/year"));
+		moreFunc.getChildren().addAll(new Button("print report"), switchButton, new Button("month/year"));
 		searchBox.getChildren().addAll(new TextField(), new Button("Genre"));
 		
 		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
@@ -58,7 +62,33 @@ public class QYSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
+		
 		//this.setPadding(new Insets(5));
+		
+		TableView table2 = new TableView();
+		TableColumn descriptionCol = new TableColumn("Description");
+		customerName.setMinWidth(200);
+		
+		
+		table2.getColumns().addAll(code,date,descriptionCol,creator);
+		
+		switchButton.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(table)) {
+				this.getChildren().remove(table);
+				this.getChildren().add(table2);
+				switchButton.setText("Product");
+				
+			} else {
+				this.getChildren().remove(table2);
+				this.getChildren().add(table);
+				switchButton.setText("Customer");
+			}
+		});		
+		
+		
+		
+		
+		
 		// TODO Auto-generated constructor stub
 	}
 

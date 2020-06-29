@@ -9,7 +9,7 @@ public class Report {
 	public static void printQuotation() throws Exception{
 
 		// Creating a PdfWriter
-		String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
+		String dest = "C:\\Users\\ASUS\\Desktop\\ULTIMA\\SAMPLE.pdf";
 		PdfWriter writer = new PdfWriter(dest);
 
 		// Creating a PdfDocument
