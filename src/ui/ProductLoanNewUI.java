@@ -1,16 +1,18 @@
 package ui;
 
-
-
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class QuotationNewUI extends VBox{
-	public QuotationNewUI() {
-		this.setAlignment(Pos.CENTER);
+public class ProductLoanNewUI extends VBox {
+	public ProductLoanNewUI() {
+this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();
 		Button backButton = new Button("Back");
@@ -19,7 +21,7 @@ public class QuotationNewUI extends VBox{
 		
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYSelection());
+			this.getChildren().add(new BLSelection());
 			//Stage newStage = new Stage();
 			//VBox newBox = new VBox(new QuotationNewUI());
 			//Scene newScene = new Scene(newBox);
@@ -30,10 +32,10 @@ public class QuotationNewUI extends VBox{
 		
 		HBox upper = new HBox();
 		VBox left = new VBox();
-		GeneralBox genBox = new GeneralBox(500,120);
-		QYBox qy = new QYBox(500, 120);
+		GeneralBox genBox = new GeneralBox(500,80);
+		BLBox bl = new BLBox(500, 80);
 		CustomerBox cusBox = new CustomerBox(500,250);
-		left.getChildren().addAll(genBox,qy);
+		left.getChildren().addAll(genBox,bl);
 		left.setSpacing(4);
 		upper.getChildren().addAll(left,cusBox);
 		upper.setSpacing(5);
@@ -73,8 +75,7 @@ public class QuotationNewUI extends VBox{
 		lower.add(plusTax, 2,0);
 		this.getChildren().addAll(buttonGang,upper,table,lower);
 		this.setSpacing(5);
+		// TODO Auto-generated constructor stub
 	}
-		
-		
-	
+
 }
