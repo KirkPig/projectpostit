@@ -24,7 +24,7 @@ public class IVSelection extends VBox{
 		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
 		allFunc.setSpacing(20);
 		allFunc.setMaxHeight(610);
-		allFunc.setMinWidth(1280);
+		allFunc.setMinWidth(1200);
 		this.getChildren().add(allFunc);
 		
 		
@@ -44,7 +44,6 @@ public class IVSelection extends VBox{
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
-		this.setPadding(new Insets(5));
 	}
 
 }
