@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Header extends Pane {
@@ -24,8 +25,8 @@ public class Header extends Pane {
 	private Button BillingButton;
 	private Button databaseButton;
 	private Button logOutButton;
-	
 	private VBox mainBox;
+	private StackPane bottomPane;
 	
 
 	public Header() {
@@ -144,55 +145,61 @@ public class Header extends Pane {
 				invoiceButton, BillingButton, databaseButton, space1, logOutButton);
 		
 		mainBox.getChildren().add(headerBox);
+		
+		bottomPane = new StackPane();
+		bottomPane.setPadding(new Insets(5));
+		bottomPane.setPrefSize(1280, 660);
+		mainBox.getChildren().add(bottomPane);
+		
 		this.getChildren().add(mainBox);
 	}
 
 	public void homePushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new Login());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new Login());
 	}
 
 	public void quotationPushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new QYSelection());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new QYSelection());
 	}
 
 	public void orderPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new POSelection());
 	}
 
 	public void productPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new BLSelection());
 	}
 
 	public void creditPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new CRSelection());
 	}
 	
 	public void deliveryPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new DESelection());
 	}
 
 	public void invoicePushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new IVSelection());
 	}
 
 	public void billingPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new RBSelection());
 	}
 
 	public void databasePushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new DatabaseUI());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new DatabaseUI());
 	}
 	
 	public void logOutPushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new GeneralBox(100,100));
 	}
 
 }
