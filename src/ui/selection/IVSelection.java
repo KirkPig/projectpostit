@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import ui.news.IVNewUI;
 import ui.news.QYNewUI;
 
 public class IVSelection extends VBox{
@@ -52,7 +53,7 @@ public class IVSelection extends VBox{
 
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			this.getChildren().add(new IVNewUI());
 		});
 
 		// Button
