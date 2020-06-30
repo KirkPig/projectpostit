@@ -21,7 +21,7 @@ public class BillingNewUI extends VBox{
 		
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYSelection());
+			this.getChildren().add(new RBSelection());
 			//Stage newStage = new Stage();
 			//VBox newBox = new VBox(new QuotationNewUI());
 			//Scene newScene = new Scene(newBox);
@@ -33,7 +33,7 @@ public class BillingNewUI extends VBox{
 		HBox upper = new HBox();
 		VBox left = new VBox();
 		GeneralBox genBox = new GeneralBox(500,120);
-		QYBox qy = new QYBox(500, 120);
+		RBBox qy = new RBBox(500, 120);
 		CustomerBox cusBox = new CustomerBox(500,250);
 		left.getChildren().addAll(genBox,qy);
 		left.setSpacing(4);
@@ -45,34 +45,31 @@ public class BillingNewUI extends VBox{
 		TableColumn numberCol = new TableColumn("No.");
 		numberCol.setMinWidth(30);
 		
-		TableColumn descriptionCol = new TableColumn("Product Description");
+		TableColumn descriptionCol = new TableColumn("Invoice ID");
 		
 		descriptionCol.setMinWidth(300);
 		
-		TableColumn quantityCol = new TableColumn("Quantity");
+		TableColumn quantityCol = new TableColumn("Date");
 		quantityCol.setMinWidth(30);
 		
-		TableColumn unitCol = new TableColumn("Unit");
+		TableColumn unitCol = new TableColumn("Date due");
 		unitCol.setMinWidth(30);
 		
-		TableColumn priceCol = new TableColumn("Price/Unit");
+		TableColumn priceCol = new TableColumn("PS.");
 		priceCol.setMinWidth(70);
 		
-		TableColumn discountCol = new TableColumn("Discount");
-		quantityCol.setMinWidth(50);
+		
 		// TODO Auto-generated constructor stub
 		TableColumn amountCol = new TableColumn("Amount");
-		quantityCol.setMinWidth(100);
+		amountCol.setMinWidth(100);
 		
-		table.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
+		table.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,amountCol);
 		
 		GridPane lower = new GridPane();
-		Label valueBefore = new Label("Value Before:");
-		Label tax7 = new Label("Tax 7%:");
-		Label plusTax = new Label("Value after tax:");
-		lower.add(valueBefore, 0,0);
-		lower.add(tax7, 1,0);
-		lower.add(plusTax, 2,0);
+		Label valueBefore = new Label("Total Value:");
+		
+		lower.add(valueBefore, 0,2);
+		
 		this.getChildren().addAll(buttonGang,upper,table,lower);
 	}
 		
