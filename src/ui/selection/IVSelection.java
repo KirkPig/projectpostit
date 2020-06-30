@@ -83,18 +83,20 @@ public class IVSelection extends VBox{
 		totalAmount.setMinWidth(120);
 		TableColumn creator = new TableColumn("Created by");
 		creator.setMinWidth(200);
-		table.getColumns().addAll(code,date,customerName,totalAmount,creator);
+		table.getColumns().addAll(code, date, customerName, totalAmount, creator);
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
 
-		
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
-		customerName.setMinWidth(200);
-		
-		
-		table2.getColumns().addAll(code,date,descriptionCol,creator);
+		descriptionCol.setMinWidth(600);
+		TableColumn quantityCol = new TableColumn("Quantity");
+		quantityCol.setMinWidth(100);
+		TableColumn unitCol = new TableColumn("Unit");
+		unitCol.setMinWidth(100);
+
+		table2.getColumns().addAll(code, date, descriptionCol, quantityCol, unitCol, creator);
 		
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {

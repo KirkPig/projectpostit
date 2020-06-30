@@ -4,11 +4,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import logic.Customer;
 
 
 public class CustomerBox extends VBox{
-	
-	
+	Customer selectedCustomer;
 	
 	public CustomerBox(int width,int height) {
 		Label header = new Label("CUSTOMER");
@@ -66,5 +66,9 @@ public class CustomerBox extends VBox{
 		this.getChildren().addAll(header,code,name,tax,address,tele,fax,mail);
 		this.setMinHeight(height);
 		this.setMaxWidth(width);
+	}
+	
+	public Customer getSelelectedCustomer() {
+		return selectedCustomer;
 	}
 }

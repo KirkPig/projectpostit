@@ -20,7 +20,7 @@ import ui.news.QYNewUI;
 public class QYSelection extends VBox {
 	private int monthSelecting = Integer.parseInt(LocalDate.now().toString().substring(5, 7));
 	private int yearSelecting = Integer.parseInt(LocalDate.now().toString().substring(0, 4));
-	
+
 	public QYSelection() {
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();
@@ -29,27 +29,27 @@ public class QYSelection extends VBox {
 		Button newButton = new Button("new");
 		Button switchButton = new Button("Customer");
 		ComboBox<Integer> month = new ComboBox<Integer>();
-		month.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
-		month.getSelectionModel().select(Integer.parseInt(LocalDate.now().toString().substring(5, 7))-1);
+		month.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+		month.getSelectionModel().select(Integer.parseInt(LocalDate.now().toString().substring(5, 7)) - 1);
 		month.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				monthSelecting = month.getValue();
 			}
 		});
-		
+
 		ComboBox<Integer> year = new ComboBox<Integer>();
-		year.getItems().addAll(2563,2564,2565,2566,2567,2568,2569,2570,2571,2572);
-		year.setValue(Integer.parseInt(LocalDate.now().toString().substring(0, 4))+543);
+		year.getItems().addAll(2563, 2564, 2565, 2566, 2567, 2568, 2569, 2570, 2571, 2572);
+		year.setValue(Integer.parseInt(LocalDate.now().toString().substring(0, 4)) + 543);
 		year.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				yearSelecting = year.getValue();
 			}
 		});
-		
+
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
 			this.getChildren().add(new QYNewUI());
@@ -65,7 +65,7 @@ public class QYSelection extends VBox {
 		moreFunc.setSpacing(3);
 		searchBox.getChildren().addAll(new TextField(), genre);
 
-		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
+		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(250);
 
 		this.getChildren().add(allFunc);
@@ -89,9 +89,13 @@ public class QYSelection extends VBox {
 
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
-		customerName.setMinWidth(200);
+		descriptionCol.setMinWidth(600);
+		TableColumn quantityCol = new TableColumn("Quantity");
+		quantityCol.setMinWidth(100);
+		TableColumn unitCol = new TableColumn("Unit");
+		unitCol.setMinWidth(100);
 
-		table2.getColumns().addAll(code, date, descriptionCol, creator);
+		table2.getColumns().addAll(code, date, descriptionCol, quantityCol, unitCol, creator);
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {

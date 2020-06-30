@@ -89,10 +89,13 @@ public class CRSelection extends VBox {
 
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
-		customerName.setMinWidth(200);
+		descriptionCol.setMinWidth(600);
+		TableColumn quantityCol = new TableColumn("Quantity");
+		quantityCol.setMinWidth(100);
+		TableColumn unitCol = new TableColumn("Unit");
+		unitCol.setMinWidth(100);
 
-		table2.getColumns().addAll(code, date, descriptionCol, creator);
-
+		table2.getColumns().addAll(code, date, descriptionCol, quantityCol, unitCol, creator);
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {
 				this.getChildren().remove(table);
