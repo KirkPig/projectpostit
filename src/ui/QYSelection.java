@@ -76,8 +76,6 @@ public class QYSelection extends VBox {
 		this.getChildren().add(table);
 		this.setSpacing(5);
 		
-		//this.setPadding(new Insets(5));
-		
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
 		customerName.setMinWidth(200);
@@ -98,11 +96,6 @@ public class QYSelection extends VBox {
 			}
 		});		
 		
-		
-		
-		
-		
-		// TODO Auto-generated constructor stub
 	}
 
 }

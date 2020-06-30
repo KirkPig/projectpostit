@@ -71,7 +71,6 @@ public class BLSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
-		// TODO Auto-generated constructor stub
 
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");

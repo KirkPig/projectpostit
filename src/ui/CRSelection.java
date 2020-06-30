@@ -49,7 +49,6 @@ public class CRSelection extends VBox {
 		searchBox.getChildren().addAll(new TextField(), genre);
 		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(20);
-
 		this.getChildren().add(allFunc);
 
 		// =============================================================================
@@ -68,8 +67,6 @@ public class CRSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
-
-		// this.setPadding(new Insets(5));
 
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");

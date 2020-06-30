@@ -12,8 +12,7 @@ public class DatabaseUI extends VBox {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DatabaseUI() {
 		// Setting
-		this.setSpacing(10);
-		this.setPadding(new Insets(5));
+		this.setSpacing(5);
 
 		// Tab Select
 		HBox tab = new HBox();
@@ -33,7 +32,7 @@ public class DatabaseUI extends VBox {
 		productPane.setSpacing(10);
 
 		TableView productTable = new TableView();
-		productTable.setMinWidth(800);
+		productTable.setMinWidth(1160);
 
 		TableColumn colProductCode = new TableColumn("Code");
 		TableColumn colProductDesciption = new TableColumn("Description");

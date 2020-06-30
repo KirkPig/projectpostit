@@ -50,7 +50,6 @@ public class RBSelection extends VBox{
 
 		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(20);
-
 		this.getChildren().add(allFunc);
 		
 	// =============================================================================
@@ -72,8 +71,6 @@ public class RBSelection extends VBox{
 		this.getChildren().add(table);
 		this.setSpacing(5);
 		
-		//this.setPadding(new Insets(5));
-		
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("INVOICE ID");
 		customerName.setMinWidth(200);
@@ -93,7 +90,6 @@ public class RBSelection extends VBox{
 				switchButton.setText("Customer");
 			}
 		});		
-		// TODO Auto-generated constructor stub // TODO Auto-generated constructor stub
 	}
 
 }

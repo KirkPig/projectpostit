@@ -70,8 +70,7 @@ public class POSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
-		
-		//this.setPadding(new Insets(5));
+
 		
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
