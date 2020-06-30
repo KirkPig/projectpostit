@@ -121,7 +121,7 @@ public class Report {
 		cs.newLineAtOffset(pointX, pointY);
 
 		for (String s : list) {
-			cs.showText(str);
+			cs.showText(s);
 		}
 
 		cs.endText();
