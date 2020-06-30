@@ -1,4 +1,4 @@
-package ui;
+package ui.news;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,9 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.base.CustomerBox;
+import ui.base.GeneralBox;
+import ui.base.RBBox;
+import ui.selection.RBSelection;
 
-public class BillingNewUI extends VBox{
-	public BillingNewUI() {
+public class BLNewUI extends VBox{
+	public BLNewUI() {
 		this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();

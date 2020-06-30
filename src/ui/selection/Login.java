@@ -1,4 +1,4 @@
-package ui;
+package ui.selection;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;

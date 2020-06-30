@@ -3,8 +3,8 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.Header;
-import ui.*;
+import ui.base.Header;
+import ui.selection.*;
 import javafx.*;
 
 public class ContextTest extends Application{

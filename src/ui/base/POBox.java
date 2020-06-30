@@ -1,5 +1,6 @@
-package ui;
+package ui.base;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -12,11 +13,11 @@ public class POBox extends VBox{
 		HBox paymentBox = new HBox();
 		Label paymentLabel = new Label("payment:");
 		paymentBox.getChildren().addAll(paymentLabel,paymentText);
-		paymentBox.setSpacing(5);// TODO Auto-generated constructor stub
+		paymentBox.setSpacing(5);
+		paymentBox.setAlignment(Pos.BOTTOM_LEFT);
 		
 		this.getChildren().addAll(header,paymentBox);
 		this.setMinSize(width, height);
-		// TODO Auto-generated constructor stub
 	}
 
 }

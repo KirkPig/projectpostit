@@ -1,4 +1,4 @@
-package ui;
+package ui.news;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,9 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.base.BLBox;
+import ui.base.CustomerBox;
+import ui.base.GeneralBox;
+import ui.selection.BLSelection;
 
-public class ProductLoanNewUI extends VBox {
-	public ProductLoanNewUI() {
+public class RBNewUI extends VBox {
+	public RBNewUI() {
 this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();

@@ -1,5 +1,6 @@
-package ui;
+package ui.base;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -12,7 +13,8 @@ public class BLBox extends VBox{
 		HBox contactBox = new HBox();
 		Label contactLabel = new Label("CONTACT:");
 		contactBox.getChildren().addAll(contactLabel,contactText);
-		contactBox.setSpacing(5);// TODO Auto-generated constructor stub
+		contactBox.setSpacing(5);
+		contactBox.setAlignment(Pos.BOTTOM_LEFT);
 		
 		this.getChildren().addAll(header,contactBox);
 		this.setMinSize(width, height);
