@@ -1,8 +1,10 @@
 package ui;
 
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -19,6 +21,15 @@ public class QYSelection extends VBox {
 		HBox moreFunc = new HBox();
 		HBox searchBox = new HBox();
 		Button newButton = new Button("new");
+		Button switchButton = new Button("Customer");
+		ComboBox month = new ComboBox();
+		month.setEditable(true);
+		month.getItems().addAll("January", "February", "March", "April", "May", "June", "July", "August", "September",
+				"October", "November", "December");
+		month.setPromptText("Month");
+		
+		TextField year = new TextField();
+		year.setPromptText("Year(BE)");
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
 			this.getChildren().add(new QuotationNewUI());
@@ -29,17 +40,23 @@ public class QYSelection extends VBox {
 			//newStage.show();
 		
 		});		
-		// Button
-		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"),
-				new Button("bin"));
-		moreFunc.getChildren().addAll(new Button("print report"), new Button("Name/Product"), new Button("month/year"));
-		searchBox.getChildren().addAll(new TextField(), new Button("Genre"));
 		
-		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
+		
+		// Button
+		ComboBox genre = new ComboBox();
+		genre.getItems().addAll("Code","Product","Customer Name","Creator","Amount");
+		
+		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"), new Button("bin"));
+		simpleFunc.setSpacing(3);
+		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month,year);
+		moreFunc.setSpacing(3);
+		searchBox.getChildren().addAll(new TextField(), genre);
+
+		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(20);
-		allFunc.setMaxHeight(610);
-		allFunc.setMinWidth(1200);
+
 		this.getChildren().add(allFunc);
+
 		
 		
 	// =============================================================================
@@ -58,6 +75,27 @@ public class QYSelection extends VBox {
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
+		
+		TableView table2 = new TableView();
+		TableColumn descriptionCol = new TableColumn("Description");
+		customerName.setMinWidth(200);
+		
+		
+		table2.getColumns().addAll(code,date,descriptionCol,creator);
+		
+		switchButton.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(table)) {
+				this.getChildren().remove(table);
+				this.getChildren().add(table2);
+				switchButton.setText("Product");
+				
+			} else {
+				this.getChildren().remove(table2);
+				this.getChildren().add(table);
+				switchButton.setText("Customer");
+			}
+		});		
+		
 	}
 
 }
