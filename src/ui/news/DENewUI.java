@@ -1,4 +1,4 @@
-package ui;
+package ui.news;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,9 +9,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.base.CustomerBox;
+import ui.base.DEBox;
+import ui.base.GeneralBox;
+import ui.selection.DESelection;
 
-public class InvoiceNewUI extends VBox{
-	public InvoiceNewUI() {
+public class DENewUI extends VBox{
+	public DENewUI() {
+		// TODO Auto-generated constructor stub
 		this.setAlignment(Pos.CENTER);
 
 		HBox buttonGang = new HBox();
@@ -21,7 +26,7 @@ public class InvoiceNewUI extends VBox{
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new IVSelection());
+			this.getChildren().add(new DESelection());
 			// Stage newStage = new Stage();
 			// VBox newBox = new VBox(new QuotationNewUI());
 			// Scene newScene = new Scene(newBox);
@@ -33,7 +38,7 @@ public class InvoiceNewUI extends VBox{
 		HBox upper = new HBox();
 		VBox left = new VBox();
 		GeneralBox genBox = new GeneralBox(500, 120);
-		IVBox qy = new IVBox(500, 120);
+		DEBox qy = new DEBox(500, 120);
 		CustomerBox cusBox = new CustomerBox(500, 250);
 		left.getChildren().addAll(genBox, qy);
 		left.setSpacing(4);
@@ -74,7 +79,7 @@ public class InvoiceNewUI extends VBox{
 		lower.add(tax7, 1, 0);
 		lower.add(plusTax, 2, 0);
 		this.getChildren().addAll(buttonGang, upper, table, lower);
-		this.setSpacing(5);// TODO Auto-generated constructor stub// TODO Auto-generated constructor stub
+		this.setSpacing(5);// TODO Auto-generated constructor stub
 	}
-	
+
 }
