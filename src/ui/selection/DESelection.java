@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.news.DENewUI;
 import ui.news.QYNewUI;
 
 public class DESelection extends VBox {
@@ -50,7 +51,7 @@ public class DESelection extends VBox {
 		
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			this.getChildren().add(new DENewUI());
 		});
 
 		// Button

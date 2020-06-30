@@ -16,6 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import ui.news.QYNewUI;
+import ui.news.RBNewUI;
 
 public class RBSelection extends VBox {
 	private int monthSelecting = Integer.parseInt(LocalDate.now().toString().substring(5, 7));
@@ -52,7 +53,7 @@ public class RBSelection extends VBox {
 
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			this.getChildren().add(new RBNewUI());
 		});
 
 		// Button
