@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ui.news.CustomerNewUI;
@@ -115,6 +116,23 @@ public class DatabaseUI extends VBox {
 		// Added Children
 		this.getChildren().add(tab);
 		this.getChildren().add(productPane);
+		
+		btnProduct.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(customerPane)) {
+				this.getChildren().remove(customerPane);
+				this.getChildren().add(productPane);
+				
+			}
+		});	
+		
+		btnCustomer.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(productPane)) {
+				this.getChildren().remove(productPane);
+				this.getChildren().add(customerPane);
+				
+			}
+		});	
+		
 	}
 
 	public void newCustomer() {
@@ -126,4 +144,6 @@ public class DatabaseUI extends VBox {
 		this.getChildren().clear();
 		this.getChildren().add(new ProductNewUI());
 	}
+	
+	
 }

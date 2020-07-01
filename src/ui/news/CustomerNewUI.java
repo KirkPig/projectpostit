@@ -81,6 +81,16 @@ public class CustomerNewUI extends GridPane {
 		mail.getChildren().addAll(mailLabel,mailBox);
 		mail.setSpacing(10);
 		mail.setAlignment(Pos.BOTTOM_LEFT);
+		
+		this.add(header,  0,0);
+		this.add(code, 0, 1);
+		this.add(name, 0, 2);
+		this.add(tax, 0, 3);
+		this.add(address, 0, 4);
+		this.add(tele, 0, 5);
+		this.add(fax, 0, 6);
+		this.add(mail, 0, 7);
+		
 	}
 	
 	public void backToDatabase() {
