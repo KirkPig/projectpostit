@@ -1,5 +1,7 @@
 package ui.base;
 
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,6 +14,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import ui.selection.BLSelection;
 import ui.selection.CRSelection;
 import ui.selection.DESelection;
@@ -38,10 +41,11 @@ public class Header extends Pane {
 	private ToggleButton logOutButton;
 	private VBox mainBox;
 	private StackPane bottomPane;
-	
+	private Stage mainStage;
 
-	public Header() {
+	public Header(Stage e) {
 		super();
+		this.mainStage = e;
 		this.setPrefSize(1280, 720);
 		mainBox = new VBox();
 
@@ -225,6 +229,7 @@ public class Header extends Pane {
 	}
 	
 	public void logOutPushed() {
+		mainStage.close();
 	}
 
 }

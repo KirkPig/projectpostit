@@ -29,7 +29,7 @@ public class CustomerNewUI extends GridPane {
 		Button saveButton = new Button("Save");
 		
 		buttonGang.getChildren().addAll(backButton, saveButton);
-		this.getChildren().add(buttonGang);
+		this.add(buttonGang,0,0);
 
 		Label header = new Label("CUSTOMER");
 		TextField codeBox = new TextField();
@@ -47,22 +47,24 @@ public class CustomerNewUI extends GridPane {
 		Label teleLabel = new Label("TELE:");
 		Label faxLabel = new Label("FAX:");
 		Label mailLabel = new Label("EMAIL:");
+
 		
-		this.add(header, 0, 0);
-		this.add(codeLabel, 0, 1);
-		this.add(codeBox, 1, 1);
-		this.add(nameLabel, 0, 2);
-		this.add(nameBox, 1, 2);
-		this.add(taxLabel, 0, 3);
-		this.add(taxIdBox, 1, 3);
-		this.add(addressLabel, 0, 4);
-		this.add(addressBox, 1, 4);
-		this.add(teleLabel, 0, 5);
-		this.add(teleBox, 1, 5);
-		this.add(faxLabel, 0, 6);
-		this.add(faxBox, 1, 6);
-		this.add(mailLabel, 0, 7);
-		this.add(mailBox, 1, 7);
+		this.add(header, 0, 1);
+		this.add(codeLabel, 0, 2);
+		this.add(codeBox, 1, 2);
+		this.add(nameLabel, 0, 3);
+		this.add(nameBox, 1, 3);
+		this.add(taxLabel, 0, 4);
+		this.add(taxIdBox, 1, 4);
+		this.add(addressLabel, 0, 5);
+		this.add(addressBox, 1, 5);
+		this.add(teleLabel, 0, 6);
+		this.add(teleBox, 1, 6);
+		this.add(faxLabel, 0, 7);
+		this.add(faxBox, 1, 7);
+		this.add(mailLabel, 0, 8);
+		this.add(mailBox, 1, 8);
+
 	}
 	
 	public void backToDatabase() {
