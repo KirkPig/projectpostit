@@ -2,16 +2,13 @@ package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ui.CustomerBox;
-import ui.DatabaseUI;
-import ui.GeneralBox;
-import ui.QYBox;
-import ui.QYselection;
+import ui.base.CustomerBox;
+import ui.base.GeneralBox;
+import ui.base.QYBox;
+import ui.selection.QYSelection;
 
 
 public class CustomTESTER extends Application {
