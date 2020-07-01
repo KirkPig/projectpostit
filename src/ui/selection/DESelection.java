@@ -53,7 +53,8 @@ public class DESelection extends VBox {
 			this.getChildren().clear();
 			this.getChildren().add(new DENewUI());
 		});
-
+		TextField search = new TextField();
+		search.setPromptText("Search");
 		// Button
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
@@ -62,7 +63,7 @@ public class DESelection extends VBox {
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
-		searchBox.getChildren().addAll(new TextField(), genre);
+		searchBox.getChildren().addAll(search, genre);
 
 		allFunc.getChildren().addAll(simpleFunc,moreFunc,searchBox);
 		allFunc.setSpacing(250);

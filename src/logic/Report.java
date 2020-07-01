@@ -200,7 +200,7 @@ public class Report {
 		 * Header
 		 */
 
-		addParagraph(document, contentStream, "ใบเสนอราคา (Quotation)", 28f, 122.2f, 10f, 87.8f, 15.6f,
+		addParagraph(document, contentStream, "à¹ƒà¸šà¹€à¸ªà¸™à¸­à¸£à¸²à¸„à¸² (Quotation)", 28f, 122.2f, 10f, 87.8f, 15.6f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
 		addParagraph(document, contentStream, "NO." + form.getId() + "  DATE: " + form.getDate(), 14f, 122.2f, 25.6f,
@@ -249,17 +249,17 @@ public class Report {
 		
 		/*
 		 * Rectangle r4 = new Rectangle((int)(134 / mmpi * dpi), (int)((42.4) / mmpi * dpi), (int)(57.5 / mmpi * dpi), (int)(17.5 / mmpi * dpi));
-            e.Graphics.DrawString("เลขประจำตัวผู้เสียภาษีอากร\n" + CustomerTaxID, new Font(font, 12, FontStyle.Bold), Brushes.Black, r4, strformat);
+            e.Graphics.DrawString("à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸œà¸¹à¹‰à¹€à¸ªà¸µà¸¢à¸ à¸²à¸©à¸µà¸­à¸²à¸�à¸£\n" + CustomerTaxID, new Font(font, 12, FontStyle.Bold), Brushes.Black, r4, strformat);
             Rectangle r5 = new Rectangle((int)(134 / mmpi * dpi), (int)((59.7) / mmpi * dpi), (int)(63.3 / mmpi * dpi), (int)(46.7 / mmpi * dpi));
-            e.Graphics.DrawString("ข้อมูลลูกค้า\n" + CustomerName + "\n" + CustomerAddress + "\nTel : " + CustomerTel + "\nFax : " + fax,
+            e.Graphics.DrawString("à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¥à¸¹à¸�à¸„à¹‰à¸²\n" + CustomerName + "\n" + CustomerAddress + "\nTel : " + CustomerTel + "\nFax : " + fax,
                 new Font(font, 12, FontStyle.Bold), Brushes.Black, r5, strformat);
 		 */
 		
 		ArrayList<String> strList = new ArrayList<>();
-		strList.add("เลขประจำตัวผู้เสียภาษีอากร");
+		strList.add("à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸œà¸¹à¹‰à¹€à¸ªà¸µà¸¢à¸ à¸²à¸©à¸µà¸­à¸²à¸�à¸£");
 		strList.add(customer.getTaxID());
 		strList.add("");
-		strList.add("ข้อมูลลูกค้า");
+		strList.add("à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¥à¸¹à¸�à¸„à¹‰à¸²");
 		strList.add(customer.getName());
 		strList.add(customer.getAddress());
 		strList.add("Tel: " + customer.getTel());
@@ -327,11 +327,11 @@ public class Report {
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getPlusTax7()), 14f, 12.7f, 241.2f, 103.8f,
 				8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
-		addParagraph(document, contentStream, "  มูลค่าก่อนภาษี", 12f, 116.7f, 224.3f, 34.4f, 8.7f, HAlignment.LEFT,
+		addParagraph(document, contentStream, "  à¸¡à¸¹à¸¥à¸„à¹ˆà¸²à¸�à¹ˆà¸­à¸™à¸ à¸²à¸©à¸µ", 12f, 116.7f, 224.3f, 34.4f, 8.7f, HAlignment.LEFT,
 				VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "  ภาษีมูลค่าเพิ่ม", 12f, 116.7f, 233.0f, 34.4f, 8.7f, HAlignment.LEFT,
+		addParagraph(document, contentStream, "  à¸ à¸²à¸©à¸µà¸¡à¸¹à¸¥à¸„à¹ˆà¸²à¹€à¸žà¸´à¹ˆà¸¡", 12f, 116.7f, 233.0f, 34.4f, 8.7f, HAlignment.LEFT,
 				VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "  รวมสุทธิ", 12f, 116.7f, 241.2f, 34.4f, 8.7f, HAlignment.LEFT,
+		addParagraph(document, contentStream, "  à¸£à¸§à¸¡à¸ªà¸¸à¸—à¸˜à¸´", 12f, 116.7f, 241.2f, 34.4f, 8.7f, HAlignment.LEFT,
 				VAlignment.CENTER, FontType.BOLD);
 
 		addParagraph(document, contentStream, formatterDouble.format(form.getTotalAmount()), 12f, 151.1f, 224.3f, 44.1f,
@@ -345,18 +345,18 @@ public class Report {
 		 * Signature
 		 */
 
-		addParagraph(document, contentStream, "ลงชื่อ.............................................", 14f, 12.8f, 258.1f,
+		addParagraph(document, contentStream, "à¸¥à¸‡à¸Šà¸·à¹ˆà¸­.............................................", 14f, 12.8f, 258.1f,
 				93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "ผู้ขอซื้อ", 14f, 12.8f, 263.1f, 93.1f, 6f, HAlignment.CENTER,
+		addParagraph(document, contentStream, "à¸œà¸¹à¹‰à¸‚à¸­à¸‹à¸·à¹‰à¸­", 14f, 12.8f, 263.1f, 93.1f, 6f, HAlignment.CENTER,
 				VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "วันที่....../....../......", 14f, 12.8f, 268.1f, 93.1f, 6f,
+		addParagraph(document, contentStream, "à¸§à¸±à¸™à¸—à¸µà¹ˆ....../....../......", 14f, 12.8f, 268.1f, 93.1f, 6f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
-		addParagraph(document, contentStream, "ลงชื่อ.............................................", 14f, 105.9f,
+		addParagraph(document, contentStream, "à¸¥à¸‡à¸Šà¸·à¹ˆà¸­.............................................", 14f, 105.9f,
 				258.1f, 91.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "พนักงานขาย", 14f, 105.9f, 263.1f, 91.2f, 6f, HAlignment.CENTER,
+		addParagraph(document, contentStream, "à¸žà¸™à¸±à¸�à¸‡à¸²à¸™à¸‚à¸²à¸¢", 14f, 105.9f, 263.1f, 91.2f, 6f, HAlignment.CENTER,
 				VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, "วันที่....../....../......", 14f, 105.9f, 268.1f, 91.2f, 6f,
+		addParagraph(document, contentStream, "à¸§à¸±à¸™à¸—à¸µà¹ˆ....../....../......", 14f, 105.9f, 268.1f, 91.2f, 6f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
 		
@@ -397,8 +397,8 @@ public class Report {
 		try {
 			String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
 			ArrayList<Item> a = new ArrayList<>();
-			a.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2), 1000, 35));
-			a.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52), 45, 22));
+			a.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2,1), 1000, 35));
+			a.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52,35), 45, 22));
 			Quotation test = new Quotation("QY63008123", "10/10/2025",
 					new Customer("525", "Pig Co.LTD", "546546-55454515",
 							"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",

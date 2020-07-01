@@ -116,23 +116,23 @@ public class DatabaseUI extends VBox {
 		// Added Children
 		this.getChildren().add(tab);
 		this.getChildren().add(productPane);
-		
+
 		btnProduct.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(customerPane)) {
 				this.getChildren().remove(customerPane);
 				this.getChildren().add(productPane);
-				
+
 			}
-		});	
-		
+		});
+
 		btnCustomer.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(productPane)) {
 				this.getChildren().remove(productPane);
 				this.getChildren().add(customerPane);
-				
+
 			}
-		});	
-		
+		});
+
 	}
 
 	public void newCustomer() {
@@ -144,6 +144,5 @@ public class DatabaseUI extends VBox {
 		this.getChildren().clear();
 		this.getChildren().add(new ProductNewUI());
 	}
-	
-	
+
 }
