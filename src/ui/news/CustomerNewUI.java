@@ -41,46 +41,28 @@ public class CustomerNewUI extends GridPane {
 		TextField mailBox = new TextField();
 		
 		Label codeLabel = new Label("CODE:");
-		HBox code = new HBox();
-		code.getChildren().addAll(codeLabel,codeBox);
-		code.setSpacing(13);
-		code.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label nameLabel = new Label("NAME:");
-		HBox name = new HBox();
-		name.getChildren().addAll(nameLabel,nameBox);
-		name.setSpacing(10);
-		name.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label taxLabel = new Label("TAX ID:");
-		HBox tax = new HBox();
-		tax.getChildren().addAll(taxLabel,taxIdBox);
-		tax.setSpacing(10);
-		tax.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label addressLabel = new Label("ADDRESS:");
-		HBox address = new HBox();
-		address.getChildren().addAll(addressLabel,addressBox);
-		address.setSpacing(10);
-		address.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label teleLabel = new Label("TELE:");
-		HBox tele = new HBox();
-		tele.getChildren().addAll(teleLabel,teleBox);
-		tele.setSpacing(10);
-		tele.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label faxLabel = new Label("FAX:");
-		HBox fax = new HBox();
-		fax.getChildren().addAll(faxLabel,faxBox);
-		fax.setSpacing(10);
-		fax.setAlignment(Pos.BOTTOM_LEFT);
-		
 		Label mailLabel = new Label("EMAIL:");
-		HBox mail = new HBox();
-		mail.getChildren().addAll(mailLabel,mailBox);
-		mail.setSpacing(10);
-		mail.setAlignment(Pos.BOTTOM_LEFT);
+		
+		this.add(header, 0, 0);
+		this.add(codeLabel, 0, 1);
+		this.add(codeBox, 1, 1);
+		this.add(nameLabel, 0, 2);
+		this.add(nameBox, 1, 2);
+		this.add(taxLabel, 0, 3);
+		this.add(taxIdBox, 1, 3);
+		this.add(addressLabel, 0, 4);
+		this.add(addressBox, 1, 4);
+		this.add(teleLabel, 0, 5);
+		this.add(teleBox, 1, 5);
+		this.add(faxLabel, 0, 6);
+		this.add(faxBox, 1, 6);
+		this.add(mailLabel, 0, 7);
+		this.add(mailBox, 1, 7);
 	}
 	
 	public void backToDatabase() {
