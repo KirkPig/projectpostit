@@ -217,6 +217,7 @@ public class Report {
 		 */
 
 		addParagraph(document, contentStream, "ใบเสนอราคา (Quotation)", 36f, 122.2f, 10f, 87.8f, 15.6f,
+
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
 		addParagraph(document, contentStream, "NO." + form.getId() + "  DATE: " + form.getDate(), 18f, 122.2f, 25.6f,
@@ -276,6 +277,7 @@ public class Report {
 		 * e.Graphics.DrawString("ข้อมูลลูกค้า\n" + CustomerName + "\n" +
 		 * CustomerAddress + "\nTel : " + CustomerTel + "\nFax : " + fax, new Font(font,
 		 * 12, FontStyle.Bold), Brushes.Black, r5, strformat);
+
 		 */
 
 		ArrayList<String> strList = new ArrayList<>();
@@ -382,6 +384,7 @@ public class Report {
 		 * Signature
 		 */
 
+
 		float signatureFontSize = 18.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
@@ -434,8 +437,8 @@ public class Report {
 		try {
 			String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
 			ArrayList<Item> a = new ArrayList<>();
-			a.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2), 1000, 35));
-			a.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52), 45, 22));
+			a.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2,1), 1000, 35));
+			a.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52,35), 45, 22));
 			Quotation test = new Quotation("QY63008123", "10/10/2025",
 					new Customer("525", "Pig Co.LTD", "546546-55454515",
 							"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",

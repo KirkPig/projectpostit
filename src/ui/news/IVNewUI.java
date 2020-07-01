@@ -69,16 +69,37 @@ public class IVNewUI extends VBox{
 		quantityCol.setMinWidth(100);
 
 		table.getColumns().addAll(numberCol, descriptionCol, quantityCol, unitCol, priceCol, discountCol, amountCol);
-
+		Button newBtn = new Button("new");
+		newBtn.setMinSize(100, 50);
+		Button editBtn = new Button("edit");
+		editBtn.setMinSize(100, 50);
+		Button deleteBtn = new Button("delete");
+		deleteBtn.setMinSize(100, 50);
+		table.setMinWidth(1160);
+		HBox tableBox = new HBox();
+		VBox button = new VBox();
+		button.getChildren().addAll(newBtn, editBtn, deleteBtn);
+		tableBox.getChildren().addAll(table, button);
+		tableBox.setAlignment(Pos.CENTER);
 		GridPane lower = new GridPane();
 		Label valueBefore = new Label("Value Before:");
+		Label valueBeforeText= new Label("457677");
 		Label tax7 = new Label("Tax 7%:");
+		Label tax7Text = new Label("4356789");
 		Label plusTax = new Label("Value after tax:");
+		Label plusTaxText = new Label("1234567890");
+		
 		lower.add(valueBefore, 0, 0);
-		lower.add(tax7, 1, 0);
-		lower.add(plusTax, 2, 0);
-		this.getChildren().addAll(buttonGang, upper, table, lower);
-		this.setSpacing(5);// TODO Auto-generated constructor stub// TODO Auto-generated constructor stub
+		lower.add(valueBeforeText,1	, 0);
+		lower.add(tax7, 2, 0);
+		lower.add(tax7Text, 3, 0);
+		lower.add(plusTax, 4, 0);
+		lower.add(plusTaxText, 5, 0);
+		lower.setAlignment(Pos.CENTER);
+		lower.setHgap(20);
+		lower.setVgap(10);
+		this.getChildren().addAll(buttonGang, upper, tableBox, lower);
+		this.setSpacing(20);// TODO Auto-generated constructor stub// TODO Auto-generated constructor stub
 	}
 	
 }
