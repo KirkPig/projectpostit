@@ -1,31 +1,43 @@
-package ui;
+package ui.base;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import ui.selection.BLSelection;
+import ui.selection.CRSelection;
+import ui.selection.DESelection;
+import ui.selection.DatabaseUI;
+import ui.selection.IVSelection;
+import ui.selection.Login;
+import ui.selection.POSelection;
+import ui.selection.QYSelection;
+import ui.selection.RBSelection;
 
 public class Header extends Pane {
 	private HBox headerBox;
 	private final int BUTTONHEIGHT = 60;
 	private final int BUTTONWIDTH = 100;
-	private Button homeButton;
-	private Button quoButton;
-	private Button orderButton;
-	private Button productButton;
-	private Button creditButton;	
-	private Button deliveryButton;
-	private Button invoiceButton;
-	private Button BillingButton;
-	private Button databaseButton;
-	private Button logOutButton;
-	
+	private ToggleButton homeButton;
+	private ToggleButton quoButton;
+	private ToggleButton orderButton;
+	private ToggleButton productButton;
+	private ToggleButton creditButton;	
+	private ToggleButton deliveryButton;
+	private ToggleButton invoiceButton;
+	private ToggleButton BillingButton;
+	private ToggleButton databaseButton;
+	private ToggleButton logOutButton;
 	private VBox mainBox;
+	private StackPane bottomPane;
 	
 
 	public Header() {
@@ -37,8 +49,9 @@ public class Header extends Pane {
 		headerBox.setPadding(new Insets(5));
 		headerBox.setPrefSize(1280, BUTTONHEIGHT);
 
-		homeButton = new Button("Home");
+		homeButton = new ToggleButton("Home");
 		homeButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		homeButton.setFocusTraversable(false);
 		homeButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		
@@ -47,8 +60,9 @@ public class Header extends Pane {
 			}
 		});
 
-		quoButton = new Button("Quotation");
+		quoButton = new ToggleButton("Quotation");
 		quoButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		quoButton.setFocusTraversable(false);
 		quoButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -57,8 +71,9 @@ public class Header extends Pane {
 			}
 		});
 
-		orderButton = new Button("Order");
+		orderButton = new ToggleButton("Order");
 		orderButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		orderButton.setFocusTraversable(false);
 		orderButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -67,8 +82,9 @@ public class Header extends Pane {
 			}
 		});
 
-		productButton = new Button("Product");
+		productButton = new ToggleButton("Product");
 		productButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		productButton.setFocusTraversable(false);
 		productButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -77,8 +93,9 @@ public class Header extends Pane {
 			}
 		});
 
-		creditButton = new Button("Credit");
+		creditButton = new ToggleButton("Credit");
 		creditButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		creditButton.setFocusTraversable(false);
 		creditButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -87,8 +104,9 @@ public class Header extends Pane {
 			}
 		});
 
-		deliveryButton = new Button("Delivery");
+		deliveryButton = new ToggleButton("Delivery");
 		deliveryButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		deliveryButton.setFocusTraversable(false);
 		deliveryButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -97,8 +115,9 @@ public class Header extends Pane {
 			}
 		});
 
-		invoiceButton = new Button("Invoice");
+		invoiceButton = new ToggleButton("Invoice");
 		invoiceButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		invoiceButton.setFocusTraversable(false);
 		invoiceButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -107,8 +126,9 @@ public class Header extends Pane {
 			}
 		});
 
-		BillingButton = new Button("Billing");
+		BillingButton = new ToggleButton("Billing");
 		BillingButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		BillingButton.setFocusTraversable(false);
 		BillingButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -117,8 +137,9 @@ public class Header extends Pane {
 			}
 		});
 
-		databaseButton = new Button("Database");
+		databaseButton = new ToggleButton("Database");
 		databaseButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+		databaseButton.setFocusTraversable(false);
 		databaseButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -130,8 +151,9 @@ public class Header extends Pane {
 		Region space1 = new Region();	
 		HBox.setHgrow(space1, Priority.ALWAYS);
 
-		logOutButton = new Button("LogOut");
+		logOutButton = new ToggleButton("LogOut");
 		logOutButton.setPrefSize(100, BUTTONHEIGHT);
+		logOutButton.setFocusTraversable(false);
 		logOutButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -143,56 +165,66 @@ public class Header extends Pane {
 		headerBox.getChildren().addAll(homeButton, quoButton, orderButton, productButton, creditButton, deliveryButton,
 				invoiceButton, BillingButton, databaseButton, space1, logOutButton);
 		
+		ToggleGroup toggleGroup = new ToggleGroup();
+		toggleGroup.getToggles().addAll(homeButton, quoButton, orderButton, productButton, creditButton, deliveryButton,
+				invoiceButton, BillingButton, databaseButton);
+		
 		mainBox.getChildren().add(headerBox);
+		
+		bottomPane = new StackPane();
+		bottomPane.setPadding(new Insets(5));
+		bottomPane.setPrefSize(1280, 660);
+		mainBox.getChildren().add(bottomPane);
+		
 		this.getChildren().add(mainBox);
 	}
 
 	public void homePushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new Login());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new Login());
 	}
 
 	public void quotationPushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new QYselection());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new QYSelection());
 	}
 
 	public void orderPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new POSelection());
 	}
 
 	public void productPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new BLSelection());
 	}
 
 	public void creditPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new CRSelection());
 	}
 	
 	public void deliveryPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new DESelection());
 	}
 
 	public void invoicePushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new IVSelection());
 	}
 
 	public void billingPushed() {
-
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new RBSelection());
 	}
 
 	public void databasePushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new DatabaseUI());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new DatabaseUI());
 	}
 	
 	public void logOutPushed() {
-		mainBox.getChildren().clear();
-		mainBox.getChildren().add(headerBox);
-		mainBox.getChildren().add(new GeneralBox(100,100));
 	}
 
 }
