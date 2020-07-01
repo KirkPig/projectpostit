@@ -66,10 +66,14 @@ public class Login extends VBox{
 
 		EventHandler<MouseEvent> e = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
+				
 				try {
-					Class.forName("com.mysql.jdbc.");
-					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","");
-					PreparedStatement ps = conn.prepareStatement("insert into user(user_name,user_password) value(?.?)");
+					Class.forName("com.mysql.jdbc.Driver");
+					//Connection conn = DriverManager.getConnection("jdbc:mysql://103.253.72.156/yonotool_app","yonotool","2aF::on0T8E6oY");
+					//PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/user","root","000000");
+					PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
+					
 					ps.setString(1, userField.getText());
 					ps.setString(2, passwordField.getText());
 					int x=ps.executeUpdate();
