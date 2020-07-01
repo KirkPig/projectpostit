@@ -1,19 +1,29 @@
 package ui;
 
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import java.sql.*;
+
+
 
 public class Login extends VBox{
 	public Login() {
 		
+		
+		load();
+	}
+	public void load() {
 		Font font30 = new Font(30);
 		
 		Label header = new Label("Login");
@@ -31,6 +41,7 @@ public class Login extends VBox{
 		HBox password = new HBox();
 		password.getChildren().addAll(passwordLabel,passwordField);
 		password.setSpacing(13);
+		
 		
 		Button bt = new Button("Login");
 		
@@ -51,6 +62,30 @@ public class Login extends VBox{
 		this.setMaxWidth(500);
 		
 		this.getChildren().addAll(pane);
+		
+
+		EventHandler<MouseEvent> e = new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				try {
+					Class.forName("com.mysql.jdbc.");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","");
+					PreparedStatement ps = conn.prepareStatement("insert into user(user_name,user_password) value(?.?)");
+					ps.setString(1, userField.getText());
+					ps.setString(2, passwordField.getText());
+					int x=ps.executeUpdate();
+					if (x>0) {
+						System.out.println("Register done sucessfully...");
+					}
+					else {
+						System.out.println("Register Fail...");
+					}
+				}catch(Exception e1) {
+					System.out.println(e1);
+				};
+			}
+		};
+		
+		bt.addEventFilter(MouseEvent.MOUSE_RELEASED, e);
 	}
 	
 

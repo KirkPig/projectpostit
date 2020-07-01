@@ -33,7 +33,7 @@ public class CustomTESTER extends Application {
 		left.getChildren().addAll(general, other);
 		HBox upper = new HBox();
 		upper.getChildren().addAll(left, a);
-		*/
+		
 		Scene testScene = new Scene(new  QYSelection());
 		arg0.setTitle("gay");
 
