@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import ui.news.CRNewUI;
 import ui.news.QYNewUI;
 
 public class CRSelection extends VBox {
@@ -52,10 +53,12 @@ public class CRSelection extends VBox {
 
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			this.getChildren().add(new CRNewUI());
 		});
 
 		// Button
+		TextField search = new TextField();
+		search.setPromptText("Search");
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
 
@@ -63,7 +66,7 @@ public class CRSelection extends VBox {
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
-		searchBox.getChildren().addAll(new TextField(), genre);
+		searchBox.getChildren().addAll(search, genre);
 
 		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(250);

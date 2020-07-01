@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import ui.news.BLNewUI;
 import ui.news.QYNewUI;
 
 public class BLSelection extends VBox {
@@ -53,9 +54,10 @@ public class BLSelection extends VBox {
 
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			this.getChildren().add(new BLNewUI());
 		});
-
+		TextField search = new TextField();
+		search.setPromptText("Search");
 		// Button
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
@@ -64,7 +66,7 @@ public class BLSelection extends VBox {
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
-		searchBox.getChildren().addAll(new TextField(), genre);
+		searchBox.getChildren().addAll(search, genre);
 
 		allFunc.getChildren().addAll(simpleFunc, moreFunc, searchBox);
 		allFunc.setSpacing(250);
@@ -84,9 +86,11 @@ public class BLSelection extends VBox {
 		creator.setMinWidth(200);
 		table.getColumns().addAll(code, date, customerName, totalAmount, creator);
 		table.setMaxHeight(500);
+		
+		
 		this.getChildren().add(table);
 		this.setSpacing(5);
-
+		// =============================================================================
 		TableView table2 = new TableView();
 		TableColumn descriptionCol = new TableColumn("Description");
 		descriptionCol.setMinWidth(600);
@@ -96,7 +100,7 @@ public class BLSelection extends VBox {
 		unitCol.setMinWidth(100);
 
 		table2.getColumns().addAll(code, date, descriptionCol, quantityCol, unitCol, creator);
-
+//=====================================================================================
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {
 				this.getChildren().remove(table);
