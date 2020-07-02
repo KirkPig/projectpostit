@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ui.base.Header;
-import ui.selection.*;
 
 public class HeaderTest extends Application{
 	public static void main(String[] args) {
