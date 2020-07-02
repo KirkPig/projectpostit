@@ -70,20 +70,18 @@ public class Login extends VBox{
 			public void handle(MouseEvent e) {
 				
 				try {
-					Connection conn = DatabaseConnection.getConnection();
-					PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
-					//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","");
-					//PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
 					
-					ps.setString(1, userField.getText());
-					ps.setString(2, passwordField.getText());
-					int x=ps.executeUpdate();
-					if (x>0) {
-						System.out.println("Register done sucessfully...");
-					}
-					else {
-						System.out.println("Register Fail...");
-					}
+					Connection conn = DatabaseConnection.getConnection();
+					
+					String sql = "select * from account;";
+					Statement stmt = conn.createStatement();
+					
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					rs.close();
+					stmt.close();
+					conn.close();
+					
 				}catch(Exception e1) {
 					System.out.println(e1);
 				};

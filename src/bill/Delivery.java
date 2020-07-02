@@ -1,5 +1,7 @@
 package bill;
 
+import java.util.ArrayList;
+
 import logic.Customer;
 
 public class Delivery {
@@ -7,13 +9,13 @@ public class Delivery {
 	private String id;
 	private String date;
 	private Customer customer;
-	private Item[] itemList;
+	private ArrayList<Item> itemList;
 	private String contact;
-	private double totalAmount;
-	private double tax7;
-	private double plusTax7;
+	private double valueBeforeTax;
+	private double valueTax;
+	private double valueAfterTax;
 
-	public Delivery(String id, String date, Customer customer, Item[] itemList, String contact) {
+	public Delivery(String id, String date, Customer customer, ArrayList<Item> itemList, String contact) {
 		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
 		this.setDate(date);
@@ -23,10 +25,10 @@ public class Delivery {
 		double total = 0.00;
 		for (Item e : itemList) {
 			total += e.getAmount();
-			this.setTotalAmount(total);
-			this.setTax7(total * 7 / 100);
-			this.setPlusTax7(this.getTotalAmount() + this.getTax7());
 		}
+		this.setValueBeforeTax(total);
+		this.setValueTax(total * 7 / 100);
+		this.setValueAfterTax(getValueBeforeTax() + getValueTax()); 
 	}
 
 	public String getId() {
@@ -53,14 +55,6 @@ public class Delivery {
 		this.customer = customer;
 	}
 
-	public Item[] getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(Item[] itemList) {
-		this.itemList = itemList;
-	}
-
 	public String getContact() {
 		return contact;
 	}
@@ -69,28 +63,36 @@ public class Delivery {
 		this.contact = contact;
 	}
 
-	public double getTotalAmount() {
-		return totalAmount;
+	public ArrayList<Item> getItemList() {
+		return itemList;
 	}
 
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setItemList(ArrayList<Item> itemList) {
+		this.itemList = itemList;
 	}
 
-	public double getTax7() {
-		return tax7;
+	public double getValueBeforeTax() {
+		return valueBeforeTax;
 	}
 
-	public void setTax7(double tax7) {
-		this.tax7 = tax7;
+	public void setValueBeforeTax(double valueBeforeTax) {
+		this.valueBeforeTax = valueBeforeTax;
 	}
 
-	public double getPlusTax7() {
-		return plusTax7;
+	public double getValueTax() {
+		return valueTax;
 	}
 
-	public void setPlusTax7(double plusTax7) {
-		this.plusTax7 = plusTax7;
+	public void setValueTax(double valueTax) {
+		this.valueTax = valueTax;
+	}
+
+	public double getValueAfterTax() {
+		return valueAfterTax;
+	}
+
+	public void setValueAfterTax(double valueAfterTax) {
+		this.valueAfterTax = valueAfterTax;
 	}
 
 }
