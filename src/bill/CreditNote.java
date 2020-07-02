@@ -3,32 +3,27 @@ package bill;
 import logic.Customer;
 
 public class CreditNote {
-	private String description;
-	private double valueOld;
-	private double valueReal;
-	private double valueBefore;
-	private double totalAmount;
-	private double tax7;
-	private double plusTax7;
+	
 	private String id;
 	private String date;
 	private Customer customer;
-	
-	public CreditNote(String id,String date,Customer customer,double valueOld,double valueReal) {
+	private Invoice invoice;
+	private double valueOld;
+	private double valueReal;
+	private double valueBeforeTax;
+	private double valueTax;
+	private double valueAfterTax;
+
+	public CreditNote(String id, String date, Customer customer, Invoice invoice, double valueReal) {
 		this.setId(id);
 		this.setDate(date);
 		this.setCustomer(customer);
-		this.setValueOld(valueOld);
+		this.setInvoice(invoice);
+		this.setValueOld(invoice.getValueAfterTax());
 		this.setValueReal(valueReal);
-		this.setValueBefore(valueOld-valueReal);
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+		this.setValueBeforeTax(valueOld - valueReal);
+		this.setValueTax(valueBeforeTax * 7 / 100);
+		this.setValueAfterTax(this.getValueBeforeTax() + this.getValueTax());
 	}
 
 	public double getValueOld() {
@@ -45,38 +40,6 @@ public class CreditNote {
 
 	public void setValueReal(double valueReal) {
 		this.valueReal = valueReal;
-	}
-
-	public double getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public double getValueBefore() {
-		return valueBefore;
-	}
-
-	public void setValueBefore(double valueBefore) {
-		this.valueBefore = valueBefore;
-	}
-
-	public double getTax7() {
-		return tax7;
-	}
-
-	public void setTax7(double tax7) {
-		this.tax7 = tax7;
-	}
-
-	public double getPlusTax7() {
-		return plusTax7;
-	}
-
-	public void setPlusTax7(double plusTax7) {
-		this.plusTax7 = plusTax7;
 	}
 
 	public String getDate() {
@@ -101,5 +64,37 @@ public class CreditNote {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public double getValueBeforeTax() {
+		return valueBeforeTax;
+	}
+
+	public void setValueBeforeTax(double valueBeforeTax) {
+		this.valueBeforeTax = valueBeforeTax;
+	}
+
+	public double getValueTax() {
+		return valueTax;
+	}
+
+	public void setValueTax(double valueTax) {
+		this.valueTax = valueTax;
+	}
+
+	public double getValueAfterTax() {
+		return valueAfterTax;
+	}
+
+	public void setValueAfterTax(double valueAfterTax) {
+		this.valueAfterTax = valueAfterTax;
 	}
 }

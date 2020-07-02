@@ -11,9 +11,9 @@ public class Order {
 	private Customer customer;
 	private ArrayList<Item> itemList; 
 	private String paymentTerm;
-	private double totalAmount;
-	private double tax7;
-	private double plusTax7;
+	private double valueBeforeTax;
+	private double valueTax;
+	private double valueAfterTax;
 	
 	public Order(String id,String date,Customer customer,ArrayList<Item> itemList,String paymentTerm) {
 		this.setPaymentTerm(paymentTerm);
@@ -22,13 +22,12 @@ public class Order {
 		this.setId(id);
 		this.setItemList(itemList);
 		double total = 0.00;
-		for (Item e: itemList){
+		for (Item e : itemList) {
 			total += e.getAmount();
-		this.setTotalAmount(total);
-		this.setTax7(total*7/100);
-		this.setPlusTax7(this.getTotalAmount() + this.getTax7());
 		}
-		// TODO Auto-generated constructor stub
+		this.setValueBeforeTax(total);
+		this.setValueTax(total * 7 / 100);
+		this.setValueAfterTax(getValueBeforeTax() + getValueTax()); 
 	}
 
 	public String getId() {
@@ -65,37 +64,35 @@ public class Order {
 		this.itemList = itemList;
 	}
 
-	
-
-	public double getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public double getTax7() {
-		return tax7;
-	}
-
-	public void setTax7(double tax7) {
-		this.tax7 = tax7;
-	}
-
-	public double getPlusTax7() {
-		return plusTax7;
-	}
-
-	public void setPlusTax7(double plusTax7) {
-		this.plusTax7 = plusTax7;
-	}
-
 	public String getPaymentTerm() {
 		return paymentTerm;
 	}
 
 	public void setPaymentTerm(String paymentTerm) {
 		this.paymentTerm = paymentTerm;
+	}
+
+	public double getValueBeforeTax() {
+		return valueBeforeTax;
+	}
+
+	public void setValueBeforeTax(double valueBeforeTax) {
+		this.valueBeforeTax = valueBeforeTax;
+	}
+
+	public double getValueTax() {
+		return valueTax;
+	}
+
+	public void setValueTax(double valueTax) {
+		this.valueTax = valueTax;
+	}
+
+	public double getValueAfterTax() {
+		return valueAfterTax;
+	}
+
+	public void setValueAfterTax(double valueAfterTax) {
+		this.valueAfterTax = valueAfterTax;
 	}
 }
