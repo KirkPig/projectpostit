@@ -15,7 +15,6 @@ public class HeaderTest extends Application{
 	public void start(Stage arg0) throws Exception {
 		Scene testScene = new Scene(new Header(arg0),1280,720);
 		arg0.setScene(testScene);
-		arg0.setFullScreen(true);
 		arg0.setResizable(false);
 		arg0.show();
 	}

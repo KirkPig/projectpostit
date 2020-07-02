@@ -1,10 +1,13 @@
 package ui.news;
 
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -14,32 +17,24 @@ import ui.selection.DatabaseUI;
 public class CustomerNewUI extends GridPane {
 	public CustomerNewUI() {
 		this.setAlignment(Pos.CENTER);
-
+		this.setMinSize(800, 600);
 		HBox buttonGang = new HBox();
-		
-		Button backButton = new Button("Back");
-		backButton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				backToDatabase();
-			}
-		});
-		
+
 		Button saveButton = new Button("Save");
-		
-		buttonGang.getChildren().addAll(backButton, saveButton);
-		this.add(buttonGang,0,0);
+
+		saveButton.setMinSize(60, 40);
+		buttonGang.getChildren().addAll(saveButton);
+		this.add(buttonGang, 0, 9);
 
 		Label header = new Label("CUSTOMER");
 		TextField codeBox = new TextField();
 		TextField nameBox = new TextField();
 		TextField taxIdBox = new TextField();
-		TextField addressBox = new TextField();
+		TextArea addressBox = new TextArea();
 		TextField teleBox = new TextField();
 		TextField faxBox = new TextField();
 		TextField mailBox = new TextField();
-		
+
 		Label codeLabel = new Label("CODE:");
 		Label nameLabel = new Label("NAME:");
 		Label taxLabel = new Label("TAX ID:");
@@ -48,7 +43,6 @@ public class CustomerNewUI extends GridPane {
 		Label faxLabel = new Label("FAX:");
 		Label mailLabel = new Label("EMAIL:");
 
-		
 		this.add(header, 0, 1);
 		this.add(codeLabel, 0, 2);
 		this.add(codeBox, 1, 2);
@@ -64,11 +58,7 @@ public class CustomerNewUI extends GridPane {
 		this.add(faxBox, 1, 7);
 		this.add(mailLabel, 0, 8);
 		this.add(mailBox, 1, 8);
+		this.setVgap(10);
+	}
 
-	}
-	
-	public void backToDatabase() {
-		this.getChildren().clear();
-		this.getChildren().add(new DatabaseUI());
-	}
 }
