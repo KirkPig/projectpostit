@@ -1,5 +1,7 @@
 package bill;
 
+import java.util.ArrayList;
+
 import logic.Customer;
 
 public class Billing {
@@ -7,14 +9,14 @@ public class Billing {
 	private String id;
 	private String date;
 	private Customer customer;
-	private Invoice[] invoiceList;
-	private String[] psList;
+	private ArrayList<Invoice> invoiceList;
+	private ArrayList<String> psList;
 	private String billingBy;
 	private String billingDate;
 	private String ps;
 	private double value;
 
-	public Billing(String id, String date, Customer customer, Invoice[] invoiceList, String[] psList, String billingBy,
+	public Billing(String id, String date, Customer customer, ArrayList<Invoice> invoiceList, ArrayList<String> psList, String billingBy,
 			String billingDate, String ps) {
 		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
@@ -25,7 +27,7 @@ public class Billing {
 		this.setPs(ps);
 		double total = 0.00;
 		for(Invoice i : invoiceList) {
-			total = total + i.getPlusTax7();
+			total = total + i.getValueAfterTax();
 		}
 		this.setValue(total);
 		
@@ -53,22 +55,6 @@ public class Billing {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	public Invoice[] getInvoiceList() {
-		return invoiceList;
-	}
-
-	public void setInvoiceList(Invoice[] invoiceList) {
-		this.invoiceList = invoiceList;
-	}
-
-	public String[] getPsList() {
-		return psList;
-	}
-
-	public void setPsList(String[] psList) {
-		this.psList = psList;
 	}
 
 	public String getBillingBy() {
@@ -101,6 +87,22 @@ public class Billing {
 
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	public ArrayList<Invoice> getInvoiceList() {
+		return invoiceList;
+	}
+
+	public void setInvoiceList(ArrayList<Invoice> invoiceList) {
+		this.invoiceList = invoiceList;
+	}
+
+	public ArrayList<String> getPsList() {
+		return psList;
+	}
+
+	public void setPsList(ArrayList<String> psList) {
+		this.psList = psList;
 	}
 
 }
