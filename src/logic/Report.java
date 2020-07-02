@@ -14,7 +14,11 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import bill.CreditNote;
+import bill.Delivery;
 import bill.Item;
+import bill.Order;
+import bill.ProductLoan;
 import bill.Quotation;
 
 public class Report {
@@ -86,10 +90,10 @@ public class Report {
 			int j = 0;
 
 			for (int i = 0; i < str.length(); i++) {
-				if(str.charAt(i) == ' ') {
-					if(font.getStringWidth(str.substring(0, i)) / 1000.0f * fontSize <= pixelWidth) {
+				if (str.charAt(i) == ' ') {
+					if (font.getStringWidth(str.substring(0, i)) / 1000.0f * fontSize <= pixelWidth) {
 						j = i;
-					}else {
+					} else {
 						break;
 					}
 				}
@@ -144,84 +148,27 @@ public class Report {
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void printQuotation(Quotation form, String dest) throws Exception {
+	public static void addHeader(PDDocument document, PDPageContentStream contentStream, Color base, String formName,
+			String id, String date) throws Exception {
 
-		PDDocument document = new PDDocument();
-
-		PDPage page = new PDPage(NORMAL_PAGE);
-
-		document.addPage(page);
-
-		Color base = new Color(224, 255, 255);
+		/*
+		 * Logo
+		 */
 		PDImageXObject logoImage = PDImageXObject.createFromFile("./src/res/yono_logo.png", document);
-
-		PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-		// Logo
 		contentStream.drawImage(logoImage, cpx(10f), cpy(10f) - cpx(26.9f), cpx(46.1f), cpx(26.9f));
-
-		// Title
-		contentStream.addRect(cpx(122.2f), cpy(10f) - cpx(15.6f), cpx(87.8f), cpx(15.6f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-
-		// ATTN
-		contentStream.addRect(cpx(12.7f), cpy(89.2f) - cpx(17.2f), cpx(35f), cpx(17.2f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-
-		// CR
-		contentStream.addRect(cpx(59.3f), cpy(89.2f) - cpx(17.2f), cpx(34.4f), cpx(17.2f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-
-		// Customer Header
-		contentStream.addRect(cpx(128.1f), cpy(38.3f) - cpx(68f), cpx(69.1f), cpx(68f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-
-		// List Header
-		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(18.7f), cpy(114.6f) - cpx(8.7f), cpx(75f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(93.6f), cpy(114.6f) - cpx(8.7f), cpx(23.3f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(116.7f), cpy(114.6f) - cpx(8.7f), cpx(11.4f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(128.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(151.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(174.1f), cpy(114.6f) - cpx(8.7f), cpx(23f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-
-		// footer
-		contentStream.addRect(cpx(12.7f), cpy(224.3f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
-		contentStream.addRect(cpx(12.7f), cpy(241.2f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
-		contentStream.setNonStrokingColor(base);
-		contentStream.fill();
 
 		/*
 		 * Header
 		 */
 
-		addParagraph(document, contentStream, "ใบเสนอราคา (Quotation)", 36f, 122.2f, 10f, 87.8f, 15.6f,
+		contentStream.addRect(cpx(122.2f), cpy(10f) - cpx(15.6f), cpx(87.8f), cpx(15.6f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		addParagraph(document, contentStream, formName, 36f, 122.2f, 10f, 87.8f, 15.6f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
 
-				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
-
-		addParagraph(document, contentStream, "NO." + form.getId() + "  DATE: " + form.getDate(), 18f, 122.2f, 25.6f,
-				75f, 12.8f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "NO." + id + "  DATE: " + date, 18f, 122.2f, 25.6f, 75f, 12.8f,
+				HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
 
 		addParagraph(document, contentStream, "YONO TOOLS CO.,LTD.", 28f, 12.8f, 38.4f, 80.8f, 8.7f, HAlignment.LEFT,
 				VAlignment.CENTER, FontType.BOLD);
@@ -238,47 +185,14 @@ public class Report {
 		addParagraph(document, contentStream, "TAX-ID: 0125560000590", addressFontSize, 12.8f, 71.1f, 98f, 6f,
 				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
 
-		/*
-		 * Side Header
-		 */
+	}
 
-		float shFontSize = 20.0f;
+	public static void addCustomerInfo(PDDocument document, PDPageContentStream contentStream, Color base,
+			Customer customer) throws Exception {
 
-		addParagraph(document, contentStream, "ATTN: " + form.getAttn(), shFontSize, 12.7f, 89.2f, 35f, 17.2f,
-				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
-
-		String strCr = "CR: ";
-		switch (Integer.parseInt(form.getCr())) {
-		case 0:
-			strCr += "CASH";
-			break;
-		case 1:
-			strCr += (Integer.toString(Integer.parseInt(form.getCr())) + " DAY");
-			break;
-		default:
-			strCr += (Integer.toString(Integer.parseInt(form.getCr())) + " DAYS");
-			break;
-		}
-		addParagraph(document, contentStream, strCr, shFontSize, 59.3f, 89.2f, 34.4f, 17.2f, HAlignment.CENTER,
-				VAlignment.CENTER, FontType.BOLD);
-
-		/*
-		 * Customer Header
-		 */
-		Customer customer = form.getCustomer();
-
-		/*
-		 * Rectangle r4 = new Rectangle((int)(134 / mmpi * dpi), (int)((42.4) / mmpi *
-		 * dpi), (int)(57.5 / mmpi * dpi), (int)(17.5 / mmpi * dpi));
-		 * e.Graphics.DrawString("เลขประจำตัวผู้เสียภาษีอากร\n" + CustomerTaxID, new
-		 * Font(font, 12, FontStyle.Bold), Brushes.Black, r4, strformat); Rectangle r5 =
-		 * new Rectangle((int)(134 / mmpi * dpi), (int)((59.7) / mmpi * dpi), (int)(63.3
-		 * / mmpi * dpi), (int)(46.7 / mmpi * dpi));
-		 * e.Graphics.DrawString("ข้อมูลลูกค้า\n" + CustomerName + "\n" +
-		 * CustomerAddress + "\nTel : " + CustomerTel + "\nFax : " + fax, new Font(font,
-		 * 12, FontStyle.Bold), Brushes.Black, r5, strformat);
-
-		 */
+		contentStream.addRect(cpx(128.1f), cpy(38.3f) - cpx(68f), cpx(69.1f), cpx(68f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
 
 		ArrayList<String> strList = new ArrayList<>();
 		strList.add("เลขประจำตัวผู้เสียภาษีอากร");
@@ -308,10 +222,304 @@ public class Report {
 
 		}
 
+	}
+
+	public static void printOrder(Order form, String dest) throws Exception {
+
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		Color base = Color.LIGHT_GRAY;
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบสั่งซื้อ(Order)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
+		/*
+		 * List Header
+		 */
+
+		/*
+		 * List
+		 */
+
+		/*
+		 * Footer
+		 */
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		// Horizontal
+
+		contentStream.close();
+
+		document.save(dest);
+
+		document.close();
+
+		System.out.println("PDF Created");
+
+	}
+
+	public static void printDelivery(Delivery form, String dest) throws Exception {
+
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		Color base = new Color(224, 255, 255);
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบส่งสินค้า(Delivery Note)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
+		/*
+		 * List Header
+		 */
+
+		/*
+		 * List
+		 */
+
+		/*
+		 * Footer
+		 */
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		// Horizontal
+
+		contentStream.close();
+
+		document.save(dest);
+
+		document.close();
+
+		System.out.println("PDF Created");
+
+	}
+
+	public static void printProductLoan(ProductLoan form, String dest) throws Exception {
+
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		Color base = new Color(224, 255, 255);
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบยืมสินค้า(Product Loan)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
+		/*
+		 * List Header
+		 */
+
+		/*
+		 * List
+		 */
+
+		/*
+		 * Footer
+		 */
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		// Horizontal
+
+		contentStream.close();
+
+		document.save(dest);
+
+		document.close();
+
+		System.out.println("PDF Created");
+
+	}
+
+	public static void printCreditNote(CreditNote form, String dest) throws Exception {
+
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		Color base = new Color(224, 255, 255);
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบลดหนี้(Credit Note)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
+		/*
+		 * List Header
+		 */
+
+		/*
+		 * List
+		 */
+
+		/*
+		 * Footer
+		 */
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		// Horizontal
+
+		contentStream.close();
+
+		document.save(dest);
+
+		document.close();
+
+		System.out.println("PDF Created");
+
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void printQuotation(Quotation form, String dest) throws Exception {
+
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		Color base = new Color(224, 255, 255);
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบเสนอราคา(Quotation)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		contentStream.addRect(cpx(12.7f), cpy(89.2f) - cpx(17.2f), cpx(35f), cpx(17.2f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(59.3f), cpy(89.2f) - cpx(17.2f), cpx(34.4f), cpx(17.2f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+
+		float shFontSize = 20.0f;
+
+		addParagraph(document, contentStream, "ATTN: " + form.getAttn(), shFontSize, 12.7f, 89.2f, 35f, 17.2f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+
+		String strCr = "CR: ";
+		switch (Integer.parseInt(form.getCr())) {
+		case 0:
+			strCr += "CASH";
+			break;
+		case 1:
+			strCr += (Integer.toString(Integer.parseInt(form.getCr())) + " DAY");
+			break;
+		default:
+			strCr += (Integer.toString(Integer.parseInt(form.getCr())) + " DAYS");
+			break;
+		}
+		addParagraph(document, contentStream, strCr, shFontSize, 59.3f, 89.2f, 34.4f, 17.2f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
 		/*
 		 * List Header
 		 */
 		float lhFontSize = 16.0f;
+
+		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(18.7f), cpy(114.6f) - cpx(8.7f), cpx(75f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(93.6f), cpy(114.6f) - cpx(8.7f), cpx(23.3f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(116.7f), cpy(114.6f) - cpx(8.7f), cpx(11.4f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(128.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(151.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(174.1f), cpy(114.6f) - cpx(8.7f), cpx(23f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
 
 		addParagraph(document, contentStream, "NO", lhFontSize, 12.7f, 114.6f, 6.1f, 8.7f, HAlignment.CENTER,
 				VAlignment.CENTER, FontType.BOLD);
@@ -360,6 +568,12 @@ public class Report {
 		/*
 		 * Footer
 		 */
+		contentStream.addRect(cpx(12.7f), cpy(224.3f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(12.7f), cpy(241.2f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
 
 		float footerFontSize = 16.0f;
 
@@ -383,7 +597,6 @@ public class Report {
 		/*
 		 * Signature
 		 */
-
 
 		float signatureFontSize = 18.0f;
 
@@ -432,19 +645,27 @@ public class Report {
 
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		try {
 			String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
-			ArrayList<Item> a = new ArrayList<>();
-			a.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2,1), 1000, 35));
-			a.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52,35), 45, 22));
-			Quotation test = new Quotation("QY63008123", "10/10/2025",
-					new Customer("525", "Pig Co.LTD", "546546-55454515",
-							"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",
-							"02-4546455", "yourname@address.com"),
-					a, "5545", "0");
-			printQuotation(test, dest);
+			ArrayList<Item> itemList = new ArrayList<>();
+			itemList.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2, 1), 1000, 35));
+			itemList.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52, 35), 45, 22));
+			Customer customer = new Customer("525", "Pig Co.LTD", "546546-55454515",
+					"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",
+					"02-4546455", "yourname@address.com");
+			String date = "10/08/2563";
+
+			
+			Order order = new Order("PO63008123", date, customer, itemList, "0");
+			Delivery delivery = new Delivery("", date, customer, itemList, "");
+			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0");
+
+			
+			// printOrder(order, dest);
+			// printQuotation(quotation, dest);
 			Desktop.getDesktop().open(new File(dest));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
