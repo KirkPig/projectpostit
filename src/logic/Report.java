@@ -16,6 +16,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import bill.CreditNote;
 import bill.Delivery;
+import bill.Invoice;
 import bill.Item;
 import bill.Order;
 import bill.ProductLoan;
@@ -658,7 +659,6 @@ public class Report {
 					"02-4546455", "yourname@address.com");
 			String date = "10/08/2563";
 
-			
 			Order order = new Order("PO63008123", date, customer, itemList, "0");
 			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
 			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
