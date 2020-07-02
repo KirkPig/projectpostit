@@ -51,37 +51,44 @@ public class ProductNewUI extends GridPane {
 		this.add(quantityBox, 1, 4);
 		this.add(priceLabel, 0, 5);
 		this.add(priceBox, 1, 5);
-		
+
 		this.setVgap(10);
 
 		saveButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				try {
-					Connection conn = DatabaseConnection.getConnection();
-					Statement stmt = conn.createStatement();
-					
-					String sql = "insert into product values(" + "'" + codeBox.getText() + "','"
-							+ descriptionBox.getText() + "'," + Integer.parseInt(quantityBox.getText()) + ",'"
-							+ unitBox.getText() + "'," + Float.parseFloat(priceBox.getText()) + ");";
-					int x = stmt.executeUpdate(sql);
-					System.out.println(sql);
-					if (x>0) {
-						System.out.println("Updated Successfully");
-					} else {
-						System.out.println("Failed");
+				if (!(codeBox.getText().isEmpty()) && (descriptionBox.getText().isEmpty())
+						&& (!unitBox.getText().isEmpty()) && (quantityBox.getText().isEmpty())
+						&& (!priceBox.getText().isEmpty())) {
+					try {
+						Connection conn = DatabaseConnection.getConnection();
+						Statement stmt = conn.createStatement();
+
+						String sql = "insert into product values(" + "'" + codeBox.getText() + "','"
+								+ descriptionBox.getText() + "'," + Integer.parseInt(quantityBox.getText()) + ",'"
+								+ unitBox.getText() + "'," + Float.parseFloat(priceBox.getText()) + ");";
+						int x = stmt.executeUpdate(sql);
+						System.out.println(sql);
+						if (x > 0) {
+							System.out.println("Updated Successfully");
+						} else {
+							System.out.println("Failed");
+						}
+
+						stmt.close();
+						conn.close();
+						DatabaseUI.updateProductTable("");
+						productStage.close();
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
-					stmt.close();
-					conn.close();
-					DatabaseUI.updateProductTable("");
-					productStage.close();
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else {
+					System.out.println("Some Box is Empty");
 				}
+
 			}
 		});
 	}

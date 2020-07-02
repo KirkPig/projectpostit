@@ -11,11 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Customer;
 import logic.DatabaseConnection;
 import logic.Product;
 import ui.news.CustomerNewUI;
@@ -23,6 +25,7 @@ import ui.news.ProductNewUI;
 
 public class DatabaseUI extends VBox {
 	private static TableView<Product> productTable;
+	private static TableView<Customer> customerTable;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DatabaseUI() {
@@ -32,15 +35,25 @@ public class DatabaseUI extends VBox {
 		// Tab Select
 		HBox tab = new HBox();
 		tab.setMinHeight(30);
-
+		HBox switchBox = new HBox();
 		Button btnProduct = new Button("Product");
 		btnProduct.setMinWidth(100);
 		Button btnCustomer = new Button("Customer");
 		btnCustomer.setMinWidth(100);
 
-		tab.getChildren().add(btnProduct);
-		tab.getChildren().add(btnCustomer);
-
+		switchBox.getChildren().add(btnProduct);
+		switchBox.getChildren().add(btnCustomer);
+		
+		switchBox.setSpacing(5);
+		
+		HBox searchBox = new HBox();
+		TextField searchBar = new TextField();
+		searchBar.setPromptText("search");
+		Button searchButton = new Button("search");
+		searchBox.getChildren().addAll(searchBar,searchButton);
+		tab.getChildren().addAll(switchBox,searchBox);
+		tab.setSpacing(350);
+		searchBox.setSpacing(5);
 		// Product Database
 		HBox productPane = new HBox();
 		productPane.setMinHeight(570);
@@ -91,20 +104,27 @@ public class DatabaseUI extends VBox {
 		customerPane.setMinHeight(570);
 		customerPane.setSpacing(10);
 
-		TableView customerTable = new TableView();
+		customerTable = new TableView();
 		customerTable.setMinWidth(1160);
 
 		TableColumn colCustomerCode = new TableColumn("Code");
+		colCustomerCode.setCellValueFactory(new PropertyValueFactory<>("code"));
 		TableColumn colCustomerName = new TableColumn("Name");
+		colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn colCustomerTaxID = new TableColumn("TaxID");
+		colCustomerTaxID.setCellValueFactory(new PropertyValueFactory<>("taxID"));
 		TableColumn colCustomerAddress = new TableColumn("Address");
+		colCustomerAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
 		TableColumn colCustomerTel = new TableColumn("Tel");
+		colCustomerTel.setCellValueFactory(new PropertyValueFactory<>("tel"));
 		TableColumn colCustomerFax = new TableColumn("Fax");
+		colCustomerFax.setCellValueFactory(new PropertyValueFactory<>("fax"));
 		TableColumn colCustomerEmail = new TableColumn("Email");
+		colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
 		customerTable.getColumns().addAll(colCustomerCode, colCustomerName, colCustomerTaxID, colCustomerAddress,
 				colCustomerTel, colCustomerFax, colCustomerEmail);
-
+		updateCustomerTable("");
 		VBox customerControl = new VBox();
 		customerControl.setMinWidth(100);
 		customerControl.setFillWidth(true);
@@ -153,7 +173,7 @@ public class DatabaseUI extends VBox {
 
 	public void newCustomer() {
 		Stage newCustomerStage = new Stage();
-		Scene newCustomerScene = new Scene(new CustomerNewUI());
+		Scene newCustomerScene = new Scene(new CustomerNewUI(newCustomerStage));
 		newCustomerStage.setScene(newCustomerScene);
 		newCustomerStage.setTitle("New Customer");
 		newCustomerStage.show();
@@ -178,11 +198,9 @@ public class DatabaseUI extends VBox {
 						+ rs.getString("unit") + rs.getFloat("price")));
 				productTable.getItems().add(new Product(rs.getString("code"), rs.getString("description"),
 						rs.getString("unit"), rs.getFloat("price"), rs.getInt("quantity")));
-			
-				
-			
+
 			}
-			
+
 			stmt.close();
 			conn.close();
 
@@ -193,4 +211,29 @@ public class DatabaseUI extends VBox {
 
 	}
 
+	public static void updateCustomerTable(String e) {
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select * from customer";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				System.out.println(rs.getString("code") + rs.getString("name") + rs.getString("taxid")
+						+ rs.getString("address") + rs.getString("tel") + rs.getString("fax") + rs.getString("email"));
+				customerTable.getItems()
+						.add(new Customer(rs.getString("code"), rs.getString("name"), rs.getString("taxid"),
+								rs.getString("address"), rs.getString("tel"), rs.getString("fax"),
+								rs.getString("email")));
+
+			}
+
+			stmt.close();
+			conn.close();
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
 }
