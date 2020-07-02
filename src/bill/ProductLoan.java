@@ -1,5 +1,7 @@
 package bill;
 
+import java.util.ArrayList;
+
 import logic.Customer;
 
 public class ProductLoan {
@@ -7,14 +9,14 @@ public class ProductLoan {
 	private String id;
 	private String date;
 	private Customer customer;
-	private Item[] itemList;
+	private ArrayList<Item> itemList;
 	private String contact;
 	private double totalAmount;
 	private double tax7;
 	private double plusTax7;
 
 	
-	public ProductLoan(String id, String date, Customer customer, Item[] itemList, String contact) {
+	public ProductLoan(String id, String date, Customer customer, ArrayList<Item> itemList, String contact) {
 		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
 		this.setDate(date);
@@ -54,14 +56,6 @@ public class ProductLoan {
 		this.customer = customer;
 	}
 
-	public Item[] getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(Item[] itemList) {
-		this.itemList = itemList;
-	}
-
 	public String getContact() {
 		return contact;
 	}
@@ -92,5 +86,13 @@ public class ProductLoan {
 
 	public void setPlusTax7(double plusTax7) {
 		this.plusTax7 = plusTax7;
+	}
+
+	public ArrayList<Item> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(ArrayList<Item> itemList) {
+		this.itemList = itemList;
 	}
 }

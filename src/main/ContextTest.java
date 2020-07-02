@@ -5,17 +5,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ui.base.Header;
 import ui.selection.*;
+import javafx.*;
 
-public class HeaderTest extends Application{
-	public static void main(String[] args) {
+public class ContextTest extends Application{
+	public void main(String[] args) {
+		Stage arg0 = new Stage();
+		Scene testScene = new Scene(new BLSelection());
+		arg0.setScene(testScene);
+		arg0.setResizable(false);
+		arg0.show();
 		launch(args);
 	}
-
-	@Override
+	
 	public void start(Stage arg0) throws Exception {
-		Scene testScene = new Scene(new Header(arg0),1280,720);
+		Scene testScene = new Scene(new BLSelection());
 		arg0.setScene(testScene);
-		arg0.setFullScreen(true);
 		arg0.setResizable(false);
 		arg0.show();
 	}

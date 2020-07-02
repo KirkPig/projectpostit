@@ -1,4 +1,4 @@
-package ui;
+package ui.news;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,10 +9,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.base.BLBox;
+import ui.base.CustomerBox;
+import ui.base.GeneralBox;
+import ui.selection.BLSelection;
 
-public class CreditNewUI extends VBox{
-	public CreditNewUI() {
-		this.setAlignment(Pos.CENTER);
+public class RBNewUI extends VBox {
+	public RBNewUI() {
+this.setAlignment(Pos.CENTER);
 		
 		HBox buttonGang = new HBox();
 		Button backButton = new Button("Back");
@@ -21,7 +25,7 @@ public class CreditNewUI extends VBox{
 		
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			this.getChildren().clear();
-			this.getChildren().add(new QYSelection());
+			this.getChildren().add(new BLSelection());
 			//Stage newStage = new Stage();
 			//VBox newBox = new VBox(new QuotationNewUI());
 			//Scene newScene = new Scene(newBox);
@@ -32,10 +36,10 @@ public class CreditNewUI extends VBox{
 		
 		HBox upper = new HBox();
 		VBox left = new VBox();
-		GeneralBox genBox = new GeneralBox(500,120);
-		QYBox qy = new QYBox(500, 120);
+		GeneralBox genBox = new GeneralBox(500,80);
+		BLBox bl = new BLBox(500, 80);
 		CustomerBox cusBox = new CustomerBox(500,250);
-		left.getChildren().addAll(genBox,qy);
+		left.getChildren().addAll(genBox,bl);
 		left.setSpacing(4);
 		upper.getChildren().addAll(left,cusBox);
 		upper.setSpacing(5);
@@ -65,17 +69,38 @@ public class CreditNewUI extends VBox{
 		quantityCol.setMinWidth(100);
 		
 		table.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
-		
+		Button newBtn = new Button("new");
+		newBtn.setMinSize(100, 50);
+		Button editBtn = new Button("edit");
+		editBtn.setMinSize(100, 50);
+		Button deleteBtn = new Button("delete");
+		deleteBtn.setMinSize(100, 50);
+		table.setMinWidth(1160);
+		HBox tableBox = new HBox();
+		VBox button = new VBox();
+		button.getChildren().addAll(newBtn, editBtn, deleteBtn);
+		tableBox.getChildren().addAll(table, button);
+		tableBox.setAlignment(Pos.CENTER);
 		GridPane lower = new GridPane();
 		Label valueBefore = new Label("Value Before:");
+		Label valueBeforeText= new Label("457677");
 		Label tax7 = new Label("Tax 7%:");
+		Label tax7Text = new Label("4356789");
 		Label plusTax = new Label("Value after tax:");
-		lower.add(valueBefore, 0,0);
-		lower.add(tax7, 1,0);
-		lower.add(plusTax, 2,0);
-		this.getChildren().addAll(buttonGang,upper,table,lower);
+		Label plusTaxText = new Label("1234567890");
+		
+		lower.add(valueBefore, 0, 0);
+		lower.add(valueBeforeText,1	, 0);
+		lower.add(tax7, 2, 0);
+		lower.add(tax7Text, 3, 0);
+		lower.add(plusTax, 4, 0);
+		lower.add(plusTaxText, 5, 0);
+		lower.setAlignment(Pos.CENTER);
+		lower.setHgap(20);
+		lower.setVgap(10);
+		this.getChildren().addAll(buttonGang,upper,tableBox,lower);
+		this.setSpacing(20);
+		// TODO Auto-generated constructor stub
 	}
-		
-		
-	
+
 }

@@ -1,9 +1,19 @@
 HOME : PJADE
 QUOTATION : NAEM
-PRODUCT LOAN : 
-ORDER :
-DELIVERY : ZARA
-INVOICE :
+PRODUCT LOAN : /
+ORDER :/
+DELIVERY : /
+INVOICE : 
 CREDIT NOTE :
 BILLING :
 DATABASE : KIRK 
+
+
+
+QY : Quotation
+PO : Product Order
+DE : ส่งสินค้า
+CR : ลดหนี้
+RB : วางบิล 
+YN : Invoice
+BL : Product Loan

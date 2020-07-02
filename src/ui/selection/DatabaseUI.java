@@ -1,19 +1,23 @@
-package ui;
+package ui.selection;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ui.news.CustomerNewUI;
+import ui.news.ProductNewUI;
 
 public class DatabaseUI extends VBox {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DatabaseUI() {
 		// Setting
-		this.setSpacing(10);
-		this.setPadding(new Insets(5));
+		this.setSpacing(5);
 
 		// Tab Select
 		HBox tab = new HBox();
@@ -33,7 +37,7 @@ public class DatabaseUI extends VBox {
 		productPane.setSpacing(10);
 
 		TableView productTable = new TableView();
-		productTable.setMinWidth(800);
+		productTable.setMinWidth(1160);
 
 		TableColumn colProductCode = new TableColumn("Code");
 		TableColumn colProductDesciption = new TableColumn("Description");
@@ -48,6 +52,14 @@ public class DatabaseUI extends VBox {
 
 		Button btnProductNew = new Button("New");
 		btnProductNew.setMinSize(100, 50);
+		btnProductNew.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				newProduct();
+			}
+		});
+
 		Button btnProductEdit = new Button("Edit");
 		btnProductEdit.setMinSize(100, 50);
 		Button btnProductDelete = new Button("Delete");
@@ -64,7 +76,7 @@ public class DatabaseUI extends VBox {
 		customerPane.setSpacing(10);
 
 		TableView customerTable = new TableView();
-		customerTable.setMinWidth(800);
+		customerTable.setMinWidth(1160);
 
 		TableColumn colCustomerCode = new TableColumn("Code");
 		TableColumn colCustomerName = new TableColumn("Name");
@@ -83,6 +95,14 @@ public class DatabaseUI extends VBox {
 
 		Button btnCustomerNew = new Button("New");
 		btnCustomerNew.setMinSize(100, 50);
+		btnCustomerNew.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				newCustomer();
+			}
+		});
+
 		Button btnCustomerEdit = new Button("Edit");
 		btnCustomerEdit.setMinSize(100, 50);
 		Button btnCustomerDelete = new Button("Delete");
@@ -96,6 +116,33 @@ public class DatabaseUI extends VBox {
 		// Added Children
 		this.getChildren().add(tab);
 		this.getChildren().add(productPane);
+
+		btnProduct.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(customerPane)) {
+				this.getChildren().remove(customerPane);
+				this.getChildren().add(productPane);
+
+			}
+		});
+
+		btnCustomer.setOnMouseClicked((MouseEvent e) -> {
+			if (this.getChildren().contains(productPane)) {
+				this.getChildren().remove(productPane);
+				this.getChildren().add(customerPane);
+
+			}
+		});
+
+	}
+
+	public void newCustomer() {
+		this.getChildren().clear();
+		this.getChildren().add(new CustomerNewUI());
+	}
+
+	public void newProduct() {
+		this.getChildren().clear();
+		this.getChildren().add(new ProductNewUI());
 	}
 
 }

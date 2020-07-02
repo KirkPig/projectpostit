@@ -1,4 +1,4 @@
-package ui;
+package ui.selection;
 
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import logic.DatabaseConnection;
+
 import java.sql.*;
 
 
@@ -68,21 +70,18 @@ public class Login extends VBox{
 			public void handle(MouseEvent e) {
 				
 				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					//Connection conn = DriverManager.getConnection("jdbc:mysql://103.253.72.156/yonotool_app","yonotool","2aF::on0T8E6oY");
-					//PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
-					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/user","root","000000");
-					PreparedStatement ps = conn.prepareStatement("insert into user(username,password) value(?,?);");
 					
-					ps.setString(1, userField.getText());
-					ps.setString(2, passwordField.getText());
-					int x=ps.executeUpdate();
-					if (x>0) {
-						System.out.println("Register done sucessfully...");
-					}
-					else {
-						System.out.println("Register Fail...");
-					}
+					Connection conn = DatabaseConnection.getConnection();
+					
+					String sql = "select * from account;";
+					Statement stmt = conn.createStatement();
+					
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					rs.close();
+					stmt.close();
+					conn.close();
+					
 				}catch(Exception e1) {
 					System.out.println(e1);
 				};

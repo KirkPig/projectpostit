@@ -3,9 +3,9 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.Login;
+import ui.selection.Login;
 
-public class LoginTESTER extends Application{
+public class LoginTest extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
