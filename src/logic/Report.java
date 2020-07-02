@@ -577,7 +577,7 @@ public class Report {
 
 		float footerFontSize = 16.0f;
 
-		addParagraph(document, contentStream, new ThaiBaht().getText(form.getPlusTax7()), footerFontSize, 12.7f, 241.2f,
+		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f, 241.2f,
 				103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
 		addParagraph(document, contentStream, "  มูลค่าก่อนภาษี", footerFontSize, 116.7f, 224.3f, 34.4f, 8.7f,
@@ -587,11 +587,11 @@ public class Report {
 		addParagraph(document, contentStream, "  รวมสุทธิ", footerFontSize, 116.7f, 241.2f, 34.4f, 8.7f,
 				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
 
-		addParagraph(document, contentStream, formatterDouble.format(form.getTotalAmount()), footerFontSize, 151.1f,
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueBeforeTax()), footerFontSize, 151.1f,
 				224.3f, 45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, formatterDouble.format(form.getTax7()), footerFontSize, 151.1f, 233.0f,
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueTax()), footerFontSize, 151.1f, 233.0f,
 				45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
-		addParagraph(document, contentStream, formatterDouble.format(form.getPlusTax7()), footerFontSize, 151.1f,
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueAfterTax()), footerFontSize, 151.1f,
 				241.2f, 45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
 
 		/*
@@ -660,7 +660,8 @@ public class Report {
 
 			
 			Order order = new Order("PO63008123", date, customer, itemList, "0");
-			Delivery delivery = new Delivery("", date, customer, itemList, "");
+			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
+			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
 			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0");
 
 			

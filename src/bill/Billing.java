@@ -27,7 +27,7 @@ public class Billing {
 		this.setPs(ps);
 		double total = 0.00;
 		for(Invoice i : invoiceList) {
-			total = total + i.getPlusTax7();
+			total = total + i.getValueAfterTax();
 		}
 		this.setValue(total);
 		
