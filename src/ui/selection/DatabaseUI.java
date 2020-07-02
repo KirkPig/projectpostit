@@ -1,18 +1,28 @@
 package ui.selection;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import logic.DatabaseConnection;
+import logic.Product;
 import ui.news.CustomerNewUI;
 import ui.news.ProductNewUI;
 
 public class DatabaseUI extends VBox {
+	private static TableView<Product> productTable;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DatabaseUI() {
@@ -36,16 +46,22 @@ public class DatabaseUI extends VBox {
 		productPane.setMinHeight(570);
 		productPane.setSpacing(10);
 
-		TableView productTable = new TableView();
+		productTable = new TableView();
 		productTable.setMinWidth(1160);
 
 		TableColumn colProductCode = new TableColumn("Code");
+		colProductCode.setCellValueFactory(new PropertyValueFactory<>("code"));
 		TableColumn colProductDesciption = new TableColumn("Description");
+		colProductDesciption.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn colProductPrice = new TableColumn("Price");
+		colProductPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 		TableColumn colProductUnit = new TableColumn("Unit");
-
-		productTable.getColumns().addAll(colProductCode, colProductDesciption, colProductPrice, colProductUnit);
-
+		colProductUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
+		TableColumn colProductQuantity = new TableColumn("Quantity");
+		colProductQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+		productTable.getColumns().addAll(colProductCode, colProductDesciption, colProductQuantity, colProductUnit,
+				colProductPrice);
+		updateProductTable("");
 		VBox productControl = new VBox();
 		productControl.setMinWidth(100);
 		productControl.setFillWidth(true);
@@ -136,13 +152,45 @@ public class DatabaseUI extends VBox {
 	}
 
 	public void newCustomer() {
-		this.getChildren().clear();
-		this.getChildren().add(new CustomerNewUI());
+		Stage newCustomerStage = new Stage();
+		Scene newCustomerScene = new Scene(new CustomerNewUI());
+		newCustomerStage.setScene(newCustomerScene);
+		newCustomerStage.setTitle("New Customer");
+		newCustomerStage.show();
 	}
 
 	public void newProduct() {
-		this.getChildren().clear();
-		this.getChildren().add(new ProductNewUI());
+		Stage newProductStage = new Stage();
+		Scene newProductScene = new Scene(new ProductNewUI(newProductStage));
+		newProductStage.setScene(newProductScene);
+		newProductStage.setTitle("New Product");
+		newProductStage.show();
+	}
+
+	public static void updateProductTable(String e) {
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select * from product;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				System.out.println((rs.getString("code") + rs.getString("description") + rs.getInt("quantity")
+						+ rs.getString("unit") + rs.getFloat("price")));
+				productTable.getItems().add(new Product(rs.getString("code"), rs.getString("description"),
+						rs.getString("unit"), rs.getFloat("price"), rs.getInt("quantity")));
+			
+				
+			
+			}
+			
+			stmt.close();
+			conn.close();
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 
 }
