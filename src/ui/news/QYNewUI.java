@@ -52,18 +52,18 @@ public class QYNewUI extends VBox{
 		upper.setSpacing(5);
 		upper.setAlignment(Pos.CENTER);
 		productTable = new TableView();
-		
+		productTable.setEditable(true);
 		TableColumn numberCol = new TableColumn("No.");
 		numberCol.setMinWidth(30);
 
 		
 		TableColumn descriptionCol = new TableColumn("Product Description");
 		descriptionCol.setMinWidth(300);
+		
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn quantityCol = new TableColumn("Quantity");
 		quantityCol.setMinWidth(30);
-	
-		quantityCol.setEditable(true);
+		//quantityCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		
 		TableColumn unitCol = new TableColumn("Unit");
 		unitCol.setMinWidth(30);
@@ -73,12 +73,14 @@ public class QYNewUI extends VBox{
 		priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 		
 		TableColumn discountCol = new TableColumn("Discount");
-		quantityCol.setMinWidth(50);
-		quantityCol.setEditable(true);
+		discountCol.setMinWidth(50);
+		discountCol.setEditable(true);
+		//discountCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		// TODO Auto-generated constructor stub
 		TableColumn amountCol = new TableColumn("Amount");
 		amountCol.setMinWidth(100);
 		productTable.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
+		productTable.getSelectionModel().setCellSelectionEnabled(true);
 		ProductAdd productAdd = new ProductAdd(productTable);
 		Button newBtn = new Button("new");
 		newBtn.setMinSize(100, 50);
@@ -94,11 +96,11 @@ public class QYNewUI extends VBox{
 		tableBox.setAlignment(Pos.CENTER);
 		GridPane lower = new GridPane();
 		Label valueBefore = new Label("Value Before:");
-		Label valueBeforeText= new Label("457677");
+		Label valueBeforeText= new Label();
 		Label tax7 = new Label("Tax 7%:");
-		Label tax7Text = new Label("4356789");
+		Label tax7Text = new Label();
 		Label plusTax = new Label("Value after tax:");
-		Label plusTaxText = new Label("1234567890");
+		Label plusTaxText = new Label();
 		
 		lower.add(valueBefore, 0, 0);
 		lower.add(valueBeforeText,1	, 0);
