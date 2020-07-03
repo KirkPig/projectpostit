@@ -58,8 +58,8 @@ public class ProductNewUI extends GridPane {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (!(codeBox.getText().isEmpty()) && (descriptionBox.getText().isEmpty())
-						&& (!unitBox.getText().isEmpty()) && (quantityBox.getText().isEmpty())
+				if (!(codeBox.getText().isEmpty()) && (!descriptionBox.getText().isEmpty())
+						&& (!unitBox.getText().isEmpty()) && (!quantityBox.getText().isEmpty())
 						&& (!priceBox.getText().isEmpty())) {
 					try {
 						Connection conn = DatabaseConnection.getConnection();

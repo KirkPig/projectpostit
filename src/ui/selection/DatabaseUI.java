@@ -189,6 +189,7 @@ public class DatabaseUI extends VBox {
 
 	public static void updateProductTable(String e) {
 		try {
+			productTable.getItems().clear();
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			String sql = "select * from product;";
@@ -213,6 +214,7 @@ public class DatabaseUI extends VBox {
 
 	public static void updateCustomerTable(String e) {
 		try {
+			customerTable.getItems().clear();
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			String sql = "select * from customer";
