@@ -9,6 +9,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import logic.Product;
@@ -23,7 +24,7 @@ public class QYNewUI extends VBox{
 	public QYNewUI() {
 		
 		this.setAlignment(Pos.CENTER);
-		ProductAdd productAdd = new ProductAdd(productTable);
+		
 		HBox buttonGang = new HBox();
 		Button backButton = new Button("Back");
 		Button saveButton = new Button("Save");
@@ -61,6 +62,7 @@ public class QYNewUI extends VBox{
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn quantityCol = new TableColumn("Quantity");
 		quantityCol.setMinWidth(30);
+	
 		quantityCol.setEditable(true);
 		
 		TableColumn unitCol = new TableColumn("Unit");
@@ -77,6 +79,7 @@ public class QYNewUI extends VBox{
 		TableColumn amountCol = new TableColumn("Amount");
 		amountCol.setMinWidth(100);
 		productTable.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
+		ProductAdd productAdd = new ProductAdd(productTable);
 		Button newBtn = new Button("new");
 		newBtn.setMinSize(100, 50);
 		Button editBtn = new Button("edit");
