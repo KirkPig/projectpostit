@@ -16,6 +16,8 @@ import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import logic.Customer;
 import logic.DatabaseConnection;
@@ -25,40 +27,43 @@ public class CustomerBox extends VBox {
 
 	public CustomerBox(int width, int height) {
 		Label header = new Label("CUSTOMER");
-		TextField codeBox = new TextField();
-		TextField nameBox = new TextField();
+		Label codeBox = new Label();
+		Label nameBox = new Label();
 		Label taxIdBox = new Label();
 		Label addressBox = new Label();
 		Label teleBox = new Label();
 		Label faxBox = new Label();
 		Label mailBox = new Label();
-		//////// name autofill
+		TextField searchBox = new TextField();
+		searchBox.setPromptText("search");
 
-		SortedSet<String> nameTree = getNameTree();
+		//////// all autofill
 
-		ContextMenu nameSuggest = new ContextMenu();
-		nameBox.textProperty().addListener(new ChangeListener<String>() {
+		SortedSet<String> allTree = getTree();
+
+		ContextMenu allSuggest = new ContextMenu();
+		searchBox.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if (nameBox.getText().length() == 0) {
-					nameSuggest.hide();
+				if ((searchBox.getText().length() == 0) || (!searchBox.isFocused())) {
+					allSuggest.hide();
 				} else {
 					LinkedList<String> searchResult = new LinkedList<>();
-					searchResult.addAll(nameTree.subSet(nameBox.getText(), nameBox.getText() + Character.MAX_VALUE));
-					if (nameTree.size() > 0) {
-						populateNamePopup(searchResult);
-						if (!nameSuggest.isShowing()) {
-							nameSuggest.show(nameBox, Side.BOTTOM, 0, 0);
+					searchResult.addAll(allTree.subSet(searchBox.getText(), searchBox.getText() + Character.MAX_VALUE));
+					if (allTree.size() > 0) {
+						populatePopup(searchResult);
+						if (!allSuggest.isShowing()) {
+							allSuggest.show(searchBox, Side.BOTTOM, 0, 0);
 						}
 					} else {
-						nameSuggest.hide();
+						allSuggest.hide();
 					}
 				}
 
 			}
 
-			private void populateNamePopup(LinkedList<String> searchResult) {
+			private void populatePopup(LinkedList<String> searchResult) {
 				List<CustomMenuItem> menuItems = new LinkedList<>();
 
 				int maxEntries = 10;
@@ -71,14 +76,17 @@ public class CustomerBox extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							nameBox.setText(result);
 							System.out.println(result);
 							try {
 								Connection conn = DatabaseConnection.getConnection();
 								Statement stmt = conn.createStatement();
 								String sql = "SELECT * FROM customer WHERE name ='" + result + "'";
 								ResultSet rs = stmt.executeQuery(sql);
+								
+								
+
 								while (rs.next()) {
+									nameBox.setText(result);
 									codeBox.setText(rs.getString("code"));
 									taxIdBox.setText(rs.getString("taxid"));
 									addressBox.setText(rs.getString("address"));
@@ -87,83 +95,16 @@ public class CustomerBox extends VBox {
 									mailBox.setText(rs.getString("email"));
 
 								}
-
-								stmt.close();
-								conn.close();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-
-							nameSuggest.hide();
-						}
-					});
-					menuItems.add(item);
-				}
-				nameSuggest.getItems().clear();
-				nameSuggest.getItems().addAll(menuItems);
-			}
-		});
-
-		nameBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-
-				nameSuggest.hide();
-			}
-		});
-		//////CODE AUTOFILL
-		SortedSet<String> codeTree = getCodeTree();
-
-		ContextMenu codeSuggest = new ContextMenu();
-		codeBox.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if (codeBox.getText().length() == 0) {
-					codeSuggest.hide();
-				} else {
-					LinkedList<String> searchResult = new LinkedList<>();
-					searchResult.addAll(codeTree.subSet(codeBox.getText(), codeBox.getText() + Character.MAX_VALUE));
-					if (codeTree.size() > 0) {
-						populateNamePopup(searchResult);
-						if (!codeSuggest.isShowing()) {
-							codeSuggest.show(codeBox, Side.BOTTOM, 0, 0);
-						}
-					} else {
-						codeSuggest.hide();
-					}
-				}
-
-			}
-
-			private void populateNamePopup(LinkedList<String> searchResult) {
-				List<CustomMenuItem> menuItems = new LinkedList<>();
-
-				int maxEntries = 10;
-				int count = Math.min(searchResult.size(), maxEntries);
-
-				for (int i = 0; i < count; i++) {
-					final String result = searchResult.get(i);
-					Label entryLabel = new Label(result);
-					CustomMenuItem item = new CustomMenuItem(entryLabel, true);
-					item.setOnAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent actionEvent) {
-							codeBox.setText(result);
-							System.out.println(result);
-							try {
-								Connection conn = DatabaseConnection.getConnection();
-								Statement stmt = conn.createStatement();
-								String sql = "SELECT * FROM customer WHERE code ='" + result + "'";
-								ResultSet rs = stmt.executeQuery(sql);
-								while (rs.next()) {
-									nameBox.setText(rs.getString("name"));
-									taxIdBox.setText(rs.getString("taxid"));
-									addressBox.setText(rs.getString("address"));
-									teleBox.setText(rs.getString("tel"));
-									faxBox.setText(rs.getString("fax"));
-									mailBox.setText(rs.getString("email"));
+								String sql2 = "SELECT * FROM customer WHERE code ='" + result + "'";
+								ResultSet rs2 = stmt.executeQuery(sql2);
+								while (rs2.next()) {
+									codeBox.setText(result);
+									nameBox.setText(rs2.getString("name"));
+									taxIdBox.setText(rs2.getString("taxid"));
+									addressBox.setText(rs2.getString("address"));
+									teleBox.setText(rs2.getString("tel"));
+									faxBox.setText(rs2.getString("fax"));
+									mailBox.setText(rs2.getString("email"));
 
 								}
 
@@ -173,29 +114,108 @@ public class CustomerBox extends VBox {
 								e.printStackTrace();
 							}
 
-							codeSuggest.hide();
+							allSuggest.hide();
 						}
 					});
 					menuItems.add(item);
 				}
-				codeSuggest.getItems().clear();
-				codeSuggest.getItems().addAll(menuItems);
+				allSuggest.getItems().clear();
+				allSuggest.getItems().addAll(menuItems);
 			}
 		});
 
-		codeBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		searchBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 
-				codeSuggest.hide();
+				allSuggest.hide();
 			}
 		});
-		
-		
-		
-		
-		
+
+//		////// CODE AUTOFILL
+//		SortedSet<String> codeTree = getCodeTree();
+//
+//		ContextMenu codeSuggest = new ContextMenu();
+//		codeBox.textProperty().addListener(new ChangeListener<String>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+//				if (codeBox.getText().length() == 0) {
+//					codeSuggest.hide();
+//				} else {
+//					LinkedList<String> searchResult = new LinkedList<>();
+//					searchResult.addAll(codeTree.subSet(codeBox.getText(), codeBox.getText() + Character.MAX_VALUE));
+//					if (codeTree.size() > 0) {
+//						populateNamePopup(searchResult);
+//						if (!codeSuggest.isShowing()) {
+//							codeSuggest.show(codeBox, Side.BOTTOM, 0, 0);
+//						}
+//					} else {
+//						codeSuggest.hide();
+//					}
+//				}
+//
+//			}
+//
+//			private void populateNamePopup(LinkedList<String> searchResult) {
+//				List<CustomMenuItem> menuItems = new LinkedList<>();
+//
+//				int maxEntries = 10;
+//				int count = Math.min(searchResult.size(), maxEntries);
+//
+//				for (int i = 0; i < count; i++) {
+//					final String result = searchResult.get(i);
+//					Label entryLabel = new Label(result);
+//					CustomMenuItem item = new CustomMenuItem(entryLabel, true);
+//					item.setOnAction(new EventHandler<ActionEvent>() {
+//						@Override
+//						public void handle(ActionEvent actionEvent) {
+//							codeBox.setText(result);
+//							System.out.println(result);
+//							try {
+//								Connection conn = DatabaseConnection.getConnection();
+//								Statement stmt = conn.createStatement();
+//								String sql = "SELECT * FROM customer WHERE code ='" + result + "'";
+//								ResultSet rs = stmt.executeQuery(sql);
+//								while (rs.next()) {
+//									nameBox.setText(rs.getString("name"));
+//									taxIdBox.setText(rs.getString("taxid"));
+//									addressBox.setText(rs.getString("address"));
+//									teleBox.setText(rs.getString("tel"));
+//									faxBox.setText(rs.getString("fax"));
+//									mailBox.setText(rs.getString("email"));
+//
+//								}
+//
+//								stmt.close();
+//								conn.close();
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
+//
+//							codeSuggest.hide();
+//						}
+//					});
+//					menuItems.add(item);
+//				}
+//				codeSuggest.getItems().clear();
+//				codeSuggest.getItems().addAll(menuItems);
+//			}
+//		});
+//
+//		codeBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+//
+//				codeSuggest.hide();
+//			}
+//		});
+		HBox headerBox = new HBox();
+		headerBox.getChildren().addAll(header, searchBox);
+		headerBox.setSpacing(5);
+		headerBox.setAlignment(Pos.BOTTOM_LEFT);
 		///////
 		Label codeLabel = new Label("CODE:");
 		HBox code = new HBox();
@@ -239,7 +259,7 @@ public class CustomerBox extends VBox {
 		mail.setSpacing(10);
 		mail.setAlignment(Pos.BOTTOM_LEFT);
 
-		this.getChildren().addAll(header, code, name, tax, address, tele, fax, mail);
+		this.getChildren().addAll(headerBox, code, name, tax, address, tele, fax, mail);
 		this.setMinHeight(height);
 		this.setMaxWidth(width);
 	}
@@ -262,7 +282,7 @@ public class CustomerBox extends VBox {
 
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -285,11 +305,33 @@ public class CustomerBox extends VBox {
 			conn.close();
 			return nameSet;
 		} catch (Exception e) {
-		
+
 			e.printStackTrace();
 		}
 		return null;
 
 	}
 
+	public SortedSet<String> getTree() {
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select code,name from customer";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("name");
+				String b = rs.getString("code");
+				treeSet.add(a);
+				treeSet.add(b);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
