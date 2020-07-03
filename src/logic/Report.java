@@ -1343,26 +1343,48 @@ public class Report {
 		 */
 		float listFontSize = 14f;
 		float a = 6f;
+		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
+		DecimalFormat formatterInt = new DecimalFormat("#,###");
 
 		for (int i = 0; i < form.getItemList().size(); i++) {
 			
+			Item item = form.getItemList().get(i);
 			
+			addParagraphUPC(document, contentStream, Integer.toString(i + 1), listFontSize, 2.4f, (102.7f + (i * a)), 12.4f,
+					a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, item.getProduct().getDescription(), listFontSize, 14.8f, (102.7f + (i * a)), 90.2f,
+					a, HAlignment.LEFT, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, formatterInt.format(item.getQuantity()), listFontSize, 100f, (102.7f + (i * a)), 18f,
+					a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, item.getProduct().getUnit(), listFontSize, 116f, (102.7f + (i * a)), 18f,
+					a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			
+			double price = item.getProduct().getPrice() * (1 - (item.getDiscount() / 100.0));
+			addParagraphUPC(document, contentStream, formatterDouble.format(price), listFontSize, 133f, (102.7f + (i * a)), 26.2f,
+					a, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, formatterDouble.format(item.getAmount()), listFontSize, 157.2f, (102.7f + (i * a)), 29.9f,
+					a, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
 			
 		}
 
-			/*
-			 * Footer
-			 */
+		/*
+		 * Footer
+		 */
+		
+		float footerFontSize = 14f;
+		
+		addParagraphUPC(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 17.5f,
+				197.8f, 123.6f, 8.5f, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, formatterDouble.format(form.getValueBeforeTax()), footerFontSize, 157.2f,
+				182.2f, 29.9f, 7.9f, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, formatterDouble.format(form.getValueTax()), footerFontSize, 157.2f,
+				190.1f, 29.9f, 7.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, formatterDouble.format(form.getValueAfterTax()), footerFontSize, 157.2f,
+				197.8f, 29.9f, 8.5f, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
 
-			/*
-			 * Signature
-			 */
+		
 
-			/*
-			 * DrawLine
-			 */
-
-			contentStream.close();
+		contentStream.close();
 
 		document.save(dest);
 
@@ -1372,6 +1394,178 @@ public class Report {
 
 	}
 
+	@SuppressWarnings("deprecation")
+	public static void printBilling(Billing form, String dest) throws Exception {
+		
+		PDDocument document = new PDDocument();
+
+		PDPage page = new PDPage(NORMAL_PAGE);
+
+		document.addPage(page);
+
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+		/*
+		 * Header
+		 */
+		addParagraphUPC(document, contentStream, "บริษัท โย โน ทูลส์ จำกัด (สำนักงานใหญ่)", 24f, 13.5f, 15.1f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+		addParagraphUPC(document, contentStream, "ต้นฉบับใบวางบิล", 24f, 151.3f, 15.1f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+		addParagraphUPC(document, contentStream, "108/314 หมู่ 5 ต.พันท้ายนรสิงส์ อ.เมืองสมุทรสาคร จ.สมุทรสาคร", 14f, 13.5f, 27.5f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "โทร.034-116655, 099-0568889 แฟ็กส์.034-116655", 14f, 13.5f, 33.5f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "หน้า 1/1", 14f, 154f, 27f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "TEX :ID 0 1 2 5 5 6 0 0 0 0 5 9 0", 14f, 154f, 33f, 1000f,
+				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+
+		/*
+		 * Side Header
+		 */
+		
+		float shFontSize = 14f;
+		
+		addParagraphUPC(document, contentStream, "เลขที่ใบวางบิล " + form.getId(), shFontSize, 154.1f, 43f, 46.6f, 6f,
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที่วางบิล " + form.getBillingDate(), shFontSize, 154.1f, 49f,
+				46.6f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "บันทึกโดย " + form.getBillingBy(), shFontSize, 154.1f, 55f, 46.6f, 6f,
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+
+		Customer customer = form.getCustomer();
+		addParagraphUPC(document, contentStream, "รหัสลูกค้า : " + customer.getCode(), shFontSize, 13.6f, 43f, 137.8f,
+				6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, customer.getName(), shFontSize, 13.6f, 49f, 137.8f, 6f,
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "ที่อยู่ : " + customer.getAddress(), shFontSize, 13.6f, 55f, 137.8f,
+				6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "โทร: " + customer.getTel() + " แฟ็กส์ : " + customer.getFax(),
+				shFontSize, 13.6f, 61f, 137.8f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "TEX :ID " + customer.getTaxID(), shFontSize, 13.6f, 67f, 137.8f, 6f,
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "หมายเหตุ " + form.getPs(), shFontSize, 13.6f, 73f, 137.8f, 6f,
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		
+
+		/*
+		 * List Header
+		 */
+		
+		float lhFontSize = 14f;
+		
+		addParagraphUPC(document, contentStream, "ลำดับที่", lhFontSize, 13.5f, 86f, 14.8f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "เลขที่ใบขาย", lhFontSize, 28.3f, 86f, 34.4f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที่ขาย", lhFontSize, 62.7f, 86f, 34.4f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที่ครบกำหนด", lhFontSize, 97.1f, 86f, 29.4f, 7.1f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "จำนวนเงิน", lhFontSize, 126.5f, 86f, 26.5f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "หมายเหตุ", lhFontSize, 152.9f, 86f, 47.6f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+
+		/*
+		 * List
+		 */
+		
+		ArrayList<Invoice> invoiceList = form.getInvoiceList();
+		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
+		float listFontSize = 14f;
+		float a = 6.3f;
+		
+		for (int i = 0; i < invoiceList.size(); i++) {
+			
+			Invoice invoice = invoiceList.get(i);
+			
+			addParagraphUPC(document, contentStream, Integer.toString(i + 1), listFontSize, 13.5f, (93.1f + (i * a)),
+					14.8f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, invoice.getId(), listFontSize, 28.3f, (93.1f + (i * a)), 34.4f, a,
+					HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, invoice.getDate(), listFontSize, 62.7f, (93.1f + (i * a)), 34.4f,
+					a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, invoice.getDateDue(), listFontSize, 97.1f, (93.1f + (i * a)),
+					29.4f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, formatterDouble.format(invoice.getValueAfterTax()), listFontSize,
+					126.5f, (93.1f + (i * a)), 26.5f, a, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+			addParagraphUPC(document, contentStream, form.getPsList().get(i), listFontSize, 152.9f, (93.1f + (i * a)),
+					47.6f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+
+		}
+
+		/*
+		 * Footer
+		 */
+		
+		float footerFontSize = 14f;
+		
+		addParagraphUPC(document, contentStream, new ThaiBaht().getText(form.getValue()), footerFontSize, 13.6f, 219.8f, 83.6f,
+				7.1f, HAlignment.LEFT, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "จำนวนเงินรวม", footerFontSize, 97.1f, 219.8f, 29.4f, 7.1f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, formatterDouble.format(form.getValue()), footerFontSize, 126.5f, 219.8f, 26.5f,
+				7.1f, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+
+		/*
+		 * Signature
+		 */
+		float signatureFontSize = 14f;
+		
+		addParagraphUPC(document, contentStream, "รวมทั้งสิ้น " + invoiceList.size() + " ฉบับ", signatureFontSize,
+				13.5f, 230.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "ชื่อผู้รับวางบิล.............................", signatureFontSize,
+				13.5f, 236.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที.......................................", signatureFontSize,
+				13.5f, 242.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream,
+				"นัดรับเช็ค/โอนเงิน วันที่............................. เวลา.............................",
+				signatureFontSize, 13.5f, 248.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "หมายเหตุ.........................................................",
+				signatureFontSize, 13.5f, 253.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		
+		addParagraphUPC(document, contentStream, "ชื่อผู้วางบิล.............................................",
+				signatureFontSize, 137.3f, 242.1f, 63.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที่....../....../......",
+				signatureFontSize, 137.3f, 248.1f, 63.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		contentStream.drawLine(cpx(12f), cpy(40f), cpx(12f), cpy(93.1f));
+		contentStream.drawLine(cpx(200.6f), cpy(40f), cpx(200.6f), cpy(93.1f));
+		contentStream.drawLine(cpx(12f), cpy(219.8f), cpx(12f), cpy(227f));
+		contentStream.drawLine(cpx(97.1f), cpy(219.8f), cpx(97.1f), cpy(227f));
+		contentStream.drawLine(cpx(126.5f), cpy(219.8f), cpx(126.5f), cpy(227f));
+		contentStream.drawLine(cpx(200.6f), cpy(219.8f), cpx(200.6f), cpy(227f));
+
+		// Horizontal
+		/*
+		 * e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(42.9 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(42.9 / mmpi * dpi));
+            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(86 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(86 / mmpi * dpi));
+            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(93.1 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(93.1 / mmpi * dpi));
+            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(219.8 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(219.8 / mmpi * dpi));
+            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(227 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(227 / mmpi * dpi));
+		 */
+		contentStream.drawLine(cpx(12f), cpy(40f), cpx(200.6f), cpy(40f));
+		contentStream.drawLine(cpx(12f), cpy(86f), cpx(200.6f), cpy(86f));
+		contentStream.drawLine(cpx(12f), cpy(93.1f), cpx(200.6f), cpy(93.1f));
+		contentStream.drawLine(cpx(12f), cpy(219.8f), cpx(200.6f), cpy(219.8f));
+		contentStream.drawLine(cpx(12f), cpy(227f), cpx(200.6f), cpy(227f));
+
+		contentStream.close();
+
+		document.save(dest);
+
+		document.close();
+
+		System.out.println("PDF Created");
+		
+	}
+	
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
@@ -1401,7 +1595,7 @@ public class Report {
 			invoiceList.add(invoice);
 			psList.add("reserve");
 			Billing billing = new Billing("RB63008123", date, customer, invoiceList, psList, "Piggy", date,
-					"no product");
+					"สำหรับการทดลองเพียงเท่านั้น");
 
 			/*
 			 * Test Print Report
@@ -1412,7 +1606,8 @@ public class Report {
 			// printProductLoan(productLoan, dest);
 			// printCreditNote(creditNote, dest);
 			// printQuotation(quotation, dest);
-			printInvoice(invoice, dest);
+			// printInvoice(invoice, dest);
+			printBilling(billing, dest);
 			Desktop.getDesktop().open(new File(dest));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
