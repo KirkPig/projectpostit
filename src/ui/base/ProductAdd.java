@@ -92,7 +92,10 @@ public class ProductAdd extends HBox {
 									String unit = rs2.getString("unit");
 									double price = rs2.getDouble("price");
 									int quantity = rs2.getInt("quantity");
+
 									table.getItems().add(new Item(new Product(code, description, unit, price, quantity),0,0));
+
+									
 
 								}
 								stmt.close();
