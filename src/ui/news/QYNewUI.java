@@ -1,17 +1,20 @@
 package ui.news;
 
-
-
-
+import bill.Item;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import logic.Product;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
@@ -19,8 +22,9 @@ import ui.base.ProductAdd;
 import ui.base.QYBox;
 import ui.selection.QYSelection;
 
-public class QYNewUI extends VBox{
-	private TableView<Product> productTable;
+public class QYNewUI extends VBox {
+	private TableView<Item> productTable;
+
 	public QYNewUI() {
 		
 		this.setAlignment(Pos.CENTER);
@@ -53,21 +57,33 @@ public class QYNewUI extends VBox{
 		upper.setAlignment(Pos.CENTER);
 		productTable = new TableView();
 		productTable.setEditable(true);
-		TableColumn numberCol = new TableColumn("No.");
-		numberCol.setMinWidth(30);
-
+		TableColumn codeCol = new TableColumn("Code");
+		codeCol.setMinWidth(30);
+		codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
 		
 		TableColumn descriptionCol = new TableColumn("Product Description");
 		descriptionCol.setMinWidth(300);
-		
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+		
 		TableColumn quantityCol = new TableColumn("Quantity");
 		quantityCol.setMinWidth(30);
-		//quantityCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		quantityCol.setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
+		quantityCol.setCellFactory(
+			    TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		quantityCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Integer>>() {
+			@Override
+			public void handle(CellEditEvent<Item, Integer> t) {
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+				productTable.refresh();
+			}
+		});
+
 		
 		TableColumn unitCol = new TableColumn("Unit");
 		unitCol.setMinWidth(30);
 		unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
+		
 		TableColumn priceCol = new TableColumn("Price/Unit");
 		priceCol.setMinWidth(70);
 		priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -75,13 +91,26 @@ public class QYNewUI extends VBox{
 		TableColumn discountCol = new TableColumn("Discount");
 		discountCol.setMinWidth(50);
 		discountCol.setEditable(true);
-		//discountCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		// TODO Auto-generated constructor stub
+		discountCol.setCellValueFactory(new PropertyValueFactory<>("discount"));
+		discountCol.setCellFactory(
+			    TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		discountCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Double>>() {
+			@Override
+			public void handle(CellEditEvent<Item, Double> t) {
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
+				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+				productTable.refresh();
+			}
+		});
+		
 		TableColumn amountCol = new TableColumn("Amount");
 		amountCol.setMinWidth(100);
-		productTable.getColumns().addAll(numberCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
+		amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		
+		productTable.getColumns().addAll(codeCol,descriptionCol,quantityCol,unitCol,priceCol,discountCol,amountCol);
 		productTable.getSelectionModel().setCellSelectionEnabled(true);
 		ProductAdd productAdd = new ProductAdd(productTable);
+		
 		Button newBtn = new Button("new");
 		newBtn.setMinSize(100, 50);
 		Button editBtn = new Button("edit");
@@ -115,7 +144,5 @@ public class QYNewUI extends VBox{
 		this.getChildren().addAll(buttonGang,upper,tableBox,productAdd,lower);
 		this.setSpacing(20);
 	}
-		
-		
-	
+
 }
