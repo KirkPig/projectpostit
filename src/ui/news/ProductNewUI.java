@@ -19,7 +19,7 @@ import ui.selection.DatabaseUI;
 public class ProductNewUI extends GridPane {
 	public ProductNewUI(Stage productStage) {
 		super();
-		this.setMinSize(800, 600);
+		this.setMinSize(400, 300);
 		this.setAlignment(Pos.CENTER);
 		HBox buttonGang = new HBox();
 
