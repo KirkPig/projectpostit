@@ -10,20 +10,24 @@ public class Quotation {
 	private String id;
 	private String date;
 	private Customer customer;
+	private String customerName;
 	private ArrayList<Item> itemList;
 	private String attn;
 	private String cr;
 	private double valueBeforeTax;
 	private double valueTax;
 	private double valueAfterTax;
+	private String creator;
 
-	public Quotation(String id, String date, Customer customer, ArrayList<Item> itemList, String attn, String cr) {
+	public Quotation(String id, String date, Customer customer, ArrayList<Item> itemList, String attn, String cr,String creator) {
 		this.setAttn(attn);
 		this.setCr(cr);
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
+		this.setCustomerName(customer.getName());
 		this.setItemList(itemList);
+		this.setCreator(creator);
 		double total = 0.00;
 		for (Item e : itemList) {
 			total += e.getAmount();
@@ -31,6 +35,7 @@ public class Quotation {
 		this.setValueBeforeTax(total);
 		this.setValueTax(total * 7 / 100);
 		this.setValueAfterTax(getValueBeforeTax() + getValueTax());
+		
 	}
 
 	public String getId() {
@@ -103,5 +108,21 @@ public class Quotation {
 
 	public void setValueAfterTax(double valueAfterTax) {
 		this.valueAfterTax = valueAfterTax;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 }
