@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import ui.news.QYNewUI;
 
 public class QYSelection extends VBox {
@@ -51,8 +53,11 @@ public class QYSelection extends VBox {
 		});
 
 		newButton.setOnMouseClicked((MouseEvent e) -> {
-			this.getChildren().clear();
-			this.getChildren().add(new QYNewUI());
+			Stage newStage = new Stage();
+			
+			Scene qynewScene = new Scene(new QYNewUI(newStage));
+			newStage.setScene(qynewScene);
+			newStage.show();
 		});
 
 		// Button
