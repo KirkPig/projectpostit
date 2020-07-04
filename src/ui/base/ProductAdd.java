@@ -25,9 +25,10 @@ import logic.DatabaseConnection;
 import logic.Product;
 
 public class ProductAdd extends HBox {
-	public ProductAdd(TableView<Product> table) {
+	public ProductAdd(TableView<Item> table) {
 		this.setAlignment(Pos.CENTER);
 		TextField searchBox = new TextField();
+		searchBox.setPromptText("Search Product");
 		SortedSet<String> allTree = getTree();
 		this.getChildren().add(searchBox);
 		ContextMenu allSuggest = new ContextMenu();
@@ -78,7 +79,7 @@ public class ProductAdd extends HBox {
 									String unit = rs.getString("unit");
 									double price = rs.getDouble("price");
 									int quantity = rs.getInt("quantity");
-									table.getItems().add(new Product(code, description, unit, price, quantity));
+									table.getItems().add(new Item(new Product(code, description, unit, price, quantity),0,0));
 
 								}
 
@@ -91,7 +92,9 @@ public class ProductAdd extends HBox {
 									String unit = rs2.getString("unit");
 									double price = rs2.getDouble("price");
 									int quantity = rs2.getInt("quantity");
-									table.getItems().add(new Product(code, description, unit, price, quantity));
+
+									table.getItems().add(new Item(new Product(code, description, unit, price, quantity),0,0));
+
 									
 
 								}
