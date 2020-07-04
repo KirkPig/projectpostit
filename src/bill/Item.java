@@ -2,27 +2,21 @@ package bill;
 
 import logic.Product;
 
-public class Item {
+public class Item extends Product{
 	
-	private int quantity;
+	private int itemQuantity;
 	private double discount;
 	private double amount;
 	private Product product;
-	public Item(Product product,int quantity,double discount) {
+	public Item(Product product,int itemQuantity,double discount) {
 		// TODO Auto-generated constructor stub
+		super(product.getCode(),product.getDescription(),product.getUnit(),product.getPrice(),product.getQuantity());
 		this.setProduct(product);
 		this.setDiscount(discount);
-		this.setQuantity(quantity);
-		this.setAmount(this.getProduct().getPrice() * this.getQuantity() * (1- this.getDiscount()/100));
+		this.setItemQuantity(itemQuantity);
+		this.setAmount();
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 
 	public double getDiscount() {
 		return discount;
@@ -36,8 +30,8 @@ public class Item {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setAmount() {
+		this.amount = this.getProduct().getPrice() * this.getItemQuantity() * (1- this.getDiscount()/100);
 	}
 
 	public Product getProduct() {
@@ -46,6 +40,16 @@ public class Item {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+
+	public int getItemQuantity() {
+		return itemQuantity;
+	}
+
+
+	public void setItemQuantity(int itemQuantity) {
+		this.itemQuantity = itemQuantity;
 	}
 	
 	
