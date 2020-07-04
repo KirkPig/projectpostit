@@ -47,7 +47,7 @@ public class DENewUI extends VBox{
 		upper.setAlignment(Pos.CENTER);
 		TableView table = new TableView();
 
-		TableColumn numberCol = new TableColumn("No.");
+		TableColumn numberCol = new TableColumn("Code");
 		numberCol.setMinWidth(30);
 
 		TableColumn descriptionCol = new TableColumn("Product Description");

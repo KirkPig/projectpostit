@@ -57,9 +57,11 @@ public class QYNewUI extends VBox {
 		upper.setAlignment(Pos.CENTER);
 		productTable = new TableView();
 		productTable.setEditable(true);
+
 		TableColumn codeCol = new TableColumn("Code");
 		codeCol.setMinWidth(30);
 		codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+
 		
 		TableColumn descriptionCol = new TableColumn("Product Description");
 		descriptionCol.setMinWidth(300);
