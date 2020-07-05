@@ -34,9 +34,10 @@ import ui.news.QYNewUI;
 public class QYSelection extends VBox {
 	private int monthSelecting = Integer.parseInt(LocalDate.now().toString().substring(5, 7));
 	private int yearSelecting = Integer.parseInt(LocalDate.now().toString().substring(0, 4));
-	private TableView<Quotation> table;
-	private TableView<Quotation> table2;
+	private static TableView<Quotation> table;
+	private static TableView<Quotation> table2;
 	public QYSelection() {
+		Button deleteBtn = new Button("delete");
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();
 		HBox moreFunc = new HBox();
@@ -79,7 +80,7 @@ public class QYSelection extends VBox {
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
 
-		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), new Button("delete"), new Button("bin"));
+		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), , new Button("bin"));
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
@@ -102,7 +103,7 @@ public class QYSelection extends VBox {
 		customerName.setMinWidth(200);
 		customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 		TableColumn totalAmount = new TableColumn("Total Amount");
-		totalAmount.setCellValueFactory(new PropertyValueFactory<>("valueAfterTax"));
+		totalAmount.setCellValueFactory(new PropertyValueFactory<>("valueAfterTaxForTable"));
 		totalAmount.setMinWidth(120);
 		TableColumn creator = new TableColumn("Created by");
 		creator.setCellValueFactory(new PropertyValueFactory<>("creator"));
@@ -113,15 +114,22 @@ public class QYSelection extends VBox {
 		this.setSpacing(5);
 //=========================
 		table2 = new TableView();
+		TableColumn codeCol = new TableColumn("code");
+		codeCol.setMinWidth(20);
+		codeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		TableColumn dateCol = new TableColumn("date");
+		dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
 		TableColumn descriptionCol = new TableColumn("Description");
 		descriptionCol.setMinWidth(600);
-		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("itemList"));
+		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
 		TableColumn quantityCol = new TableColumn("Quantity");
 		quantityCol.setMinWidth(100);
+		quantityCol.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
 		TableColumn unitCol = new TableColumn("Unit");
 		unitCol.setMinWidth(100);
+		unitCol.setCellValueFactory(new PropertyValueFactory<>("productUnit"));
 
-		table2.getColumns().addAll(descriptionCol, quantityCol, unitCol, creator);
+		table2.getColumns().addAll(codeCol,dateCol,descriptionCol, quantityCol, unitCol, creator);
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {
@@ -138,14 +146,14 @@ public class QYSelection extends VBox {
 		updateQY("");
 	}
 
-	public void updateQY(String search) {
+	public static void updateQY(String search) {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			String sql = "select * from quotation;";
 			ResultSet rs = stmt.executeQuery(sql);
 			table.getItems().clear();
-			//table2.getItems().clear();
+			table2.getItems().clear();
 			while (rs.next()) {
 				String id = rs.getString("id");
 				String date = rs.getString("date");
@@ -169,7 +177,7 @@ public class QYSelection extends VBox {
 				
 				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr,"NAEM");
 				table.getItems().add(quotation);
-				//table2.getItems().add(quotation);
+				table2.getItems().add(quotation);
 				stmt2.close();
 			}
 			conn.close();
