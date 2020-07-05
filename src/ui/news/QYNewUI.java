@@ -1,24 +1,37 @@
 package ui.news;
 
-import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.mysql.cj.x.protobuf.MysqlxSql.StmtExecute;
 
 import bill.Item;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import logic.Product;
+import logic.DatabaseConnection;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
@@ -34,6 +47,8 @@ public class QYNewUI extends VBox {
 	private GeneralBox genBox;
 	private QYBox qy;
 	private CustomerBox cusBox;
+	private double total;
+
 	public QYNewUI(Stage yourOwnStage) {
 		this.setAlignment(Pos.CENTER);
 		this.setPrefSize(800, 600);
@@ -65,7 +80,7 @@ public class QYNewUI extends VBox {
 		productTable = new TableView();
 		productTable.setEditable(true);
 
-		TableColumn codeCol = new TableColumn("Code");
+		TableColumn codeCol = new TableColumn("ID.");
 		codeCol.setMinWidth(30);
 		codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
 
@@ -80,11 +95,18 @@ public class QYNewUI extends VBox {
 		quantityCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Integer>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
+					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
+					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+					productTable.refresh();
+					calculateTax();
+				} else {
+					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
+					productTable.refresh();
+					error.show();
+				}
 			}
+
 		});
 
 		TableColumn unitCol = new TableColumn("Unit");
@@ -120,18 +142,25 @@ public class QYNewUI extends VBox {
 		HBox productBox = new HBox();
 		ProductAdd productAdd = new ProductAdd(productTable);
 		Button productBtn = new Button("New product");
+		Button deleteBtn = new Button("Delete");
+		
+		deleteBtn.setOnAction(e -> {
+		    Item selectedItem = productTable.getSelectionModel().getSelectedItem();
+		    productTable.getItems().remove(selectedItem);
+		});
 		productBtn.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent arg0) {
-			Stage newProductStage = new Stage();
-			Scene newProductScene = new Scene(new ProductNewUI(newProductStage));
-			newProductStage.setScene(newProductScene);
-			newProductStage.setTitle("New Product");
-			newProductStage.show();
-		}
-	});
-		productBox.getChildren().addAll(productAdd,productBtn);
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stage newProductStage = new Stage();
+				Scene newProductScene = new Scene(new ProductNewUI(newProductStage));
+				newProductStage.setScene(newProductScene);
+				newProductStage.setTitle("New Product");
+				newProductStage.show();
+			}
+		});
+		productBox.getChildren().addAll(productAdd, productBtn,deleteBtn);
 		productBox.setAlignment(Pos.CENTER);
+		productBox.setSpacing(5);
 		productTable.setMaxWidth(750);
 		HBox tableBox = new HBox();
 
@@ -155,39 +184,147 @@ public class QYNewUI extends VBox {
 		lower.setHgap(20);
 		lower.setVgap(10);
 
-		this.getChildren().addAll(buttonGang, upper, productBox,tableBox, lower);
+		this.getChildren().addAll(buttonGang, upper, productBox, tableBox, lower);
 		this.setSpacing(20);
-		
+
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
-			save();
+			if (isFilled()) {
+				save();
+				QYSelection.updateQY("");
+
+			} else {
+				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
+				error.show();
+
+			}
 
 		});
 
+	}
+
+	public void save() {
+		Connection conn;
+		try {
+			conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String date = genBox.getSelectedDate();
+			String id = generateId(date);
+			String attn = qy.getAttn();
+			String cr = qy.getCr();
+			String code = cusBox.getCustomer();
+			double valueBeforeTax = total;
+			double valueTax = total * 7 / 100;
+			double valueAfterTax = total * 107 / 100;
+			ArrayList<Item> itemList = new ArrayList<>();
+			for (Item item : productTable.getItems()) {
+				if (item.getItemQuantity() > 0) {
+					itemList.add(item);
+				}
+
+			}
+			String check = "select * from product";
+			Statement stmt2 = conn.createStatement();
+			ResultSet rs = stmt2.executeQuery(check);
+			while (rs.next()) {
+				for (Item item : itemList) {
+					if (item.getProduct().getCode().equals(rs.getString("code"))) {
+
+						if (item.getItemQuantity() > rs.getInt("quantity")) {
+
+							Alert error = new Alert(AlertType.WARNING,
+									item.getCode() + " " + item.getProduct().getDescription() + " Out of Stock",
+									ButtonType.OK);
+							error.show();
+							stmt.close();
+							stmt2.close();
+							conn.close();
+							productTable.getItems().clear();
+							throw new Exception("Out of Stock");
+
+						}
+					}
+				}
+			}
+
+			Gson gson = new Gson();
+			String json = gson.toJson(itemList);
+
+			String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','" + cr
+					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem"
+					+ "');";
+
+			int x = stmt.executeUpdate(sql);
+			if (x > 0) {
+				System.out.println("Updated Successfully");
+
+			}
+			stmt.close();
+			stmt2.close();
+			conn.close();
+			yourOwnStage.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
-	
-	public void save() {
-		String id = generateId();
-		String date = genBox.getSelectedDate();
-		System.out.println(date);
-		
-		
-		
-	}
-	
+
 	public void calculateTax() {
-		double total = 0;
-		for (Item item:productTable.getItems()) {
-			total+= item.getAmount();
+		total = 0;
+		for (Item item : productTable.getItems()) {
+			total += item.getAmount();
 		}
 		valueBeforeTaxText.setText(Double.toString(total));
-		valueTaxText.setText(Double.toString(total*7/100));
-		valueAfterTaxText.setText(Double.toString(total*107/100));
+		valueTaxText.setText(Double.toString(total * 7 / 100));
+		valueAfterTaxText.setText(Double.toString(total * 107 / 100));
 	}
 
-		public String generateId() {
-			
-			
+	public String generateId(String date) {
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String gid = "";
+			int k = 1;
+
+			while (true) {
+
+				gid = "QY" + date.substring(8) + "0" + date.substring(3, 5) + String.format("%03d", k);
+				String str = "select * from quotation where id like '" + gid + "'";
+
+				ResultSet rs = stmt.executeQuery(str);
+
+				if (rs.next()) {
+
+					k += 1;
+					continue;
+
+				}
+
+				break;
+
+			}
+
+			stmt.close();
+			conn.close();
+
+			return gid;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
 			return "";
 		}
+
+	}
+
+	public boolean isFilled() {
+		String date = genBox.getSelectedDate();
+		String attn = qy.getAttn();
+		String cr = qy.getCr();
+		String code = cusBox.getCustomer();
+
+		return !date.isEmpty() && !attn.isEmpty() && !cr.isEmpty() && !code.isEmpty()
+				&& !productTable.getItems().isEmpty();
+	}
+
 }

@@ -1,5 +1,8 @@
 package bill;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import logic.Product;
 
 public class Item extends Product{
@@ -31,7 +34,9 @@ public class Item extends Product{
 	}
 
 	public void setAmount() {
-		this.amount = this.getProduct().getPrice() * this.getItemQuantity() * (1- this.getDiscount()/100);
+		this.amount = multiply(multiply(this.getProduct().getPrice() , 1-this.getDiscount()/100),this.getItemQuantity()) ;
+		
+		
 	}
 
 	public Product getProduct() {
@@ -52,8 +57,17 @@ public class Item extends Product{
 		this.itemQuantity = itemQuantity;
 	}
 	
+	public double multiply(double a,double b) {
+		double c = roundNumber(a);
+		double d = roundNumber(b);
+		return roundNumber(c*d);
+	}
 	
-	
+	public double roundNumber(double a) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return Double.parseDouble(df.format(a));
+    }
 
 	
 }
