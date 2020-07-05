@@ -14,6 +14,9 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import bill.Billing;
 import bill.CreditNote;
 import bill.Delivery;
@@ -22,6 +25,7 @@ import bill.Item;
 import bill.Order;
 import bill.ProductLoan;
 import bill.Quotation;
+import database.User;
 
 public class Report {
 
@@ -1581,6 +1585,7 @@ public class Report {
 					"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",
 					"02-4546455", "yourname@address.com");
 			String date = "10-08-2563";
+			User user = new User("kirkpig", "postitpaper", "KirkPig");
 
 			Invoice invoice = new Invoice("YN630008123", date, customer, itemList, "PO63008123", "Piggy", "CASH", date,
 					"Pig");
@@ -1588,7 +1593,7 @@ public class Report {
 			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
 			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
 			CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00);
-			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0");
+			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0", user.getName());
 
 			ArrayList<Invoice> invoiceList = new ArrayList<>();
 			ArrayList<String> psList = new ArrayList<>();
@@ -1606,9 +1611,20 @@ public class Report {
 			// printProductLoan(productLoan, dest);
 			// printCreditNote(creditNote, dest);
 			// printQuotation(quotation, dest);
-			// printInvoice(invoice, dest);
-			printBilling(billing, dest);
+			printInvoice(invoice, dest);
+			// printBilling(billing, dest);
 			Desktop.getDesktop().open(new File(dest));
+			
+			Gson gson = new Gson();
+			String s = gson.toJson(itemList);
+			System.out.println(s);
+			TypeToken<ArrayList<Item>> token = new TypeToken<ArrayList<Item>>() {};
+			ArrayList<Item> newList = gson.fromJson(s, token.getType());
+			for(Item i: newList) {
+				System.out.println(i.getDescription());
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
