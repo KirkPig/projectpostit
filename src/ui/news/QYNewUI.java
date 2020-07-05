@@ -14,7 +14,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -33,6 +36,7 @@ import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.QYBox;
+import ui.selection.QYSelection;
 
 public class QYNewUI extends VBox {
 	private Stage yourOwnStage;
@@ -76,7 +80,7 @@ public class QYNewUI extends VBox {
 		productTable = new TableView();
 		productTable.setEditable(true);
 
-		TableColumn codeCol = new TableColumn("Code");
+		TableColumn codeCol = new TableColumn("ID.");
 		codeCol.setMinWidth(30);
 		codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
 
@@ -91,11 +95,18 @@ public class QYNewUI extends VBox {
 		quantityCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Integer>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
+					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
+					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+					productTable.refresh();
+					calculateTax();
+				} else {
+					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
+					productTable.refresh();
+					error.show();
+				}
 			}
+
 		});
 
 		TableColumn unitCol = new TableColumn("Unit");
@@ -131,6 +142,12 @@ public class QYNewUI extends VBox {
 		HBox productBox = new HBox();
 		ProductAdd productAdd = new ProductAdd(productTable);
 		Button productBtn = new Button("New product");
+		Button deleteBtn = new Button("Delete");
+		
+		deleteBtn.setOnAction(e -> {
+		    Item selectedItem = productTable.getSelectionModel().getSelectedItem();
+		    productTable.getItems().remove(selectedItem);
+		});
 		productBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -141,8 +158,9 @@ public class QYNewUI extends VBox {
 				newProductStage.show();
 			}
 		});
-		productBox.getChildren().addAll(productAdd, productBtn);
+		productBox.getChildren().addAll(productAdd, productBtn,deleteBtn);
 		productBox.setAlignment(Pos.CENTER);
+		productBox.setSpacing(5);
 		productTable.setMaxWidth(750);
 		HBox tableBox = new HBox();
 
@@ -170,9 +188,16 @@ public class QYNewUI extends VBox {
 		this.setSpacing(20);
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
-			
-			save();
-			yourOwnStage.close();
+			if (isFilled()) {
+				save();
+				QYSelection.updateQY("");
+
+			} else {
+				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
+				error.show();
+
+			}
+
 		});
 
 	}
@@ -197,25 +222,51 @@ public class QYNewUI extends VBox {
 				}
 
 			}
+			String check = "select * from product";
+			Statement stmt2 = conn.createStatement();
+			ResultSet rs = stmt2.executeQuery(check);
+			while (rs.next()) {
+				for (Item item : itemList) {
+					if (item.getProduct().getCode().equals(rs.getString("code"))) {
+
+						if (item.getItemQuantity() > rs.getInt("quantity")) {
+
+							Alert error = new Alert(AlertType.WARNING,
+									item.getCode() + " " + item.getProduct().getDescription() + " Out of Stock",
+									ButtonType.OK);
+							error.show();
+							stmt.close();
+							stmt2.close();
+							conn.close();
+							productTable.getItems().clear();
+							throw new Exception("Out of Stock");
+
+						}
+					}
+				}
+			}
+
 			Gson gson = new Gson();
 			String json = gson.toJson(itemList);
-			
+
 			String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','" + cr
-					+ "'," + valueBeforeTax + "," + valueTax +"," + valueAfterTax+",'"+json+"','"+ "naem" +"');";
-			
-			int x= stmt.executeUpdate(sql);
-			if (x>0) {
+					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem"
+					+ "');";
+
+			int x = stmt.executeUpdate(sql);
+			if (x > 0) {
 				System.out.println("Updated Successfully");
+
 			}
 			stmt.close();
+			stmt2.close();
 			conn.close();
-			
+			yourOwnStage.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	public void calculateTax() {
@@ -242,7 +293,7 @@ public class QYNewUI extends VBox {
 
 				ResultSet rs = stmt.executeQuery(str);
 
-				while (rs.next()) {
+				if (rs.next()) {
 
 					k += 1;
 					continue;
@@ -264,6 +315,16 @@ public class QYNewUI extends VBox {
 			return "";
 		}
 
+	}
+
+	public boolean isFilled() {
+		String date = genBox.getSelectedDate();
+		String attn = qy.getAttn();
+		String cr = qy.getCr();
+		String code = cusBox.getCustomer();
+
+		return !date.isEmpty() && !attn.isEmpty() && !cr.isEmpty() && !code.isEmpty()
+				&& !productTable.getItems().isEmpty();
 	}
 
 }
