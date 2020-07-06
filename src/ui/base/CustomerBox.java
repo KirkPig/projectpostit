@@ -23,11 +23,10 @@ import logic.Customer;
 import logic.DatabaseConnection;
 
 public class CustomerBox extends VBox {
-	Customer selectedCustomer;
-
+	private Label codeBox;
 	public CustomerBox(int width, int height) {
 		Label header = new Label("CUSTOMER");
-		Label codeBox = new Label();
+		codeBox = new Label();
 		Label nameBox = new Label();
 		Label taxIdBox = new Label();
 		Label addressBox = new Label();
@@ -82,8 +81,6 @@ public class CustomerBox extends VBox {
 								Statement stmt = conn.createStatement();
 								String sql = "SELECT * FROM customer WHERE name ='" + result + "'";
 								ResultSet rs = stmt.executeQuery(sql);
-								
-								
 
 								while (rs.next()) {
 									nameBox.setText(result);
@@ -133,85 +130,6 @@ public class CustomerBox extends VBox {
 			}
 		});
 
-//		////// CODE AUTOFILL
-//		SortedSet<String> codeTree = getCodeTree();
-//
-//		ContextMenu codeSuggest = new ContextMenu();
-//		codeBox.textProperty().addListener(new ChangeListener<String>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-//				if (codeBox.getText().length() == 0) {
-//					codeSuggest.hide();
-//				} else {
-//					LinkedList<String> searchResult = new LinkedList<>();
-//					searchResult.addAll(codeTree.subSet(codeBox.getText(), codeBox.getText() + Character.MAX_VALUE));
-//					if (codeTree.size() > 0) {
-//						populateNamePopup(searchResult);
-//						if (!codeSuggest.isShowing()) {
-//							codeSuggest.show(codeBox, Side.BOTTOM, 0, 0);
-//						}
-//					} else {
-//						codeSuggest.hide();
-//					}
-//				}
-//
-//			}
-//
-//			private void populateNamePopup(LinkedList<String> searchResult) {
-//				List<CustomMenuItem> menuItems = new LinkedList<>();
-//
-//				int maxEntries = 10;
-//				int count = Math.min(searchResult.size(), maxEntries);
-//
-//				for (int i = 0; i < count; i++) {
-//					final String result = searchResult.get(i);
-//					Label entryLabel = new Label(result);
-//					CustomMenuItem item = new CustomMenuItem(entryLabel, true);
-//					item.setOnAction(new EventHandler<ActionEvent>() {
-//						@Override
-//						public void handle(ActionEvent actionEvent) {
-//							codeBox.setText(result);
-//							System.out.println(result);
-//							try {
-//								Connection conn = DatabaseConnection.getConnection();
-//								Statement stmt = conn.createStatement();
-//								String sql = "SELECT * FROM customer WHERE code ='" + result + "'";
-//								ResultSet rs = stmt.executeQuery(sql);
-//								while (rs.next()) {
-//									nameBox.setText(rs.getString("name"));
-//									taxIdBox.setText(rs.getString("taxid"));
-//									addressBox.setText(rs.getString("address"));
-//									teleBox.setText(rs.getString("tel"));
-//									faxBox.setText(rs.getString("fax"));
-//									mailBox.setText(rs.getString("email"));
-//
-//								}
-//
-//								stmt.close();
-//								conn.close();
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//
-//							codeSuggest.hide();
-//						}
-//					});
-//					menuItems.add(item);
-//				}
-//				codeSuggest.getItems().clear();
-//				codeSuggest.getItems().addAll(menuItems);
-//			}
-//		});
-//
-//		codeBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-//
-//				codeSuggest.hide();
-//			}
-//		});
 		HBox headerBox = new HBox();
 		headerBox.getChildren().addAll(header, searchBox);
 		headerBox.setSpacing(5);
@@ -286,9 +204,7 @@ public class CustomerBox extends VBox {
 		return null;
 	}
 
-	public Customer getSelelectedCustomer() {
-		return selectedCustomer;
-	}
+	
 
 	public SortedSet<String> getNameTree() {
 		try {
@@ -333,5 +249,9 @@ public class CustomerBox extends VBox {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String getCustomer() {
+		return codeBox.getText();
 	}
 }
