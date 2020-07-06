@@ -1,10 +1,6 @@
 package ui.admin;
 
-import database.User;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -12,7 +8,7 @@ import javafx.stage.Stage;
 public class AdminUI extends VBox {
 	
 	private Stage stage;
-	private TableView<User> accountTable = new TableView<User>();
+	private AdminAccountPane adminAccountPane = new AdminAccountPane();
 	
 	public AdminUI(Stage stage, double width, double height) {
 		
@@ -31,7 +27,7 @@ public class AdminUI extends VBox {
 		/*
 		 * Account Tab
 		 */
-		AdminAccountPane adminAccountPane = new AdminAccountPane();
+		
 		
 		getChildren().add(tab);
 		getChildren().add(adminAccountPane);

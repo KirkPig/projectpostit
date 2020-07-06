@@ -1,5 +1,7 @@
 package ui.admin;
 
+import com.google.gson.Gson;
+
 import database.User;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -15,12 +17,15 @@ import javafx.scene.layout.VBox;
 
 public class AdminAccountPane extends VBox {
 	
+	private Gson gson = new Gson();
 	private TableView<User> accountTable = new TableView<User>();
+	private HBox accountAddBox = new HBox();
 	private TextField usernameField = new TextField();
 	private PasswordField passwordField = new PasswordField();
 	private TextField nameField = new TextField();
 	private Button btnAddAccount = new Button("Add");
 	
+	@SuppressWarnings("unchecked")
 	public AdminAccountPane() {
 
 		TableColumn<User, String> usernameCol = new TableColumn<User, String>("Username");
@@ -37,10 +42,9 @@ public class AdminAccountPane extends VBox {
 		
 		accountTable.getColumns().addAll(usernameCol, passwordCol, nameCol);
 		
-		HBox newAccount = new HBox();
-		newAccount.setAlignment(Pos.CENTER);
-		newAccount.setSpacing(5);
-		newAccount.setMinHeight(50);
+		accountAddBox.setAlignment(Pos.CENTER);
+		accountAddBox.setSpacing(5);
+		accountAddBox.setMinHeight(50);
 		
 		usernameField.setPromptText("Username");
 		passwordField.setPromptText("Password");
@@ -58,19 +62,31 @@ public class AdminAccountPane extends VBox {
 			
 		});
 		
-		newAccount.getChildren().add(usernameField);
-		newAccount.getChildren().add(passwordField);
-		newAccount.getChildren().add(nameField);
-		newAccount.getChildren().add(btnAddAccount);
+		accountAddBox.getChildren().add(usernameField);
+		accountAddBox.getChildren().add(passwordField);
+		accountAddBox.getChildren().add(nameField);
+		accountAddBox.getChildren().add(btnAddAccount);
 		
 		getChildren().add(accountTable);
-		getChildren().add(newAccount);
+		getChildren().add(accountAddBox);
 		
 	}
 	
 	private void addNewAccount() {
+
+		User user = new User(usernameField.getText(), passwordField.getText(), nameField.getText());
+		String sql = "insert into account values('" + usernameField.getText() + "','" + passwordField.getText() + "','"
+				+ nameField.getText() + "','" + gson.toJson(user) + "')";
 		
+		accountAddBoxClear();
+
+	}
+	
+	private void accountAddBoxClear() {
 		
+		usernameField.clear();
+		passwordField.clear();
+		nameField.clear();
 		
 	}
 
