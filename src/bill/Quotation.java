@@ -1,36 +1,52 @@
 package bill;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import bill.Item;
 import logic.Customer;
+import logic.Product;
 
 public class Quotation {
-		
+
 	private String id;
 	private String date;
 	private Customer customer;
-	private ArrayList<Item> itemList; 
+	private String customerName;
+	private ArrayList<Item> itemList;
 	private String attn;
 	private String cr;
-	private double totalAmount;
-	private double tax7;
-	private double plusTax7;
+	private double valueBeforeTax;
+	private double valueTax;
+	private double valueAfterTax;
+	private String creator;
+	private String productName;
+	private String productQuantity;
+	private String productUnit;
+	private String valueAfterTaxForTable;
 	
-	public Quotation(String id,String date,Customer customer,ArrayList<Item> itemList,String attn,String cr) {
+
+	public Quotation(String id, String date, Customer customer, ArrayList<Item> itemList, String attn, String cr,String creator) {
 		this.setAttn(attn);
 		this.setCr(cr);
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
+		this.setCustomerName(customer.getName());
 		this.setItemList(itemList);
+		this.setCreator(creator);
 		double total = 0.00;
-		for (Item e: itemList){
+		for (Item e : itemList) {
 			total += e.getAmount();
-		this.setTotalAmount(total);
-		this.setTax7(total*7/100);
-		this.setPlusTax7(this.getTotalAmount() + this.getTax7());
 		}
-		// TODO Auto-generated constructor stub
+		
+		this.setValueBeforeTax(total);
+		this.setValueTax(total * 7 / 100);
+		this.setValueAfterTax(getValueBeforeTax() + getValueTax());
+		this.setProductName(itemList);
+		this.setProductQuantity(itemList);
+		this.setProductUnit(itemList);
+		this.setValueAfterTaxForTable(getValueBeforeTax() + getValueTax());
 	}
 
 	public String getId() {
@@ -81,27 +97,87 @@ public class Quotation {
 		this.attn = attn;
 	}
 
-	public double getTotalAmount() {
-		return totalAmount;
+	public double getValueBeforeTax() {
+		return valueBeforeTax;
 	}
 
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setValueBeforeTax(double valueBeforeTax) {
+		this.valueBeforeTax = valueBeforeTax;
 	}
 
-	public double getTax7() {
-		return tax7;
+	public double getValueTax() {
+		return valueTax;
 	}
 
-	public void setTax7(double tax7) {
-		this.tax7 = tax7;
+	public void setValueTax(double valueTax) {
+		this.valueTax = valueTax;
 	}
 
-	public double getPlusTax7() {
-		return plusTax7;
+	public double getValueAfterTax() {
+		return valueAfterTax;
 	}
 
-	public void setPlusTax7(double plusTax7) {
-		this.plusTax7 = plusTax7;
+	public void setValueAfterTax(double valueAfterTax) {
+		this.valueAfterTax = valueAfterTax;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(ArrayList<Item> itemList) {
+		this.productName = "";
+		for (Item item : itemList) {
+			this.productName += item.getProduct().getDescription() + "\n";
+			
+		}
+		
+	}
+
+	public String getProductQuantity() {
+		return productQuantity;
+	}
+
+	public void setProductQuantity(ArrayList<Item> itemList) {
+		this.productQuantity = "";
+		for (Item item:itemList) {
+			this.productQuantity += Integer.toString(item.getItemQuantity())+ "\n";
+		}
+	}
+
+	public String getProductUnit() {
+		return productUnit;
+	}
+
+	public void setProductUnit(ArrayList<Item> itemList) {
+		this.productUnit = "";
+		for (Item item:itemList) {
+			this.productUnit += item.getUnit() + "\n";
+		}
+	}
+
+	public String getValueAfterTaxForTable() {
+		return valueAfterTaxForTable;
+	}
+
+	public void setValueAfterTaxForTable(double value) {
+		DecimalFormat df = new DecimalFormat("#.##");
+		this.valueAfterTaxForTable = df.format(value+0.005);
 	}
 }

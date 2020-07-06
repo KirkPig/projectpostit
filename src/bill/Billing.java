@@ -25,9 +25,11 @@ public class Billing {
 		this.setBillingBy(billingBy);
 		this.setBillingDate(billingDate);
 		this.setPs(ps);
+		this.setInvoiceList(invoiceList);
+		this.setPsList(psList);
 		double total = 0.00;
 		for(Invoice i : invoiceList) {
-			total = total + i.getPlusTax7();
+			total = total + i.getValueAfterTax();
 		}
 		this.setValue(total);
 		
