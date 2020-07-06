@@ -14,6 +14,9 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import bill.Billing;
 import bill.CreditNote;
 import bill.Delivery;
@@ -22,34 +25,35 @@ import bill.Item;
 import bill.Order;
 import bill.ProductLoan;
 import bill.Quotation;
+import database.User;
 
 public class Report {
 
-	private static final float DPI = 96.0f;
+	private static final float DPI = 72.0f;
 	private static final float MMPI = 25.4f;
-	private static final PDRectangle NORMAL_PAGE = new PDRectangle(794, 1123);
+	private static final PDRectangle NORMAL_PAGE = PDRectangle.A4;
 
 	private static float cpx(float x) {
 		return (x / MMPI * DPI);
 	}
 
 	private static float cpy(float y) {
-		return 1123.0f - (y / MMPI * DPI);
+		return 842.0f - (y / MMPI * DPI);
 	}
 
-	private enum HAlignment {
+	public enum HAlignment {
 		LEFT, CENTER, RIGHT
 	}
 
-	private enum VAlignment {
+	public enum VAlignment {
 		TOP, CENTER, BOTTOM
 	}
 
-	private enum FontType {
+	public enum FontType {
 		REGULAR, BOLD, ITALIC, BOLD_ITALIC
 	}
 
-	private static String addParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize, float x,
+	public static String addParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize, float x,
 			float y, float width, float height, HAlignment hAlignment, VAlignment vAlignment, FontType fontType)
 			throws Exception {
 
@@ -150,7 +154,7 @@ public class Report {
 
 	}
 
-	private static String addParagraphUPC(PDDocument document, PDPageContentStream cs, String str, float fontSize,
+	public static String addParagraphUPC(PDDocument document, PDPageContentStream cs, String str, float fontSize,
 			float x, float y, float width, float height, HAlignment hAlignment, VAlignment vAlignment,
 			FontType fontType) throws Exception {
 
@@ -1116,7 +1120,7 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 20.0f;
+		float shFontSize = 14.0f;
 
 		addParagraph(document, contentStream, "ATTN: " + form.getAttn(), shFontSize, 12.7f, 89.2f, 35f, 17.2f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1144,7 +1148,7 @@ public class Report {
 		/*
 		 * List Header
 		 */
-		float lhFontSize = 16.0f;
+		float lhFontSize = 12.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -1187,7 +1191,7 @@ public class Report {
 		 * List
 		 */
 
-		float listFontSize = 16.0f;
+		float listFontSize = 12.0f;
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
@@ -1222,7 +1226,7 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 16.0f;
+		float footerFontSize = 14.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1245,7 +1249,7 @@ public class Report {
 		 * Signature
 		 */
 
-		float signatureFontSize = 18.0f;
+		float signatureFontSize = 14.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1581,6 +1585,7 @@ public class Report {
 					"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon, Samut Sakhon 74000", "090-841-5626",
 					"02-4546455", "yourname@address.com");
 			String date = "10-08-2563";
+			User user = new User("kirkpig", "postitpaper", "KirkPig");
 
 			Invoice invoice = new Invoice("YN630008123", date, customer, itemList, "PO63008123", "Piggy", "CASH", date,
 					"Pig");
@@ -1588,7 +1593,7 @@ public class Report {
 			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
 			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
 			CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00);
-			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0");
+			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0", user.getName());
 
 			ArrayList<Invoice> invoiceList = new ArrayList<>();
 			ArrayList<String> psList = new ArrayList<>();
@@ -1605,10 +1610,21 @@ public class Report {
 			// printDelivery(delivery, dest);
 			// printProductLoan(productLoan, dest);
 			// printCreditNote(creditNote, dest);
-			// printQuotation(quotation, dest);
+			printQuotation(quotation, dest);
 			// printInvoice(invoice, dest);
-			printBilling(billing, dest);
+			// printBilling(billing, dest);
 			Desktop.getDesktop().open(new File(dest));
+			
+			Gson gson = new Gson();
+			String s = gson.toJson(itemList);
+			System.out.println(s);
+			TypeToken<ArrayList<Item>> token = new TypeToken<ArrayList<Item>>() {};
+			ArrayList<Item> newList = gson.fromJson(s, token.getType());
+			for(Item i: newList) {
+				System.out.println(i.getDescription());
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
