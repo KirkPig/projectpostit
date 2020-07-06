@@ -271,16 +271,16 @@ public class Report {
 		contentStream.addRect(cpx(122.2f), cpy(10f) - cpx(15.6f), cpx(87.8f), cpx(15.6f));
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
-		addParagraph(document, contentStream, formName, 36f, 122.2f, 10f, 87.8f, 15.6f, HAlignment.CENTER,
+		addParagraph(document, contentStream, formName, 28f, 122.2f, 10f, 87.8f, 15.6f, HAlignment.CENTER,
 				VAlignment.CENTER, FontType.BOLD);
 
-		addParagraph(document, contentStream, "NO." + id + "  DATE: " + date, 18f, 122.2f, 25.6f, 75f, 12.8f,
+		addParagraph(document, contentStream, "NO." + id + "  DATE: " + date, 14f, 122.2f, 25.6f, 75f, 12.8f,
 				HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
 
-		addParagraph(document, contentStream, "YONO TOOLS CO.,LTD.", 28f, 12.8f, 38.4f, 80.8f, 8.7f, HAlignment.LEFT,
+		addParagraph(document, contentStream, "YONO TOOLS CO.,LTD.", 24f, 12.8f, 38.4f, 80.8f, 8.7f, HAlignment.LEFT,
 				VAlignment.CENTER, FontType.BOLD);
 
-		float addressFontSize = 16.0f;
+		float addressFontSize = 13.0f;
 		addParagraph(document, contentStream, "103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon,", addressFontSize,
 				12.8f, 47.1f, 98f, 6f, HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
 		addParagraph(document, contentStream, "Samut Sakhon 74000", addressFontSize, 12.8f, 53.1f, 98f, 6f,
@@ -319,7 +319,7 @@ public class Report {
 			String output = "";
 			strList.remove(0);
 			if (s != "")
-				output = addParagraph(document, contentStream, s, 16f, 134f, rowY, 57.5f, 8.7f, HAlignment.LEFT,
+				output = addParagraph(document, contentStream, s, 12f, 134f, rowY, 57.5f, 8.7f, HAlignment.LEFT,
 						VAlignment.TOP, FontType.BOLD);
 
 			if (output != "") {
