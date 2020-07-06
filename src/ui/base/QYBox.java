@@ -33,7 +33,14 @@ public class QYBox extends VBox{
 	}
 	
 	public String getCr() {
-		return cr.getText();
-		
+		return cr.getText();	
+	}
+	
+	public void setCr(String cr) {
+		this.cr.setText(cr);
+	}
+	
+	public void setAttn(String attn) {
+		this.attn.setText(attn);
 	}
 }
