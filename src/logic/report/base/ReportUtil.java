@@ -8,6 +8,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class ReportUtil {
 	
@@ -20,6 +21,14 @@ public class ReportUtil {
 
 	public static float cpy(float y) {
 		return 842.0f - (y / MMPI * DPI);
+	}
+	
+	public static void addPicture(PDDocument document, PDPageContentStream cs, String picPath, float x,
+			float y, float width, float height) throws Exception {
+		
+		PDImageXObject logoImage = PDImageXObject.createFromFile(picPath, document);
+		cs.drawImage(logoImage, cpx(x), cpy(y) - cpx(height), cpx(width), cpx(height));
+		
 	}
 	
 	public static PDFont getFont(PDDocument document, String fontName, ReportFontType fontType) throws Exception {
