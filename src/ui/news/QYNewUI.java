@@ -1,6 +1,7 @@
 package ui.news;
 
 import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class QYNewUI extends VBox {
 	private QYBox qy;
 	private CustomerBox cusBox;
 	private double total;
+	private String id;
 
 	@SuppressWarnings("unchecked")
 	public QYNewUI(Stage yourOwnStage) {
@@ -208,6 +210,7 @@ public class QYNewUI extends VBox {
 	public QYNewUI(Stage yourOwnStage, Quotation quotation) {
 		this(yourOwnStage);
 		createNew = false;
+		id = quotation.getId();
 		genBox.setGenBox(quotation.getId(), quotation.getDate());
 		cusBox.setSelectedCustomer(quotation.getCustomer());
 		qy.setCr(quotation.getCr());
@@ -218,70 +221,64 @@ public class QYNewUI extends VBox {
 
 	public void save() {
 		Connection conn;
-		if (createNew) {
+		if (!createNew) {
 			try {
 				conn = DatabaseConnection.getConnection();
 				Statement stmt = conn.createStatement();
-				String date = genBox.getSelectedDate();
-				String id = generateId(date);
-				String attn = qy.getAttn();
-				String cr = qy.getCr();
-				String code = cusBox.getCustomer();
-				double valueBeforeTax = total;
-				double valueTax = total * 7 / 100;
-				double valueAfterTax = total * 107 / 100;
-				ArrayList<Item> itemList = new ArrayList<>();
-				for (Item item : productTable.getItems()) {
-					if (item.getItemQuantity() > 0) {
-						itemList.add(item);
-					}
 
-				}
-				String check = "select * from product";
-				Statement stmt2 = conn.createStatement();
-				ResultSet rs = stmt2.executeQuery(check);
-				while (rs.next()) {
-					for (Item item : itemList) {
-						if (item.getProduct().getCode().equals(rs.getString("code"))) {
-
-							if (item.getItemQuantity() > rs.getInt("quantity")) {
-
-								Alert error = new Alert(AlertType.WARNING,
-										item.getCode() + " " + item.getProduct().getDescription() + " Out of Stock",
-										ButtonType.OK);
-								error.show();
-								stmt.close();
-								stmt2.close();
-								conn.close();
-								productTable.getItems().clear();
-								throw new Exception("Out of Stock");
-
-							}
-						}
-					}
-				}
-
-				Gson gson = new Gson();
-				String json = gson.toJson(itemList);
-
-				String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','"
-						+ cr + "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','"
-						+ "naem" + "');";
-
-				int x = stmt.executeUpdate(sql);
-				if (x > 0) {
-					System.out.println("Updated Successfully");
-
-				}
+				String sql = "DELETE from quotation WHERE id ='" + id + "'";
+				stmt.executeUpdate(sql);
 				stmt.close();
-				stmt2.close();
 				conn.close();
-				yourOwnStage.close();
+				QYSelection.updateQY("");
 			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
+		try {
+			conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String date = genBox.getSelectedDate();
+			String id = generateId(date);
+			String attn = qy.getAttn();
+			String cr = qy.getCr();
+			String code = cusBox.getCustomer();
+			double valueBeforeTax = total;
+			double valueTax = total * 7 / 100;
+			double valueAfterTax = total * 107 / 100;
+			ArrayList<Item> itemList = new ArrayList<>();
+			for (Item item : productTable.getItems()) {
+				if (item.getItemQuantity() > 0) {
+					itemList.add(item);
+				}
+
+			}
+
+			Gson gson = new Gson();
+			String json = gson.toJson(itemList);
+
+			String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','" + cr
+					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem"
+					+ "');";
+
+			int x = stmt.executeUpdate(sql);
+			if (x > 0) {
+				System.out.println("Updated Successfully");
+
+			}
+			stmt.close();
+
+			conn.close();
+			yourOwnStage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
+
+	
 
 	public void calculateTax() {
 		total = 0;
@@ -329,7 +326,7 @@ public class QYNewUI extends VBox {
 		String code = cusBox.getCustomer();
 
 		return !date.isEmpty() && !attn.isEmpty() && !cr.isEmpty() && !code.isEmpty()
-				&& !productTable.getItems().isEmpty();
+				&& !productTable.getItems().isEmpty() && total != 0;
 	}
 
 }
