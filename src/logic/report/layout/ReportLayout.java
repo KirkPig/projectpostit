@@ -7,7 +7,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
 import logic.report.component.base.ReportComponent;
 
-public abstract class ReportLayout {
+public class ReportLayout {
 	
 	private String name;
 	private ArrayList<ReportComponent> componentList = new ArrayList<>();
