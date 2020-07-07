@@ -12,7 +12,7 @@ public class Quotation {
 	private String id;
 	private String date;
 	private Customer customer;
-	private String customerName;
+	
 	private ArrayList<Item> itemList;
 	private String attn;
 	private String cr;
@@ -24,7 +24,7 @@ public class Quotation {
 	private String productQuantity;
 	private String productUnit;
 	private String valueAfterTaxForTable;
-	
+	private String customerName;
 
 	public Quotation(String id, String date, Customer customer, ArrayList<Item> itemList, String attn, String cr,String creator) {
 		this.setAttn(attn);
@@ -32,9 +32,9 @@ public class Quotation {
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
-		this.setCustomerName(customer.getName());
+		
 		this.setItemList(itemList);
-		this.setCreator(creator);
+		
 		double total = 0.00;
 		for (Item e : itemList) {
 			total += e.getAmount();
@@ -47,6 +47,8 @@ public class Quotation {
 		this.setProductQuantity(itemList);
 		this.setProductUnit(itemList);
 		this.setValueAfterTaxForTable(getValueBeforeTax() + getValueTax());
+		this.setCustomerName(customer.getName());
+		this.setCreator(creator);
 	}
 
 	public String getId() {
@@ -178,6 +180,6 @@ public class Quotation {
 
 	public void setValueAfterTaxForTable(double value) {
 		DecimalFormat df = new DecimalFormat("#.##");
-		this.valueAfterTaxForTable = df.format(value+0.005);
+		this.valueAfterTaxForTable = df.format(value);
 	}
 }

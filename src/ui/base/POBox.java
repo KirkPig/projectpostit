@@ -7,9 +7,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class POBox extends VBox{
+	private TextField paymentText;
 	public POBox(int width, int height) {
 		Label header = new Label("POBOX");
-		TextField paymentText = new TextField();
+		paymentText = new TextField();
 		HBox paymentBox = new HBox();
 		Label paymentLabel = new Label("payment:");
 		paymentBox.getChildren().addAll(paymentLabel,paymentText);
@@ -19,5 +20,11 @@ public class POBox extends VBox{
 		this.getChildren().addAll(header,paymentBox);
 		this.setMinSize(width, height);
 	}
-
+	public String getPaymentText() {
+		return paymentText.getText();
+	}
+	
+	public void setPaymentText(String paymentText) {
+		this.paymentText.setText(paymentText);
+	}
 }
