@@ -66,7 +66,7 @@ public class ProductAdd extends HBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							System.out.println(result);
+							searchBox.setText("");
 							try {
 								Connection conn = DatabaseConnection.getConnection();
 								Statement stmt = conn.createStatement();
