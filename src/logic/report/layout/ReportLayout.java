@@ -1,4 +1,4 @@
-package logic.report;
+package logic.report.layout;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
 import logic.report.component.base.ReportComponent;
 
-public class ReportLayout {
+public abstract class ReportLayout {
 	
 	private String name;
 	private ArrayList<ReportComponent> componentList = new ArrayList<>();
