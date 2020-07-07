@@ -79,8 +79,8 @@ public class QYSelection extends VBox {
 		search.setPromptText("Search");
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
-
-		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), , new Button("bin"));
+		
+		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), deleteBtn, new Button("bin"));
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
