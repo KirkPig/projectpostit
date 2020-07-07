@@ -13,18 +13,16 @@ import bill.Item;
 import bill.Quotation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Customer;
@@ -32,55 +30,75 @@ import logic.DatabaseConnection;
 import ui.news.QYNewUI;
 
 public class QYSelection extends VBox {
-	private int monthSelecting = Integer.parseInt(LocalDate.now().toString().substring(5, 7));
-	private int yearSelecting = Integer.parseInt(LocalDate.now().toString().substring(0, 4));
 	private static TableView<Quotation> table;
 	private static TableView<Quotation> table2;
+	private static ComboBox<Integer> month;
+	private static ComboBox<Integer> year ;
+	
+	@SuppressWarnings("unchecked")
 	public QYSelection() {
-		Button deleteBtn = new Button("delete");
+
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();
 		HBox moreFunc = new HBox();
 		HBox searchBox = new HBox();
-		Button newButton = new Button("new");
 		Button switchButton = new Button("Customer");
-		ComboBox<Integer> month = new ComboBox<Integer>();
+		
+		month = new ComboBox<Integer>();
 		month.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		month.getSelectionModel().select(Integer.parseInt(LocalDate.now().toString().substring(5, 7)) - 1);
 		month.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				monthSelecting = month.getValue();
+				updateQY("");
 			}
 		});
 
-		ComboBox<Integer> year = new ComboBox<Integer>();
+		year = new ComboBox<Integer>();
 		year.getItems().addAll(2563, 2564, 2565, 2566, 2567, 2568, 2569, 2570, 2571, 2572);
 		year.setValue(Integer.parseInt(LocalDate.now().toString().substring(0, 4)) + 543);
 		year.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				yearSelecting = year.getValue();
+				updateQY("");
 			}
 		});
 
+		Button newButton = new Button("new");
 		newButton.setOnMouseClicked((MouseEvent e) -> {
 			Stage newStage = new Stage();
-
 			Scene qynewScene = new Scene(new QYNewUI(newStage));
 			newStage.setScene(qynewScene);
 			newStage.show();
 		});
+
+		Button editButton = new Button("open/edit");
+		editButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (switchButton.getText().equals("Customer")) {
+					openQY(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+				} else {
+					openQY(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+				}
+			}
+		});
+		Button deleteBtn = new Button("delete");
 
 		// Button
 		TextField search = new TextField();
 		search.setPromptText("Search");
 		ComboBox<String> genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
+<<<<<<< HEAD
 		
 		simpleFunc.getChildren().addAll(newButton, new Button("open/edit"), deleteBtn, new Button("bin"));
+=======
+
+		simpleFunc.getChildren().addAll(newButton, editButton, deleteBtn, new Button("bin"));
+>>>>>>> 2d24adad9419b0ad34d4a1f35a70229bd748bc5d
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
@@ -92,44 +110,64 @@ public class QYSelection extends VBox {
 		this.getChildren().add(allFunc);
 
 		// =============================================================================
-		table = new TableView();
-		TableColumn code = new TableColumn("ID");
+		table = new TableView<Quotation>();
+		TableColumn<Quotation, String> code = new TableColumn<Quotation,String>("ID");
 		code.setMinWidth(60);
 		code.setCellValueFactory(new PropertyValueFactory<>("id"));
-		TableColumn date = new TableColumn("date");
+		TableColumn<Quotation, String> date = new TableColumn<Quotation, String>("date");
 		date.setMinWidth(100);
 		date.setCellValueFactory(new PropertyValueFactory<>("date"));
-		TableColumn customerName = new TableColumn("Customer Name.");
+		TableColumn<Quotation, String> customerName = new TableColumn<Quotation, String>("Customer Name.");
 		customerName.setMinWidth(200);
 		customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-		TableColumn totalAmount = new TableColumn("Total Amount");
+		TableColumn<Quotation, String> totalAmount = new TableColumn<Quotation, String>("Total Amount");
 		totalAmount.setCellValueFactory(new PropertyValueFactory<>("valueAfterTaxForTable"));
 		totalAmount.setMinWidth(120);
-		TableColumn creator = new TableColumn("Created by");
+		TableColumn<Quotation, String> creator = new TableColumn<Quotation, String>("Created by");
 		creator.setCellValueFactory(new PropertyValueFactory<>("creator"));
 		creator.setMinWidth(200);
 		table.getColumns().addAll(code, date, customerName, totalAmount, creator);
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
+
+		table.setRowFactory(tv -> {
+			TableRow<Quotation> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					openQY(row.getItem());
+				}
+			});
+			return row;
+		});
 //=========================
-		table2 = new TableView();
-		TableColumn codeCol = new TableColumn("code");
+		table2 = new TableView<Quotation>();
+		TableColumn<Quotation, String> codeCol = new TableColumn<Quotation, String>("code");
 		codeCol.setMinWidth(20);
 		codeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-		TableColumn dateCol = new TableColumn("date");
+		TableColumn<Quotation, String> dateCol = new TableColumn<Quotation, String>("date");
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-		TableColumn descriptionCol = new TableColumn("Description");
+		TableColumn<Quotation, String> descriptionCol = new TableColumn<Quotation, String>("Description");
 		descriptionCol.setMinWidth(600);
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
-		TableColumn quantityCol = new TableColumn("Quantity");
+		TableColumn<Quotation, String> quantityCol = new TableColumn<Quotation, String>("Quantity");
 		quantityCol.setMinWidth(100);
 		quantityCol.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
-		TableColumn unitCol = new TableColumn("Unit");
+		TableColumn<Quotation, String> unitCol = new TableColumn<Quotation, String>("Unit");
 		unitCol.setMinWidth(100);
 		unitCol.setCellValueFactory(new PropertyValueFactory<>("productUnit"));
 
-		table2.getColumns().addAll(codeCol,dateCol,descriptionCol, quantityCol, unitCol, creator);
+		table2.getColumns().addAll(codeCol, dateCol, descriptionCol, quantityCol, unitCol, creator);
+		table2.setRowFactory(tv -> {
+			TableRow<Quotation> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					openQY(row.getItem());
+				}
+			});
+			return row;
+		});
+		
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {
@@ -156,14 +194,13 @@ public class QYSelection extends VBox {
 			table2.getItems().clear();
 			while (rs.next()) {
 				String id = rs.getString("id");
-				String date = rs.getString("date");
+				String date = rs.getString("date"); // 28-07-2563
+				if(Integer.parseInt(date.substring(3,5)) != month.getValue() || Integer.parseInt(date.substring(6))!= year.getValue()) {
+					continue;
+				}
 				String code = rs.getString("customercode");
 				String attn = rs.getString("attn");
 				String cr = rs.getString("cr");
-				
-				double valueBeforeTax = rs.getDouble("valuebeforetax");
-				double valueTax = rs.getDouble("valuetax");
-				double valueAfterTax = rs.getDouble("valueaftertax");
 				Gson gson = new Gson();
 				TypeToken<ArrayList<Item>> token = new TypeToken<ArrayList<Item>>() {
 				};
@@ -173,9 +210,9 @@ public class QYSelection extends VBox {
 				ResultSet rs2 = stmt2.executeQuery(sql2);
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
-						rs2.getString("address"), rs2.getString("tel"),rs2.getString("fax"),rs2.getString("email"));
-				
-				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr,"NAEM");
+						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
+
+				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr, "NAEM");
 				table.getItems().add(quotation);
 				table2.getItems().add(quotation);
 				stmt2.close();
@@ -183,10 +220,16 @@ public class QYSelection extends VBox {
 			conn.close();
 			stmt.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void openQY(Quotation qy) {
+		Stage newStage = new Stage();
+		Scene qynewScene = new Scene(new QYNewUI(newStage,qy));
+		newStage.setScene(qynewScene);
+		newStage.show();
 	}
 
 }
