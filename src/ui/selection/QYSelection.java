@@ -5,14 +5,18 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import bill.Item;
 import bill.Quotation;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -33,8 +37,10 @@ public class QYSelection extends VBox {
 	private static TableView<Quotation> table;
 	private static TableView<Quotation> table2;
 	private static ComboBox<Integer> month;
-	private static ComboBox<Integer> year ;
-	
+	private static ComboBox<Integer> year;
+	private static ComboBox<String> genre;
+	private static TextField search;
+
 	@SuppressWarnings("unchecked")
 	public QYSelection() {
 
@@ -43,7 +49,7 @@ public class QYSelection extends VBox {
 		HBox moreFunc = new HBox();
 		HBox searchBox = new HBox();
 		Button switchButton = new Button("Customer");
-		
+
 		month = new ComboBox<Integer>();
 		month.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		month.getSelectionModel().select(Integer.parseInt(LocalDate.now().toString().substring(5, 7)) - 1);
@@ -88,9 +94,16 @@ public class QYSelection extends VBox {
 		Button deleteBtn = new Button("delete");
 
 		// Button
-		TextField search = new TextField();
+		search = new TextField();
 		search.setPromptText("Search");
-		ComboBox<String> genre = new ComboBox<String>();
+		search.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				updateQY(search.getText());
+			}
+		});
+		genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
 <<<<<<< HEAD
 		
@@ -111,7 +124,7 @@ public class QYSelection extends VBox {
 
 		// =============================================================================
 		table = new TableView<Quotation>();
-		TableColumn<Quotation, String> code = new TableColumn<Quotation,String>("ID");
+		TableColumn<Quotation, String> code = new TableColumn<Quotation, String>("ID");
 		code.setMinWidth(60);
 		code.setCellValueFactory(new PropertyValueFactory<>("id"));
 		TableColumn<Quotation, String> date = new TableColumn<Quotation, String>("date");
@@ -167,7 +180,6 @@ public class QYSelection extends VBox {
 			});
 			return row;
 		});
-		
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
 			if (this.getChildren().contains(table)) {
@@ -195,7 +207,8 @@ public class QYSelection extends VBox {
 			while (rs.next()) {
 				String id = rs.getString("id");
 				String date = rs.getString("date"); // 28-07-2563
-				if(Integer.parseInt(date.substring(3,5)) != month.getValue() || Integer.parseInt(date.substring(6))!= year.getValue()) {
+				if (Integer.parseInt(date.substring(3, 5)) != month.getValue()
+						|| Integer.parseInt(date.substring(6)) != year.getValue()) {
 					continue;
 				}
 				String code = rs.getString("customercode");
@@ -211,10 +224,53 @@ public class QYSelection extends VBox {
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-
 				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr, "NAEM");
-				table.getItems().add(quotation);
-				table2.getItems().add(quotation);
+				boolean addToTable = false;
+				if (genre.getValue() != null && !search.isEmpty()) {
+					switch (genre.getValue()) {
+					case "Code":
+						addToTable = id.contains(search);
+						break;
+					case "Product":
+						for (Item item : itemList) {
+							if (item.getCode().contains(search) || item.getDescription().contains(search)) {
+								addToTable = true;
+								break;
+							}
+							try {
+								Double searchNum = Double.parseDouble(search);
+								if (searchNum == item.getItemQuantity() || searchNum == item.getPrice()) {
+									addToTable = true;
+								}
+							} catch (NumberFormatException nfe) {
+								continue;
+							}
+						}
+						break;
+					case "Customer Name":
+						addToTable = customer.getName().contains(search);
+						break;
+					case "Creator":
+						// TODO create getting user name
+						break;
+					case "Amount":
+						try {
+							Double searchNum = Double.parseDouble(search);
+							addToTable = (searchNum == quotation.getValueAfterTax());
+						} catch (NumberFormatException nfe) {
+							break;
+						}
+						break;
+					default:
+						break;
+					}
+				}else {
+					addToTable =true;
+				}
+				if (addToTable) {
+					table.getItems().add(quotation);
+					table2.getItems().add(quotation);
+				}
 				stmt2.close();
 			}
 			conn.close();
@@ -227,7 +283,7 @@ public class QYSelection extends VBox {
 
 	public static void openQY(Quotation qy) {
 		Stage newStage = new Stage();
-		Scene qynewScene = new Scene(new QYNewUI(newStage,qy));
+		Scene qynewScene = new Scene(new QYNewUI(newStage, qy));
 		newStage.setScene(qynewScene);
 		newStage.show();
 	}
