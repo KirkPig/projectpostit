@@ -18,9 +18,11 @@ public class ReportLayout {
 		
 	}
 	
-	public void addComponent(ReportComponent component) {
+	public void addComponent(ReportComponent... component) {
 		
-		componentList.add(component);
+		for (int i = 0; i < component.length; i++) {
+			componentList.add(component[i]);
+		}
 		
 	}
 	
@@ -32,6 +34,10 @@ public class ReportLayout {
 			
 		}
 		
+	}
+	
+	public ArrayList<ReportComponent> getComponentList() {
+		return componentList;
 	}
 
 	public String getName() {
