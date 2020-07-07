@@ -1615,15 +1615,6 @@ public class Report {
 			// printBilling(billing, dest);
 			Desktop.getDesktop().open(new File(dest));
 			
-			Gson gson = new Gson();
-			String s = gson.toJson(itemList);
-			System.out.println(s);
-			TypeToken<ArrayList<Item>> token = new TypeToken<ArrayList<Item>>() {};
-			ArrayList<Item> newList = gson.fromJson(s, token.getType());
-			for(Item i: newList) {
-				System.out.println(i.getDescription());
-			}
-			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
