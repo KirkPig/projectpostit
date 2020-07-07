@@ -1,4 +1,4 @@
-package logic.report;
+package logic.report.layout;
 
 import java.util.ArrayList;
 
