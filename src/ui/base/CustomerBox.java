@@ -112,7 +112,7 @@ public class CustomerBox extends VBox {
 									mailBox.setText(rs2.getString("email"));
 
 								}
-
+								searchBox.clear();
 								stmt.close();
 								conn.close();
 							} catch (Exception e) {
@@ -263,6 +263,7 @@ public class CustomerBox extends VBox {
 
 	public void setSelectedCustomer(Customer customer) {
 		codeBox.setText(customer.getCode());
+		nameBox.setText(customer.getName());
 		taxIdBox.setText(customer.getTaxID());
 		addressBox.setText(customer.getAddress());
 		teleBox.setText(customer.getTel());

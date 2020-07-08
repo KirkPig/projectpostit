@@ -75,7 +75,7 @@ public class Header extends Pane {
 			}
 		});
 
-		orderButton = new ToggleButton("Order");
+		orderButton = new ToggleButton("ProductOrder");
 		orderButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
 		orderButton.setFocusTraversable(false);
 		orderButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,7 +86,7 @@ public class Header extends Pane {
 			}
 		});
 
-		productButton = new ToggleButton("Product");
+		productButton = new ToggleButton("ProductLoan");
 		productButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
 		productButton.setFocusTraversable(false);
 		productButton.setOnAction(new EventHandler<ActionEvent>() {
