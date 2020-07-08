@@ -221,6 +221,7 @@ public class QYNewUI extends VBox {
 
 	public void save() {
 		Connection conn;
+		
 		if (!createNew) {
 			try {
 				conn = DatabaseConnection.getConnection();
