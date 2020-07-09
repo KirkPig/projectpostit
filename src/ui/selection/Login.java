@@ -32,6 +32,7 @@ public class Login extends VBox{
 	private String status = "";
 	private Label statusLabel = new Label(status);
 	private GridPane pane = new GridPane();
+	public static String usernameShow = "";
 	public Login() {
 		this.setPadding(new Insets(10, 10, 10, 10));  
 	    this.setSpacing(10);
@@ -123,8 +124,9 @@ public class Login extends VBox{
 					}
 					else {
 							System.out.println("you login sucessfully!!."); 
+							usernameShow = userField.getText();
 							Stage stage = new Stage();
-							Scene testScene = new Scene(new BLSelection());
+							Scene testScene = new Scene(new Header(stage),1280,720);
 							stage.setScene(testScene);
 							stage.setResizable(false);
 							stage.show();
