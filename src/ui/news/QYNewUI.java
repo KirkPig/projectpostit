@@ -36,6 +36,7 @@ import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.QYBox;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 
 public class QYNewUI extends VBox {
@@ -66,11 +67,6 @@ public class QYNewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			// Stage newStage = new Stage();
-			// VBox newBox = new VBox(new QuotationNewUI());
-			// Scene newScene = new Scene(newBox);
-			// newStage.setScene(newScene);
-			// newStage.show();
 
 		});
 
@@ -221,7 +217,7 @@ public class QYNewUI extends VBox {
 
 	public void save() {
 		Connection conn;
-		
+
 		if (!createNew) {
 			try {
 				conn = DatabaseConnection.getConnection();
@@ -233,7 +229,7 @@ public class QYNewUI extends VBox {
 				conn.close();
 				QYSelection.updateQY("");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 
@@ -261,8 +257,8 @@ public class QYNewUI extends VBox {
 			String json = gson.toJson(itemList);
 
 			String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','" + cr
-					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem"
-					+ "');";
+					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','"
+					+ Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
@@ -278,8 +274,6 @@ public class QYNewUI extends VBox {
 		}
 
 	}
-
-	
 
 	public void calculateTax() {
 		total = 0;

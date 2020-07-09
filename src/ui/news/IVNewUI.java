@@ -38,6 +38,7 @@ import ui.base.IVBox;
 import ui.base.ProductAdd;
 import ui.base.IVBox;
 import ui.selection.IVSelection;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 import ui.selection.IVSelection;
 
@@ -237,7 +238,7 @@ public class IVNewUI extends VBox {
 				conn.close();
 				IVSelection.updateIV("");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 
@@ -269,7 +270,7 @@ public class IVNewUI extends VBox {
 
 			String sql = "insert into invoice values('" + id + "','" + date + "','" + code + "','" + po + "','" + order
 					+ "','" + payment + "','" + datedue + "','" + sale + "'," + valueBeforeTax + "," + valueTax + ","
-					+ valueAfterTax + ",'" + json + "','" + "naem" + "');";
+					+ valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {

@@ -37,6 +37,7 @@ import ui.base.GeneralBox;
 import ui.base.POBox;
 import ui.base.ProductAdd;
 import ui.base.QYBox;
+import ui.selection.Login;
 import ui.selection.POSelection;
 import ui.selection.QYSelection;
 
@@ -66,11 +67,7 @@ public class PONewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			// Stage newStage = new Stage();
-			// VBox newBox = new VBox(new QuotationNewUI());
-			// Scene newScene = new Scene(newBox);
-			// newStage.setScene(newScene);
-			// newStage.show();
+			
 
 		});
 
@@ -231,7 +228,7 @@ public class PONewUI extends VBox {
 				conn.close();
 				QYSelection.updateQY("");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 
@@ -257,9 +254,9 @@ public class PONewUI extends VBox {
 
 			Gson gson = new Gson();
 			String json = gson.toJson(itemList);
-			// TODO fix username
+		
 			String sql = "insert into productorder values('" + id + "','" + date + "','" + code + "','" + payment + "',"
-					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem" + "');";
+					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {

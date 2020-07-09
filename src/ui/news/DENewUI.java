@@ -38,6 +38,7 @@ import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.DEBox;
 import ui.selection.DESelection;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 import ui.selection.DESelection;
 
@@ -260,7 +261,7 @@ public class DENewUI extends VBox {
 			String json = gson.toJson(itemList);
 
 			String sql = "insert into delivery values('" + id + "','" + date + "','" + code + "','" + contact + "',"
-					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem" + "');";
+					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
