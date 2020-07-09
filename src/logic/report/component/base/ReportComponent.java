@@ -6,6 +6,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 public abstract class ReportComponent {
 	
 	private String name;
+	private String fontFamily = "THSarabunNew";
 	private float x;
 	private float y;
 	private float width;
@@ -61,6 +62,14 @@ public abstract class ReportComponent {
 
 	public void setHeight(float height) {
 		this.height = height;
+	}
+
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
 	}
 
 }

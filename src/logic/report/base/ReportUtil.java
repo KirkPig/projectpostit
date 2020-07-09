@@ -120,12 +120,12 @@ public class ReportUtil {
 		
 	
 	public static void addParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize, float x,
-			float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment, ReportFontType fontType)
+			float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment, ReportFontType fontType, String fontFamily)
 			throws Exception {
 
 		cs.beginText();
 
-		PDFont font = getFont(document, "THSarabunNew", fontType);
+		PDFont font = getFont(document, fontFamily, fontType);
 		cs.setFont(font, fontSize);
 		cs.setNonStrokingColor(Color.BLACK);
 
@@ -179,7 +179,7 @@ public class ReportUtil {
 	
 	public static void addMultilineParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize,
 			float x, float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment,
-			ReportFontType fontType) throws Exception {
+			ReportFontType fontType, String fontFamily) throws Exception {
 		
 		float lineSpacing = 3.5f;
 		PDFont font = getFont(document, "THSarabunNew", fontType);
@@ -206,7 +206,7 @@ public class ReportUtil {
 			
 			String s = mutilineList.get(i);
 			
-			addParagraph(document, cs, s, fontSize, x, y, width, fontHeight, hAlignment, ReportVAlignment.CENTER, fontType);
+			addParagraph(document, cs, s, fontSize, x, y, width, fontHeight, hAlignment, ReportVAlignment.CENTER, fontType, fontFamily);
 			
 			y = y + fontHeight + lineSpacing;
 			
