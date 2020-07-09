@@ -15,9 +15,14 @@ public class Billing {
 	private String billingDate;
 	private String ps;
 	private double value;
-
+	private String invoiceIdForTable = "";
+	private String psForTable = "";
+	private String amountForTable = "";
+	private String customerName;
+	private String creator;
+	
 	public Billing(String id, String date, Customer customer, ArrayList<Invoice> invoiceList, ArrayList<String> psList, String billingBy,
-			String billingDate, String ps) {
+			String billingDate, String ps,String creator) {
 		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
 		this.setDate(date);
@@ -30,9 +35,17 @@ public class Billing {
 		double total = 0.00;
 		for(Invoice i : invoiceList) {
 			total = total + i.getValueAfterTax();
+			
 		}
 		this.setValue(total);
-		
+		for (Integer i = 0 ; i<invoiceList.size() ;i++) {
+			invoiceList.get(i).setPs(psList.get(i));
+		}
+		this.setInvoiceIdForTable(invoiceList);
+		this.setPsForTable(psList);
+		this.setAmountForTable(invoiceList);
+		this.setCustomerName(customer);
+		this.setCreator(creator);
 	}
 
 	public String getId() {
@@ -105,6 +118,52 @@ public class Billing {
 
 	public void setPsList(ArrayList<String> psList) {
 		this.psList = psList;
+	}
+
+	public String getInvoiceIdForTable() {
+		return invoiceIdForTable;
+	}
+
+	public void setInvoiceIdForTable(ArrayList<Invoice> invoiceList) {
+		for (Invoice invoice: invoiceList) {
+			this.invoiceIdForTable += invoice.getId() + "\n";
+		}
+	}
+
+	public String getPsForTable() {
+		return psForTable;
+	}
+
+	public void setPsForTable(ArrayList<String> psList) {
+		for (String e : psList) {
+			this.psForTable += e + "\n";
+		}
+	}
+
+	public String getAmountForTable() {
+		return amountForTable;
+	}
+
+	public void setAmountForTable(ArrayList<Invoice> invoiceList) {
+		for (Invoice invoice: invoiceList) {
+			this.amountForTable += invoice.getValueAfterTaxForTable();
+		}
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(Customer customerName) {
+		this.customerName = customerName.getName();
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 }

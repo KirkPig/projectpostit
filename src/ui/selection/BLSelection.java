@@ -267,7 +267,7 @@ public class BLSelection extends VBox {
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
 				// TODO fix username
-				ProductLoan productloan = new ProductLoan(id, date, customer, itemList, contact, "NAEM");
+				ProductLoan productloan = new ProductLoan(id, date, customer, itemList, contact, rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {

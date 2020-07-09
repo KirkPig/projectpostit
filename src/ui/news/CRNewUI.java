@@ -40,6 +40,7 @@ import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.QYBox;
 import ui.selection.CRSelection;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 
 public class CRNewUI extends VBox {
@@ -217,7 +218,7 @@ public class CRNewUI extends VBox {
 
 			String sql = "insert into creditnote values('" + id + "','" + date + "','" + code + "','" + invoiceid
 					+ "','" + invoicedate + "'," + valueOld + "," + valueReal + "," + valueBeforeTax + "," + valueTax
-					+ "," + valueAfterTax + ",'" + "naem" + "');";
+					+ "," + valueAfterTax + ",'" + Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
