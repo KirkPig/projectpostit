@@ -33,7 +33,7 @@ public class AdminAccountPane extends VBox {
 	private TableView<User> accountTable = new TableView<User>();
 	private HBox accountAddBox = new HBox();
 	private TextField usernameField = new TextField();
-	private TextField passwordField = new PasswordField();
+	private TextField passwordField = new TextField();
 	private TextField nameField = new TextField();
 	private Button btnAddAccount = new Button("Add");
 	private HBox accountChangeBox = new HBox();
@@ -41,6 +41,7 @@ public class AdminAccountPane extends VBox {
 	private TextField passwordField2 = new TextField();
 	private TextField nameField2 = new TextField();
 	private Button btnChangeAccount = new Button("Change");
+	private Button btnDeleteAccount = new Button("Delete");
 	private String usernamebf ;
 	@SuppressWarnings("unchecked")
 	public AdminAccountPane() {
@@ -91,6 +92,15 @@ public class AdminAccountPane extends VBox {
 			}
 			
 		});
+		btnDeleteAccount.setMinWidth(100);
+		btnDeleteAccount.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			
+			public void handle(MouseEvent event) {
+	
+				deleteUser();
+			}
+			
+		});
 		accountAddBox.getChildren().add(usernameField);
 		accountAddBox.getChildren().add(passwordField);
 		accountAddBox.getChildren().add(nameField);
@@ -100,11 +110,13 @@ public class AdminAccountPane extends VBox {
 		accountChangeBox.getChildren().add(passwordField2);
 		accountChangeBox.getChildren().add(nameField2);
 		accountChangeBox.getChildren().add(btnChangeAccount);
+		accountChangeBox.getChildren().add(btnDeleteAccount);
 		
 		
 		getChildren().add(accountTable);
 		getChildren().add(accountAddBox);
 		getChildren().add(accountChangeBox);
+		
 		
 		
 		
@@ -187,10 +199,9 @@ public class AdminAccountPane extends VBox {
 			Connection conn = DatabaseConnection.getConnection();
 			User user = new User(usernameField.getText(), passwordField.getText(), nameField.getText());
 			String sql = "UPDATE account SET username = '" + usernameField2.getText() + "',password = '"+ passwordField2.getText() +"',name = '"+nameField2.getText() + "'"+"WHERE username = '"+usernamebf+"';";
-			System.out.println(sql);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			int x = stmt.executeUpdate();
-			
+			accountChangeBoxClear();
 			}
 		catch(Exception e1) {
 				System.out.println(e1);
@@ -198,13 +209,35 @@ public class AdminAccountPane extends VBox {
 		updateTable();
 		
 	}
+	private void deleteUser() {
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			String sql = "DELETE FROM account WHERE username = '"+ usernamebf +"';";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			int x = stmt.executeUpdate();
+			accountChangeBoxClear();
+			}
+		catch(Exception e1) {
+				System.out.println(e1);
+			};
+		updateTable();
+	}
 	private void accountAddBoxClear() {
 		
 		
-		
+		usernamebf = "";
 		usernameField.clear();
 		passwordField.clear();
 		nameField.clear();
+		
+	}
+	private void accountChangeBoxClear() {
+		
+		
+		
+		usernameField2.clear();
+		passwordField2.clear();
+		nameField2.clear();
 		
 	}
 
