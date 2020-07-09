@@ -3,16 +3,12 @@ package logic.report.template;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.lang.reflect.Field;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-
-import com.sun.javafx.binding.StringFormatter;
 
 import bill.Billing;
 import bill.CreditNote;
@@ -25,9 +21,6 @@ import bill.Quotation;
 import database.User;
 import logic.Customer;
 import logic.Product;
-import logic.Report.FontType;
-import logic.Report.HAlignment;
-import logic.Report.VAlignment;
 import logic.report.base.ReportFontType;
 import logic.report.base.ReportHAlignment;
 import logic.report.base.ReportVAlignment;
@@ -35,6 +28,7 @@ import logic.report.component.ReportPictureBox;
 import logic.report.component.ReportRectBox;
 import logic.report.component.ReportTable;
 import logic.report.component.ReportTableColumn;
+import logic.report.component.ReportTableCustomRow;
 import logic.report.component.ReportTextBox;
 import logic.report.component.base.ReportComponent;
 import logic.report.layout.ReportLayout;
@@ -101,7 +95,7 @@ public class ReportTemplate {
 		 * List
 		 */
 		
-		ReportTable<Item> itemTable = new ReportTable<>("itemTable", 12.7f, 114.6f, 0f, 0f);
+		ReportTable<Item> itemTable = new ReportTable<>("itemTable", 12.7f, 114.6f, 184.4f, 109.7f);
 		itemTable.setHeaderBackgroundColor(base);
 		
 		ReportTableColumn<Item, Integer> noColumn = new ReportTableColumn<>("noColumn", 6.1f, "AUTO_NUMBER");
@@ -127,6 +121,7 @@ public class ReportTemplate {
 		
 		itemTable.addColumn(noColumn, descriptionColumn, quantityColumn, unitColumn, priceColumn, discountColumn, amountColumn);
 		
+		
 		ArrayList<Item> itemList = form.getItemList();
 		
 		for (int i = 0; i < itemList.size(); i++) {
@@ -140,6 +135,8 @@ public class ReportTemplate {
 		/*
 		 * Footer
 		 */
+		
+		
 
 		/*
 		 * Signature
@@ -182,11 +179,11 @@ public class ReportTemplate {
 		User user = new User("kirkpig", "postitpaper", "KirkPig");
 		
 		Invoice invoice = new Invoice("YN630008123", date, customer, itemList, "PO63008123", "Piggy", "CASH", date,
-				"Pig");
-		Order order = new Order("PO63008123", date, customer, itemList, "CASH");
-		Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
-		ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
-		CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00);
+				"Pig", user.getName());
+		Order order = new Order("PO63008123", date, customer, itemList, "CASH", user.getName());
+		Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig", user.getName());
+		ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig", user.getName());
+		CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00, user.getName());
 		Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "CASH", user.getName());
 
 		ArrayList<Invoice> invoiceList = new ArrayList<>();
@@ -220,6 +217,7 @@ public class ReportTemplate {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		System.out.println("PDF has been created");

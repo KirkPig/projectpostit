@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
 import logic.report.base.ReportFontType;
 import logic.report.base.ReportHAlignment;
-import logic.report.base.ReportUtil;
 import logic.report.base.ReportVAlignment;
 import logic.report.component.base.ReportComponent;
 
@@ -88,8 +87,6 @@ public class ReportTable<S> extends ReportComponent {
 			y = y + rowHeight;
 
 		}
-		
-		
 		
 		
 		
