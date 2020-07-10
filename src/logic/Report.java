@@ -14,9 +14,6 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import bill.Billing;
 import bill.CreditNote;
 import bill.Delivery;
@@ -341,6 +338,12 @@ public class Report {
 		document.addPage(page);
 
 		Color base = Color.LIGHT_GRAY;
+		
+		float shFontSize = 14.0f;
+		float lhFontSize = 12.0f;
+		float listFontSize = 12.0f;
+		float footerFontSize = 14.0f;
+		float signatureFontSize = 14.0f;
 
 		PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
@@ -357,8 +360,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 20.0f;
-
 		addParagraph(document, contentStream, "Term of Payment: " + form.getPaymentTerm(), shFontSize, 12.7f, 89.2f,
 				69.9f, 17.2f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
 
@@ -370,7 +371,6 @@ public class Report {
 		/*
 		 * List Header
 		 */
-		float lhFontSize = 16.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -413,7 +413,6 @@ public class Report {
 		 * List
 		 */
 
-		float listFontSize = 16.0f;
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
@@ -448,7 +447,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 16.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -470,7 +468,6 @@ public class Report {
 		/*
 		 * Signature
 		 */
-		float signatureFontSize = 18.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -527,6 +524,12 @@ public class Report {
 		document.addPage(page);
 
 		Color base = new Color(144, 238, 144); // Another Page Yellow Color
+		
+		float shFontSize = 14.0f;
+		float lhFontSize = 12.0f;
+		float listFontSize = 12.0f;
+		float footerFontSize = 14.0f;
+		float signatureFontSize = 14.0f;
 
 		PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
@@ -543,7 +546,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 20.0f;
 
 		addParagraph(document, contentStream, "Contact: " + form.getContact(), shFontSize, 12.7f, 89.2f, 69.9f, 17.2f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -556,7 +558,6 @@ public class Report {
 		/*
 		 * List Header
 		 */
-		float lhFontSize = 16.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -599,7 +600,6 @@ public class Report {
 		 * List
 		 */
 
-		float listFontSize = 16.0f;
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
@@ -634,7 +634,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 16.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -658,12 +657,11 @@ public class Report {
 		 */
 		addParagraph(document, contentStream,
 				"หมายเหตุ : สินค้าตามรายการข้างต้น หากมีการเสียหายหรือขาดตกบกพร่อง โปรดแจ้งให้ทราบภายใน 3 วัน นับจากวันที่ได้รับสินค้า มิฉะนั้น ทางบริษัทฯ จะไม่รับผิดชอบใดๆ ทั้งสิ้น",
-				14f, 14f, 251f, 1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				11f, 14f, 251f, 1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
 
 		/*
 		 * Signature
 		 */
-		float signatureFontSize = 18.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -720,6 +718,12 @@ public class Report {
 		document.addPage(page);
 
 		Color base = new Color(255, 182, 193);
+		
+		float shFontSize = 14.0f;
+		float lhFontSize = 12.0f;
+		float listFontSize = 12.0f;
+		float footerFontSize = 14.0f;
+		float signatureFontSize = 14.0f;
 
 		PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
@@ -735,7 +739,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 20.0f;
 
 		addParagraph(document, contentStream, "Contact: " + form.getContact(), shFontSize, 12.7f, 89.2f, 69.9f, 17.2f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -748,7 +751,6 @@ public class Report {
 		/*
 		 * List Header
 		 */
-		float lhFontSize = 16.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -791,7 +793,6 @@ public class Report {
 		 * List
 		 */
 
-		float listFontSize = 16.0f;
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
@@ -826,7 +827,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 16.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -848,7 +848,6 @@ public class Report {
 		/*
 		 * Signature
 		 */
-		float signatureFontSize = 18.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -905,6 +904,12 @@ public class Report {
 		document.addPage(page);
 
 		Color base = new Color(255, 127, 80);
+		
+		float shFontSize = 14.0f;
+		float lhFontSize = 12.0f;
+		float listFontSize = 12.0f;
+		float footerFontSize = 14.0f;
+		float signatureFontSize = 14.0f;
 
 		PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
@@ -920,8 +925,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 20.0f;
-
 		addParagraph(document, contentStream, "อ้างถึงเลขที่ใบกำกับภาษี(ฉบับเดิม) " + form.getInvoice().getId(),
 				shFontSize, 15f, 89.2f, 84.9f, 8.6f, HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
 		addParagraph(document, contentStream, "วันที่ตามใบกำกับภาษี(ฉบับเดิม) " + form.getInvoice().getDate(),
@@ -936,7 +939,6 @@ public class Report {
 		 * List Header
 		 */
 
-		float lhFontSize = 16.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -959,7 +961,6 @@ public class Report {
 		 * List
 		 */
 
-		float listFontSize = 16.0f;
 		ArrayList<Item> itemList = form.getInvoice().getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		for (int i = 0; i < itemList.size(); i++) {
@@ -988,7 +989,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 16.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				224.3f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1029,7 +1029,6 @@ public class Report {
 		 * Signature
 		 */
 
-		float signatureFontSize = 18.0f;
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 62.4f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1101,6 +1100,12 @@ public class Report {
 		document.addPage(page);
 
 		Color base = new Color(224, 255, 255);
+		
+		float shFontSize = 14.0f;
+		float lhFontSize = 12.0f;
+		float listFontSize = 12.0f;
+		float footerFontSize = 14.0f;
+		float signatureFontSize = 14.0f;
 
 		PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
@@ -1120,7 +1125,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float shFontSize = 14.0f;
 
 		addParagraph(document, contentStream, "ATTN: " + form.getAttn(), shFontSize, 12.7f, 89.2f, 35f, 17.2f,
 				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1148,7 +1152,6 @@ public class Report {
 		/*
 		 * List Header
 		 */
-		float lhFontSize = 12.0f;
 
 		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
 		contentStream.setNonStrokingColor(base);
@@ -1190,8 +1193,6 @@ public class Report {
 		/*
 		 * List
 		 */
-
-		float listFontSize = 12.0f;
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
@@ -1226,7 +1227,6 @@ public class Report {
 		contentStream.setNonStrokingColor(base);
 		contentStream.fill();
 
-		float footerFontSize = 14.0f;
 
 		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
 				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1249,7 +1249,7 @@ public class Report {
 		 * Signature
 		 */
 
-		float signatureFontSize = 14.0f;
+		
 
 		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
 				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
@@ -1547,13 +1547,6 @@ public class Report {
 		contentStream.drawLine(cpx(200.6f), cpy(219.8f), cpx(200.6f), cpy(227f));
 
 		// Horizontal
-		/*
-		 * e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(42.9 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(42.9 / mmpi * dpi));
-            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(86 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(86 / mmpi * dpi));
-            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(93.1 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(93.1 / mmpi * dpi));
-            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(219.8 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(219.8 / mmpi * dpi));
-            e.Graphics.DrawLine(Pens.Black, (int)(13.5 / mmpi * dpi), (int)(227 / mmpi * dpi), (int)(200.6 / mmpi * dpi), (int)(227 / mmpi * dpi));
-		 */
 		contentStream.drawLine(cpx(12f), cpy(40f), cpx(200.6f), cpy(40f));
 		contentStream.drawLine(cpx(12f), cpy(86f), cpx(200.6f), cpy(86f));
 		contentStream.drawLine(cpx(12f), cpy(93.1f), cpx(200.6f), cpy(93.1f));
@@ -1588,11 +1581,11 @@ public class Report {
 			User user = new User("kirkpig", "postitpaper", "KirkPig");
 
 			Invoice invoice = new Invoice("YN630008123", date, customer, itemList, "PO63008123", "Piggy", "CASH", date,
-					"Pig");
-			Order order = new Order("PO63008123", date, customer, itemList, "CASH");
-			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig");
-			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig");
-			CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00);
+					"Pig", user.getName());
+			Order order = new Order("PO63008123", date, customer, itemList, "CASH", user.getName());
+			Delivery delivery = new Delivery("DE63008123", date, customer, itemList, "Pig", user.getName());
+			ProductLoan productLoan = new ProductLoan("BL63008123", date, customer, itemList, "Pig", user.getName());
+			CreditNote creditNote = new CreditNote("CR63008123", date, customer, invoice, 100000.00, user.getName());
 			Quotation quotation = new Quotation("QY63008123", date, customer, itemList, "5545", "0", user.getName());
 
 			ArrayList<Invoice> invoiceList = new ArrayList<>();
@@ -1610,7 +1603,7 @@ public class Report {
 			// printDelivery(delivery, dest);
 			// printProductLoan(productLoan, dest);
 			// printCreditNote(creditNote, dest);
-			printQuotation(quotation, dest);
+			// printQuotation(quotation, dest);
 			// printInvoice(invoice, dest);
 			// printBilling(billing, dest);
 			Desktop.getDesktop().open(new File(dest));

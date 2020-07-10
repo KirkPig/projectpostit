@@ -70,7 +70,7 @@ public class ReportTextBox extends ReportComponent {
 		}
 
 		ReportUtil.addMultilineParagraph(document, cs, getText(), getFontSize(), getX(), getY(), getWidth(), getHeight(),
-				gethAlignment(), getvAlignment(), getFontType());
+				gethAlignment(), getvAlignment(), getFontType(), getFontFamily());
 
 	}
 

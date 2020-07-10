@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -40,7 +41,7 @@ public class AdminAccountPane extends VBox {
 	private TextField usernameField2 = new TextField();
 	private TextField passwordField2 = new TextField();
 	private TextField nameField2 = new TextField();
-	private Button btnChangeAccount = new Button("Change");
+	private Button btnChangeAccount = new Button("Edit");
 	private Button btnDeleteAccount = new Button("Delete");
 	private String usernamebf ;
 	@SuppressWarnings("unchecked")
@@ -113,10 +114,30 @@ public class AdminAccountPane extends VBox {
 		accountChangeBox.getChildren().add(btnDeleteAccount);
 		
 		
-		getChildren().add(accountTable);
-		getChildren().add(accountAddBox);
-		getChildren().add(accountChangeBox);
+		Label l = new Label("double click to edit");
+		HBox hb = new HBox();
+		hb.getChildren().add(l);
+		hb.setAlignment(Pos.CENTER);
 		
+		
+		
+		Button btAdd = new Button("Add new account");
+		btAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				getChildren().add(accountAddBox);
+			}
+			
+		});
+		HBox hb2 = new HBox();
+		hb2.getChildren().add(btAdd);
+		hb2.setAlignment(Pos.CENTER);
+		
+		getChildren().add(accountTable);
+		getChildren().add(hb);
+		getChildren().add(hb2);
 		
 		
 		
@@ -134,7 +155,7 @@ public class AdminAccountPane extends VBox {
 		            usernameField2.setText(clickedRow .getUsername());
 		    		passwordField2.setText(clickedRow .getPassword());
 		    		nameField2.setText(clickedRow .getName());
-		    		
+		    		getChildren().add(accountChangeBox);
 		        }
 		    });
 		    return row ;
@@ -149,7 +170,7 @@ public class AdminAccountPane extends VBox {
 		Connection conn = DatabaseConnection.getConnection();
 		User user = new User(usernameField.getText(), passwordField.getText(), nameField.getText());
 		String sql = "insert into account values('" + usernameField.getText() + "','" + passwordField.getText() + "','"
-				+ nameField.getText() + "','" + gson.toJson(user) + "')";
+				+ nameField.getText() + "','" + user.getGson() + "')";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		int x = stmt.executeUpdate();
@@ -207,6 +228,7 @@ public class AdminAccountPane extends VBox {
 				System.out.println(e1);
 			};
 		updateTable();
+		getChildren().remove(accountChangeBox);
 		
 	}
 	private void deleteUser() {
