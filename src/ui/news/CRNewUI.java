@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -29,11 +31,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import logic.Customer;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.CRBox;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
@@ -165,6 +170,7 @@ public class CRNewUI extends VBox {
 		cr.setInvoiceText(creditnote.getInvoiceID());
 		cr.setDate(creditnote.getInvoice().getDate());
 		cr.setValueRealText(creditnote.getValueReal());
+		cr.setInvoice(creditnote.getInvoice());
 		productTable.getItems().addAll(creditnote.getInvoice().getItemList());
 		calculateTax();
 	}
@@ -229,6 +235,7 @@ public class CRNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new CreditNote(id, date, cusBox.getSelectedCustomer(), cr.getInvoice(), valueReal, Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -278,6 +285,17 @@ public class CRNewUI extends VBox {
 			productTable.getItems().add(item);
 		}
 		cusBox.setSelectedCustomer(customer);
+	}
+	
+	public void saveOnPC(CreditNote cr) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printCreditNote(cr, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
 	}
 	
 	

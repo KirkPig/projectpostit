@@ -29,7 +29,7 @@ public class Invoice {
 	private String productUnit;
 	private String valueAfterTaxForTable;
 	private String customerName;
-	private CheckBox select;
+	private boolean select;
 	private String ps;
 
 	public Invoice(String id, String date, Customer customer, ArrayList<Item> itemList, String poNum, String orderBy,
@@ -56,17 +56,9 @@ public class Invoice {
 		this.setValueAfterTaxForTable(getValueBeforeTax() + getValueTax());
 		this.setCustomerName(customer.getName());
 		this.setCreator(creator);
-		this.select = new CheckBox();
+		this.select = false;
 		this.setPs("");
-		this.select.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				RBNewUI.calculate();
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
 	}
 
 	public String getId() {
@@ -225,10 +217,13 @@ public class Invoice {
 		this.customerName = customerName;
 	}
 
-	public CheckBox getSelect() {
+	public boolean getSelect() {
 		return select;
 	}
 
+	public void setSelect(boolean a) {
+		this.select = a;
+	}
 	public String getPs() {
 		return ps;
 	}

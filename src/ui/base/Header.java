@@ -6,6 +6,7 @@ package ui.base;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -190,8 +191,8 @@ public class Header extends Pane {
 	}
 
 	public void homePushed() {
-		bottomPane.getChildren().clear();
-		bottomPane.getChildren().add(new Login());
+//		bottomPane.getChildren().clear();
+//		bottomPane.getChildren().add(new Login());
 	}
 
 	public void quotationPushed() {
@@ -236,6 +237,11 @@ public class Header extends Pane {
 	
 	public void logOutPushed() {
 		mainStage.close();
+		Stage loginStage = new Stage();
+		Scene loginScene =new Scene(new Login(loginStage));
+		loginStage.setScene(loginScene);
+		loginStage.show();
+		
 	}
 
 }

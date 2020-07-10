@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -12,6 +14,9 @@ import com.google.gson.reflect.TypeToken;
 import bill.Billing;
 import bill.Invoice;
 import bill.Item;
+import bill.Order;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -28,17 +33,21 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import logic.Customer;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.BLBox;
 import ui.base.RBBox;
 import ui.base.CustomerBox;
@@ -120,19 +129,23 @@ public class RBNewUI extends VBox {
 			public void handle(ActionEvent arg0) {
 				if (selectAll.isSelected()) {
 					for (Invoice invoice : invoiceTable.getItems()) {
-						if (!invoice.getSelect().isSelected()) {
-							invoice.getSelect().setSelected(true);
+						if (!invoice.getSelect()) {
+							invoice.setSelect(true);
 						}
 
 					}
 				} else {
+					
 					for (Invoice invoice : invoiceTable.getItems()) {
-						if (invoice.getSelect().isSelected()) {
-							invoice.getSelect().setSelected(false);
+						if (invoice.getSelect()) {
+							invoice.setSelect(false);
 						}
 					}
 
 				}
+				
+				invoiceTable.refresh();
+				calculate();
 			}
 		});
 
@@ -163,9 +176,50 @@ public class RBNewUI extends VBox {
 		invoiceTable = new TableView<Invoice>();
 		invoiceTable.setMinWidth(1000);
 		invoiceTable.setEditable(true);
-		TableColumn selectCol = new TableColumn("Select");
-		selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
+		TableColumn<Invoice, Boolean> selectCol = new TableColumn("Select");
+//		selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
+//		selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+//		selectCol.setOnEditCommit(new EventHandler<CellEditEvent<Invoice, Boolean>>() {
+//			@Override
+//			public void handle(CellEditEvent<Invoice, Boolean> t) {
+//				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setSelect(t.getNewValue());
+//		
+//				invoiceTable.refresh();
+//				calculate();
+//
+//			}
+//
+//		});
+		
+//		selectCol.setOnEditStart(new EventHandler<CellEditEvent<Invoice, Boolean>>() {
+//			@Override
+//			public void handle(CellEditEvent<Invoice, Boolean> t) {
+//				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setSelect(t.getNewValue());
+//		
+//				invoiceTable.refresh();
+//				calculate();
+//
+//			}
+//
+//		});
 
+		 
+		        selectCol.setCellFactory(column -> new CheckBoxTableCell<>());
+		        selectCol.setCellValueFactory(cellData -> {
+		            Invoice cellValue = cellData.getValue();
+		            BooleanProperty property = new SimpleBooleanProperty(cellValue.getSelect());
+
+		            // Add listener to handler change
+		            property.addListener((observable, oldValue, newValue) -> {
+		            	cellValue.setSelect(newValue);
+		            	calculate();
+		            });
+		            
+		            
+		            
+		            return property;
+		        });
+		    
 		TableColumn idCol = new TableColumn("Invoice ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -223,7 +277,7 @@ public class RBNewUI extends VBox {
 
 	}
 
-	public void updateNewRB(String search) {
+	public static void updateNewRB(String search) {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
@@ -341,7 +395,7 @@ public class RBNewUI extends VBox {
 	public static void calculate() {
 		total = 0;
 		for (Invoice invoice : invoiceTable.getItems()) {
-			if (invoice.getSelect().isSelected()) {
+			if (invoice.getSelect()) {
 				total += invoice.getValueAfterTax();
 			}
 
@@ -379,10 +433,12 @@ public class RBNewUI extends VBox {
 			String code = cusBox.getCustomer();
 			ArrayList<String> invoiceIdList = new ArrayList<String>();
 			ArrayList<String> psList = new ArrayList<String>();
+			ArrayList<Invoice> invoiceList = new ArrayList<Invoice>();
 			for (Invoice invoice : invoiceTable.getItems()) {
-				if (invoice.getSelect().isSelected()) {
+				if (invoice.getSelect()) {
 					invoiceIdList.add(invoice.getId());
 					psList.add(invoice.getPs());
+					invoiceList.add(invoice);
 				}
 
 			}
@@ -404,6 +460,7 @@ public class RBNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new Billing(id, date, cusBox.getSelectedCustomer(), invoiceList, psList, billingBy, billingDate, ps, Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -447,5 +504,20 @@ public class RBNewUI extends VBox {
 
 		return !date.isEmpty() && !billingBy.isEmpty() && !ps.isEmpty() && !code.isEmpty()
 				&& !invoiceTable.getItems().isEmpty() && total != 0;
+	}
+	
+	public static ComboBox<String> getGenre(){
+		return genre;
+	}
+	
+	public void saveOnPC(Billing rb) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printBilling(rb, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 
 import java.sql.ResultSet;
@@ -28,10 +30,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import logic.Customer;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
@@ -193,6 +199,7 @@ public class QYNewUI extends VBox {
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
 				save();
+				
 				QYSelection.updateQY("");
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
@@ -269,6 +276,7 @@ public class QYNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new Quotation(id,date,cusBox.getSelectedCustomer(),itemList,attn,cr,Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -324,4 +332,14 @@ public class QYNewUI extends VBox {
 				&& !productTable.getItems().isEmpty() && total != 0;
 	}
 
+	public void saveOnPC(Quotation qy) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printQuotation(qy, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
+	}
 }

@@ -288,7 +288,7 @@ public class RBSelection extends VBox {
 							rs3.getString("ponum"), rs3.getString("orderby"), rs3.getString("termofpayment"),
 							rs3.getString("datedue"), rs3.getString("sales"), rs3.getString("user"));
 					invoice.setPs(psList.get(i));
-					invoice.getSelect().setSelected(true);
+					invoice.setSelect(true);
 					invoiceList.add(invoice);
 				}
 				
