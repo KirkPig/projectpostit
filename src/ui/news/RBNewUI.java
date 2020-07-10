@@ -20,6 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -62,7 +63,7 @@ public class RBNewUI extends VBox {
 	private static ComboBox<Integer> year;
 	private static ComboBox<String> genre;
 	private static TextField search;
-	private static Label totalAmount; //TODO format this decimal;
+	private static Label totalAmount;
 
 	public RBNewUI(Stage yourOwnStage) {
 		createNew = true;
@@ -76,11 +77,6 @@ public class RBNewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			// Stage newStage = new Stage();
-			// VBox newBox = new VBox(new QuotationNewUI());
-			// Scene newScene = new Scene(newBox);
-			// newStage.setScene(newScene);
-			// newStage.show();
 
 		});
 
@@ -118,15 +114,44 @@ public class RBNewUI extends VBox {
 		genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
 
+		CheckBox selectAll = new CheckBox();
+		selectAll.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (selectAll.isSelected()) {
+					for (Invoice invoice : invoiceTable.getItems()) {
+						if (!invoice.getSelect().isSelected()) {
+							invoice.getSelect().setSelected(true);
+						}
+
+					}
+				} else {
+					for (Invoice invoice : invoiceTable.getItems()) {
+						if (invoice.getSelect().isSelected()) {
+							invoice.getSelect().setSelected(false);
+						}
+					}
+
+				}
+			}
+		});
+
+		selectAll.setAlignment(Pos.CENTER_LEFT);
 		HBox searchBox = new HBox();
-		searchBox.getChildren().addAll(month, year, search, genre);
+		searchBox.getChildren().addAll(selectAll, month, year, search, genre);
 		searchBox.setAlignment(Pos.CENTER);
 
 		HBox upper = new HBox();
 		VBox left = new VBox();
-		genBox = new GeneralBox(300, 120);
+		genBox = new GeneralBox(300, 120); // TODO if setCustomer Search that customer;
 		rb = new RBBox(300, 120);
 		cusBox = new CustomerBox(300, 250);
+//		cusBox.getCodeLabel().textProperty().addListener(new ChangeListener<String>() {
+//			@Override
+//			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+//				genre.setValue("Customer Name");
+//				updateNewRB(cusBox.getCodeLabel().getV);
+//			}});
 		left.getChildren().addAll(genBox, rb);
 		left.setSpacing(4);
 		upper.getChildren().addAll(left, cusBox);
@@ -188,7 +213,7 @@ public class RBNewUI extends VBox {
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
 				save();
-//				RBSelection.updateRB("");
+				RBSelection.updateRB("");
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -260,7 +285,7 @@ public class RBNewUI extends VBox {
 					case "Creator":
 
 						addToTable = rs.getString("user").contains(search);
-						
+
 						break;
 					case "Amount":
 						try {
@@ -290,7 +315,7 @@ public class RBNewUI extends VBox {
 		}
 
 	}
-	
+
 	public RBNewUI(Stage yourOwnStage, Billing billing) {
 		this(yourOwnStage);
 		createNew = false;
@@ -300,14 +325,15 @@ public class RBNewUI extends VBox {
 		rb.setDate(billing.getBillingDate());
 		rb.setPsText(billing.getPs());
 		rb.setBillingByBox(billing.getBillingBy());
-		
-		//TODO fix this sheit;
-		for (Invoice invoice: invoiceTable.getItems()) {
-			if (billing.getInvoiceList().contains(invoice)) {
-				invoice.getSelect().setSelected(true);
-			}
-			
-		}
+		invoiceTable.getItems().clear();
+		// TODO fix this sheit;
+//		for (Invoice invoice : invoiceTable.getItems()) {
+//			if (billing.getInvoiceList().contains(invoice)) {
+//				invoice.getSelect().setSelected(true);
+//			}
+//
+//		}
+		invoiceTable.getItems().addAll(billing.getInvoiceList());
 		calculate();
 
 	}
@@ -318,7 +344,7 @@ public class RBNewUI extends VBox {
 			if (invoice.getSelect().isSelected()) {
 				total += invoice.getValueAfterTax();
 			}
-			
+
 		}
 		totalAmount.setText(Double.toString(total));
 	}
@@ -335,7 +361,7 @@ public class RBNewUI extends VBox {
 				stmt.executeUpdate(sql);
 				stmt.close();
 				conn.close();
-//				RBSelection.updateRB("");
+				RBSelection.updateRB("");
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -354,11 +380,11 @@ public class RBNewUI extends VBox {
 			ArrayList<String> invoiceIdList = new ArrayList<String>();
 			ArrayList<String> psList = new ArrayList<String>();
 			for (Invoice invoice : invoiceTable.getItems()) {
-				if(invoice.getSelect().isSelected()) {
+				if (invoice.getSelect().isSelected()) {
 					invoiceIdList.add(invoice.getId());
 					psList.add(invoice.getPs());
 				}
-				
+
 			}
 
 			Gson gson = new Gson();

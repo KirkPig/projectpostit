@@ -271,4 +271,8 @@ public class CustomerBox extends VBox {
 		mailBox.setText(customer.getEmail());
 
 	}
+	
+	public Label getCodeLabel() {
+		return this.codeBox;
+	}
 }
