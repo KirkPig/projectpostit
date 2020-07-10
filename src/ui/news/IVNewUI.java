@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import bill.Delivery;
 import bill.Invoice;
 import bill.Item;
 import bill.Quotation;
@@ -28,10 +31,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.IVBox;
@@ -281,6 +287,7 @@ public class IVNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new Invoice(id, date, cusBox.getSelectedCustomer(), itemList, po, order, payment, datedue, sale, Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -336,5 +343,16 @@ public class IVNewUI extends VBox {
 
 		return !date.isEmpty() && !po.isEmpty() && !order.isEmpty() && !code.isEmpty()
 				&& !productTable.getItems().isEmpty() && total != 0 && !sale.isEmpty() && !payment.isEmpty();
+	}
+	
+	public void saveOnPC(Invoice iv) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printInvoice(iv, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
 	}
 }

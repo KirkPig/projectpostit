@@ -1,5 +1,6 @@
 package bill;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import logic.Customer;
@@ -101,7 +102,8 @@ public class Billing {
 	}
 
 	public void setValue(double value) {
-		this.value = value;
+		DecimalFormat df = new DecimalFormat("#.##");
+		this.value = Double.parseDouble(df.format(value));
 	}
 
 	public ArrayList<Invoice> getInvoiceList() {

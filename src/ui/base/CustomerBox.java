@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import logic.Customer;
 import logic.DatabaseConnection;
+import ui.news.RBNewUI;
 
 public class CustomerBox extends VBox {
 	private Label codeBox;
@@ -112,6 +113,11 @@ public class CustomerBox extends VBox {
 									mailBox.setText(rs2.getString("email"));
 
 								}
+								if (RBNewUI.getGenre() != null) {
+									RBNewUI.getGenre().setValue("Customer Name");
+									RBNewUI.updateNewRB(nameBox.getText());
+								}
+								
 								searchBox.clear();
 								stmt.close();
 								conn.close();
@@ -270,5 +276,13 @@ public class CustomerBox extends VBox {
 		faxBox.setText(customer.getFax());
 		mailBox.setText(customer.getEmail());
 
+	}
+	
+	public Label getCodeLabel() {
+		return this.codeBox;
+	}
+	
+	public Customer getSelectedCustomer() {
+		return new Customer(codeBox.getText(),nameBox.getText(),taxIdBox.getText(),addressBox.getText(),teleBox.getText(),faxBox.getText(),mailBox.getText());
 	}
 }

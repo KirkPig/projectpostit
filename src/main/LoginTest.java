@@ -17,7 +17,7 @@ public class LoginTest extends Application{
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Login login = new Login();
+		Login login = new Login(arg0);
 		Scene testScene = new Scene(login);
 		arg0.setTitle("yonotool");
 		Image logo = new Image ("/res/yono_logo.png");
