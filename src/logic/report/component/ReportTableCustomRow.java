@@ -29,7 +29,7 @@ public class ReportTableCustomRow extends ReportComponent{
 
 	public void addComponent(ReportComponent... components) {
 
-		float y = getY();
+		// float y = getY();
 		float x = getX();
 		for(ReportComponent k: components) {
 			

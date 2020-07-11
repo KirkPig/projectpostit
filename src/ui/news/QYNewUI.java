@@ -35,7 +35,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import logic.Customer;
 import logic.DatabaseConnection;
 import logic.Report;
 import ui.base.CustomerBox;

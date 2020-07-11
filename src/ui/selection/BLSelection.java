@@ -11,16 +11,12 @@ import com.google.gson.reflect.TypeToken;
 
 import bill.Item;
 import bill.ProductLoan;
-import bill.Quotation;
-import bill.ProductLoan;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -31,14 +27,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Customer;
 import logic.DatabaseConnection;
 import ui.news.BLNewUI;
-import ui.news.QYNewUI;
 	
 public class BLSelection extends VBox {
 	private static TableView<ProductLoan> table;
@@ -48,6 +41,7 @@ public class BLSelection extends VBox {
 	private static ComboBox<String> genre;
 	private static TextField search;
 
+	@SuppressWarnings("unchecked")
 	public BLSelection() {
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();
