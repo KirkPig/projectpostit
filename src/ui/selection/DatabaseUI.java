@@ -238,4 +238,12 @@ public class DatabaseUI extends VBox {
 		}
 
 	}
+	
+	public static void deleteProduct(String e) {
+		
+	}
+	
+	public static void deleteCustomer(String e) {
+		
+	}
 }

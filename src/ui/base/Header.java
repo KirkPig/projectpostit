@@ -2,10 +2,13 @@ package ui.base;
 
 
 
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -42,6 +45,7 @@ public class Header extends Pane {
 	private VBox mainBox;
 	private StackPane bottomPane;
 	private Stage mainStage;
+	private Label nameLabel;
 
 	public Header(Stage e) {
 		super();
@@ -154,6 +158,9 @@ public class Header extends Pane {
 
 		Region space1 = new Region();	
 		HBox.setHgrow(space1, Priority.ALWAYS);
+		
+		nameLabel = new Label("username: "+ Login.usernameShow);
+		
 
 		logOutButton = new ToggleButton("LogOut");
 		logOutButton.setPrefSize(100, BUTTONHEIGHT);
@@ -167,7 +174,7 @@ public class Header extends Pane {
 		});
 
 		headerBox.getChildren().addAll(homeButton, quoButton, orderButton, productButton, creditButton, deliveryButton,
-				invoiceButton, BillingButton, databaseButton, space1, logOutButton);
+				invoiceButton, BillingButton, databaseButton, space1,nameLabel, logOutButton);
 		
 		ToggleGroup toggleGroup = new ToggleGroup();
 		toggleGroup.getToggles().addAll(homeButton, quoButton, orderButton, productButton, creditButton, deliveryButton,
@@ -184,8 +191,8 @@ public class Header extends Pane {
 	}
 
 	public void homePushed() {
-		bottomPane.getChildren().clear();
-		bottomPane.getChildren().add(new Login());
+//		bottomPane.getChildren().clear();
+//		bottomPane.getChildren().add(new Login());
 	}
 
 	public void quotationPushed() {
@@ -230,6 +237,11 @@ public class Header extends Pane {
 	
 	public void logOutPushed() {
 		mainStage.close();
+		Stage loginStage = new Stage();
+		Scene loginScene =new Scene(new Login(loginStage));
+		loginStage.setScene(loginScene);
+		loginStage.show();
+		
 	}
 
 }

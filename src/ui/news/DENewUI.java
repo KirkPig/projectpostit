@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -9,6 +11,7 @@ import com.google.gson.Gson;
 
 import bill.Delivery;
 import bill.Item;
+import bill.ProductLoan;
 import bill.Quotation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,16 +31,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.CustomerBox;
 import ui.base.DEBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.DEBox;
 import ui.selection.DESelection;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 import ui.selection.DESelection;
 
@@ -260,7 +267,7 @@ public class DENewUI extends VBox {
 			String json = gson.toJson(itemList);
 
 			String sql = "insert into delivery values('" + id + "','" + date + "','" + code + "','" + contact + "',"
-					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem" + "');";
+					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
@@ -271,6 +278,7 @@ public class DENewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new Delivery(id, date, cusBox.getSelectedCustomer(), itemList, contact, Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -324,6 +332,17 @@ public class DENewUI extends VBox {
 
 		return !date.isEmpty() && !contact.isEmpty() && !code.isEmpty()
 				&& !productTable.getItems().isEmpty() && total != 0;
+	}
+	
+	public void saveOnPC(Delivery de) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printDelivery(de, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
 	}
 
 }

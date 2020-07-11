@@ -1,5 +1,7 @@
 package ui.news;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.sql.Connection;
 
 import java.sql.ResultSet;
@@ -28,14 +30,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import logic.Customer;
 import logic.DatabaseConnection;
+import logic.Report;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
 import ui.base.QYBox;
+import ui.selection.Login;
 import ui.selection.QYSelection;
 
 public class QYNewUI extends VBox {
@@ -66,11 +73,6 @@ public class QYNewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			// Stage newStage = new Stage();
-			// VBox newBox = new VBox(new QuotationNewUI());
-			// Scene newScene = new Scene(newBox);
-			// newStage.setScene(newScene);
-			// newStage.show();
 
 		});
 
@@ -197,6 +199,7 @@ public class QYNewUI extends VBox {
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
 				save();
+				
 				QYSelection.updateQY("");
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
@@ -221,7 +224,7 @@ public class QYNewUI extends VBox {
 
 	public void save() {
 		Connection conn;
-		
+
 		if (!createNew) {
 			try {
 				conn = DatabaseConnection.getConnection();
@@ -233,7 +236,7 @@ public class QYNewUI extends VBox {
 				conn.close();
 				QYSelection.updateQY("");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 
@@ -261,8 +264,8 @@ public class QYNewUI extends VBox {
 			String json = gson.toJson(itemList);
 
 			String sql = "insert into quotation values('" + id + "','" + date + "','" + code + "','" + attn + "','" + cr
-					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + "naem"
-					+ "');";
+					+ "'," + valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','"
+					+ Login.usernameShow + "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
@@ -273,13 +276,12 @@ public class QYNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
+			saveOnPC(new Quotation(id,date,cusBox.getSelectedCustomer(),itemList,attn,cr,Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	
 
 	public void calculateTax() {
 		total = 0;
@@ -330,4 +332,14 @@ public class QYNewUI extends VBox {
 				&& !productTable.getItems().isEmpty() && total != 0;
 	}
 
+	public void saveOnPC(Quotation qy) throws Exception {
+		FileChooser file = new FileChooser();
+		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");
+		file.getExtensionFilters().add(ext);
+		File f = file.showSaveDialog(yourOwnStage);
+		if (f != null) {
+			Report.printQuotation(qy, f.getPath().toString());
+			Desktop.getDesktop().open(f);
+		}
+	}
 }

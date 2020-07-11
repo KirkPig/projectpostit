@@ -168,7 +168,7 @@ public class ReportTemplate {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
+		String dest = "C:/Users/ASUS/Desktop/ULTIMA/sample.pdf";
 		ArrayList<Item> itemList = new ArrayList<>();
 		itemList.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2, 1), 1000, 35));
 		itemList.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52, 35), 45, 22));
@@ -191,7 +191,7 @@ public class ReportTemplate {
 		invoiceList.add(invoice);
 		psList.add("reserve");
 		Billing billing = new Billing("RB63008123", date, customer, invoiceList, psList, "Piggy", date,
-				"สำหรับการทดลองเพียงเท่านั้น");
+				"สำหรับการทดลองเพียงเท่านั้น",user.getName());
 		
 		
 		try {

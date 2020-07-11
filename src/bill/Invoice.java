@@ -3,7 +3,11 @@ package bill;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.CheckBox;
 import logic.Customer;
+import ui.news.RBNewUI;
 
 public class Invoice {
 
@@ -25,6 +29,8 @@ public class Invoice {
 	private String productUnit;
 	private String valueAfterTaxForTable;
 	private String customerName;
+	private boolean select;
+	private String ps;
 
 	public Invoice(String id, String date, Customer customer, ArrayList<Item> itemList, String poNum, String orderBy,
 			String paymentTerm, String dateDue, String sales, String creator) {
@@ -50,6 +56,9 @@ public class Invoice {
 		this.setValueAfterTaxForTable(getValueBeforeTax() + getValueTax());
 		this.setCustomerName(customer.getName());
 		this.setCreator(creator);
+		this.select = false;
+		this.setPs("");
+		
 	}
 
 	public String getId() {
@@ -162,8 +171,8 @@ public class Invoice {
 
 	public void setProductQuantity(ArrayList<Item> itemList) {
 		this.productQuantity = "";
-		for (Item item:itemList) {
-			this.productQuantity += Integer.toString(item.getItemQuantity())+ "\n";
+		for (Item item : itemList) {
+			this.productQuantity += Integer.toString(item.getItemQuantity()) + "\n";
 		}
 	}
 
@@ -173,7 +182,7 @@ public class Invoice {
 
 	public void setProductUnit(ArrayList<Item> itemList) {
 		this.productUnit = "";
-		for (Item item:itemList) {
+		for (Item item : itemList) {
 			this.productUnit += item.getUnit() + "\n";
 		}
 	}
@@ -195,9 +204,9 @@ public class Invoice {
 		this.productName = "";
 		for (Item item : itemList) {
 			this.productName += item.getProduct().getDescription() + "\n";
-			
+
 		}
-		
+
 	}
 
 	public String getCustomerName() {
@@ -206,5 +215,20 @@ public class Invoice {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	public boolean getSelect() {
+		return select;
+	}
+
+	public void setSelect(boolean a) {
+		this.select = a;
+	}
+	public String getPs() {
+		return ps;
+	}
+
+	public void setPs(String ps) {
+		this.ps = ps;
 	}
 }

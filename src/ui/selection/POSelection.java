@@ -266,7 +266,7 @@ public class POSelection extends VBox {
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-				Order order = new Order(id, date, customer, itemList, payment, "NAEM");
+				Order order = new Order(id, date, customer, itemList, payment,  rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {
