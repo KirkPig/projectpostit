@@ -8,45 +8,32 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-
 import bill.CreditNote;
 import bill.Item;
-import bill.Quotation;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.stage.Stage;
 import logic.Customer;
 import logic.DatabaseConnection;
 import logic.Report;
 import ui.base.CRBox;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
-import ui.base.ProductAdd;
-import ui.base.QYBox;
 import ui.selection.CRSelection;
 import ui.selection.Login;
-import ui.selection.QYSelection;
 
 public class CRNewUI extends VBox {
 	private boolean createNew;
@@ -68,6 +55,7 @@ public class CRNewUI extends VBox {
 	private static double valueTax;
 	private static double valueAfterTax;
 
+	@SuppressWarnings("unchecked")
 	public CRNewUI(Stage yourOwnStage) {
 		createNew = true;
 		this.yourOwnStage = yourOwnStage;

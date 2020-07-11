@@ -196,6 +196,7 @@ public class CustomerBox extends VBox {
 		this.setMaxWidth(width);
 	}
 
+	@SuppressWarnings("unused")
 	private SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> codeSet = new TreeSet<String>();

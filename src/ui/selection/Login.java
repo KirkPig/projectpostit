@@ -1,9 +1,12 @@
 package ui.selection;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,22 +14,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import logic.DatabaseConnection;
 import ui.admin.AdminUI;
 import ui.base.Header;
-import javafx.scene.*;
-import java.sql.*;
-
-import com.sun.prism.paint.Color;
 
 public class Login extends VBox {
 	private String status = "";
@@ -46,6 +43,7 @@ public class Login extends VBox {
 		load();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void load() {
 		Font font30 = new Font(30);
 		Font fontS = new Font(13);
@@ -99,6 +97,7 @@ public class Login extends VBox {
 
 		this.getChildren().addAll(pane);
 		bt.setStyle("-fx-font-size : 2em;");
+		@SuppressWarnings("rawtypes")
 		EventHandler e = new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent ke) {

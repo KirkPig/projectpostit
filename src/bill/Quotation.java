@@ -3,9 +3,7 @@ package bill;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import bill.Item;
 import logic.Customer;
-import logic.Product;
 
 public class Quotation {
 

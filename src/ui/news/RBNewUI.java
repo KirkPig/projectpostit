@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import bill.Billing;
 import bill.Invoice;
 import bill.Item;
-import bill.Order;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -23,16 +22,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -41,21 +40,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.stage.Stage;
 import logic.Customer;
 import logic.DatabaseConnection;
 import logic.Report;
-import ui.base.BLBox;
-import ui.base.RBBox;
 import ui.base.CustomerBox;
 import ui.base.GeneralBox;
-import ui.base.IVBox;
-import ui.selection.BLSelection;
+import ui.base.RBBox;
 import ui.selection.Login;
-import ui.selection.QYSelection;
 import ui.selection.RBSelection;
 
 public class RBNewUI extends VBox {
@@ -74,6 +67,7 @@ public class RBNewUI extends VBox {
 	private static TextField search;
 	private static Label totalAmount;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public RBNewUI(Stage yourOwnStage) {
 		createNew = true;
 		this.yourOwnStage = yourOwnStage;
@@ -176,7 +170,7 @@ public class RBNewUI extends VBox {
 		invoiceTable = new TableView<Invoice>();
 		invoiceTable.setMinWidth(1000);
 		invoiceTable.setEditable(true);
-		TableColumn<Invoice, Boolean> selectCol = new TableColumn("Select");
+		TableColumn<Invoice, Boolean> selectCol = new TableColumn<>("Select");
 //		selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
 //		selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
 //		selectCol.setOnEditCommit(new EventHandler<CellEditEvent<Invoice, Boolean>>() {

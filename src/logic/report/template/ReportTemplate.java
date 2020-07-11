@@ -28,7 +28,6 @@ import logic.report.component.ReportPictureBox;
 import logic.report.component.ReportRectBox;
 import logic.report.component.ReportTable;
 import logic.report.component.ReportTableColumn;
-import logic.report.component.ReportTableCustomRow;
 import logic.report.component.ReportTextBox;
 import logic.report.component.base.ReportComponent;
 import logic.report.layout.ReportLayout;

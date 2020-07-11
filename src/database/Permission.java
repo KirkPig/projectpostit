@@ -1,6 +1,9 @@
 package database;
 
+@SuppressWarnings("unused")
 public class Permission {
+	
+	
 	private boolean QY = true ;
 	private boolean OR = true;
 	private boolean PO = true;
