@@ -3,11 +3,7 @@ package bill;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.CheckBox;
 import logic.Customer;
-import ui.news.RBNewUI;
 
 public class Invoice {
 

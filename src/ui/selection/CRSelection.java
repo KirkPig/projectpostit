@@ -12,12 +12,10 @@ import com.google.gson.reflect.TypeToken;
 import bill.CreditNote;
 import bill.Invoice;
 import bill.Item;
-import bill.Quotation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,14 +28,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Customer;
 import logic.DatabaseConnection;
-import ui.news.CRNewUI;
-import ui.news.QYNewUI;
 import ui.news.CRNewUI;
 
 public class CRSelection extends VBox {
@@ -48,6 +42,7 @@ public class CRSelection extends VBox {
 	private static ComboBox<String> genre;
 	private static TextField search;
 
+	@SuppressWarnings("unchecked")
 	public CRSelection() {
 		HBox allFunc = new HBox();
 		HBox simpleFunc = new HBox();

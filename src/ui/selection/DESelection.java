@@ -11,13 +11,10 @@ import com.google.gson.reflect.TypeToken;
 
 import bill.Delivery;
 import bill.Item;
-import bill.Quotation;
-import bill.Delivery;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -35,8 +32,6 @@ import javafx.stage.Stage;
 import logic.Customer;
 import logic.DatabaseConnection;
 import ui.news.DENewUI;
-import ui.news.QYNewUI;
-import ui.news.DENewUI;
 
 public class DESelection extends VBox {
 	private static TableView<Delivery> table;
@@ -45,6 +40,7 @@ public class DESelection extends VBox {
 	private static ComboBox<Integer> year;
 	private static ComboBox<String> genre;
 	private static TextField search;
+	@SuppressWarnings("unchecked")
 	public DESelection() {
 
 		HBox allFunc = new HBox();

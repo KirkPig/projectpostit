@@ -5,21 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.google.gson.Gson;
-
 import database.User;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -30,7 +23,7 @@ import logic.DatabaseConnection;
 
 public class AdminAccountPane extends VBox {
 	
-	private Gson gson = new Gson();
+	// private Gson gson = new Gson();
 	private TableView<User> accountTable = new TableView<User>();
 	private HBox accountAddBox = new HBox();
 	private TextField usernameField = new TextField();
@@ -173,7 +166,7 @@ public class AdminAccountPane extends VBox {
 				+ nameField.getText() + "','" + user.getGson() + "')";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		int x = stmt.executeUpdate();
+		stmt.executeUpdate();
 		
 		
 		}
@@ -218,10 +211,10 @@ public class AdminAccountPane extends VBox {
 	private void editUser() {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
-			User user = new User(usernameField.getText(), passwordField.getText(), nameField.getText());
+			// User user = new User(usernameField.getText(), passwordField.getText(), nameField.getText());
 			String sql = "UPDATE account SET username = '" + usernameField2.getText() + "',password = '"+ passwordField2.getText() +"',name = '"+nameField2.getText() + "'"+"WHERE username = '"+usernamebf+"';";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			int x = stmt.executeUpdate();
+			stmt.executeUpdate();
 			accountChangeBoxClear();
 			}
 		catch(Exception e1) {
@@ -236,7 +229,7 @@ public class AdminAccountPane extends VBox {
 			Connection conn = DatabaseConnection.getConnection();
 			String sql = "DELETE FROM account WHERE username = '"+ usernamebf +"';";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			int x = stmt.executeUpdate();
+			stmt.executeUpdate();
 			accountChangeBoxClear();
 			}
 		catch(Exception e1) {

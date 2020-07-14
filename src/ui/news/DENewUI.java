@@ -11,20 +11,18 @@ import com.google.gson.Gson;
 
 import bill.Delivery;
 import bill.Item;
-import bill.ProductLoan;
-import bill.Quotation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
@@ -32,8 +30,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import logic.DatabaseConnection;
@@ -42,11 +40,8 @@ import ui.base.CustomerBox;
 import ui.base.DEBox;
 import ui.base.GeneralBox;
 import ui.base.ProductAdd;
-import ui.base.DEBox;
 import ui.selection.DESelection;
 import ui.selection.Login;
-import ui.selection.QYSelection;
-import ui.selection.DESelection;
 
 public class DENewUI extends VBox {
 	private boolean createNew;
@@ -62,6 +57,7 @@ public class DENewUI extends VBox {
 	private double total;
 	private String id;
 
+	@SuppressWarnings("unchecked")
 	public DENewUI(Stage yourOwnStage) {
 		createNew = true;
 		this.yourOwnStage = yourOwnStage;
