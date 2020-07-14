@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import logic.Customer;
 import logic.DatabaseConnection;
+import ui.news.RBNewUI;
 
 public class CustomerBox extends VBox {
 	private Label codeBox;
@@ -112,7 +113,12 @@ public class CustomerBox extends VBox {
 									mailBox.setText(rs2.getString("email"));
 
 								}
-
+								if (RBNewUI.getGenre() != null) {
+									RBNewUI.getGenre().setValue("Customer Name");
+									RBNewUI.updateNewRB(nameBox.getText());
+								}
+								
+								searchBox.clear();
 								stmt.close();
 								conn.close();
 							} catch (Exception e) {
@@ -190,6 +196,7 @@ public class CustomerBox extends VBox {
 		this.setMaxWidth(width);
 	}
 
+	@SuppressWarnings("unused")
 	private SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> codeSet = new TreeSet<String>();
@@ -263,11 +270,20 @@ public class CustomerBox extends VBox {
 
 	public void setSelectedCustomer(Customer customer) {
 		codeBox.setText(customer.getCode());
+		nameBox.setText(customer.getName());
 		taxIdBox.setText(customer.getTaxID());
 		addressBox.setText(customer.getAddress());
 		teleBox.setText(customer.getTel());
 		faxBox.setText(customer.getFax());
 		mailBox.setText(customer.getEmail());
 
+	}
+	
+	public Label getCodeLabel() {
+		return this.codeBox;
+	}
+	
+	public Customer getSelectedCustomer() {
+		return new Customer(codeBox.getText(),nameBox.getText(),taxIdBox.getText(),addressBox.getText(),teleBox.getText(),faxBox.getText(),mailBox.getText());
 	}
 }

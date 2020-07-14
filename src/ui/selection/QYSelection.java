@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +15,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,6 +23,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -92,7 +92,16 @@ public class QYSelection extends VBox {
 			}
 		});
 		Button deleteBtn = new Button("delete");
-
+		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (switchButton.getText().equals("Customer")) {
+					delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+				} else {
+					delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+				}
+			}
+		});
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
@@ -106,7 +115,8 @@ public class QYSelection extends VBox {
 		genre = new ComboBox<String>();
 		genre.getItems().addAll("Code", "Product", "Customer Name", "Creator", "Amount");
 
-		simpleFunc.getChildren().addAll(newButton, editButton, deleteBtn, new Button("bin"));
+		simpleFunc.getChildren().addAll(newButton, editButton, deleteBtn);
+
 		simpleFunc.setSpacing(3);
 		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
 		moreFunc.setSpacing(3);
@@ -148,6 +158,22 @@ public class QYSelection extends VBox {
 			});
 			return row;
 		});
+
+		table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				Quotation qy = table.getSelectionModel().getSelectedItem();
+				if (qy!= null) {
+					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+						delete(qy);
+						
+
+					}
+
+					
+				}
+			}
+		});
 //=========================
 		table2 = new TableView<Quotation>();
 		TableColumn<Quotation, String> codeCol = new TableColumn<Quotation, String>("code");
@@ -173,7 +199,23 @@ public class QYSelection extends VBox {
 					openQY(row.getItem());
 				}
 			});
+
 			return row;
+		});
+		table2.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				Quotation qy = table.getSelectionModel().getSelectedItem();
+				if (qy!= null) {
+					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+						delete(qy);
+						
+
+					}
+
+					
+				}
+			}
 		});
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
@@ -189,6 +231,7 @@ public class QYSelection extends VBox {
 			}
 		});
 		updateQY("");
+
 	}
 
 	public static void updateQY(String search) {
@@ -219,7 +262,7 @@ public class QYSelection extends VBox {
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr, "NAEM");
+				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr,  rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {
@@ -246,6 +289,7 @@ public class QYSelection extends VBox {
 						addToTable = customer.getName().contains(search);
 						break;
 					case "Creator":
+
 						// TODO create getting user name
 						break;
 					case "Amount":
@@ -259,12 +303,14 @@ public class QYSelection extends VBox {
 					default:
 						break;
 					}
-				}else {
-					addToTable =true;
+				} else {
+					addToTable = true;
 				}
 				if (addToTable) {
+
 					table.getItems().add(quotation);
 					table2.getItems().add(quotation);
+
 				}
 				stmt2.close();
 			}
@@ -283,4 +329,21 @@ public class QYSelection extends VBox {
 		newStage.show();
 	}
 
+	public static void delete(Quotation qy) {
+		Connection conn;
+		try {
+			conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+
+			String sql = "DELETE from quotation WHERE id ='" + qy.getId() + "'";
+			stmt.executeUpdate(sql);
+			stmt.close();
+			conn.close();
+			updateQY("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }

@@ -10,6 +10,7 @@ import logic.report.component.base.ReportComponent;
 public class ReportLayout {
 	
 	private String name;
+	private String fontFamily = "THSarabunNew";
 	private ArrayList<ReportComponent> componentList = new ArrayList<>();
 	
 	public ReportLayout(String name) {
@@ -18,9 +19,12 @@ public class ReportLayout {
 		
 	}
 	
-	public void addComponent(ReportComponent component) {
+	public void addComponent(ReportComponent... component) {
 		
-		componentList.add(component);
+		for (int i = 0; i < component.length; i++) {
+			component[i].setFontFamily(fontFamily);
+			componentList.add(component[i]);
+		}
 		
 	}
 	
@@ -33,6 +37,10 @@ public class ReportLayout {
 		}
 		
 	}
+	
+	public ArrayList<ReportComponent> getComponentList() {
+		return componentList;
+	}
 
 	public String getName() {
 		return name;
@@ -40,6 +48,14 @@ public class ReportLayout {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
 	}
 
 }

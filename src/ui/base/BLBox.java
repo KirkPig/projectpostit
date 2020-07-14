@@ -7,9 +7,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class BLBox extends VBox{
+	private TextField contactText;
 	public BLBox(int width,int height) {
 		Label header = new Label("BLBOX");
-		TextField contactText = new TextField();
+		contactText = new TextField();
 		HBox contactBox = new HBox();
 		Label contactLabel = new Label("CONTACT:");
 		contactBox.getChildren().addAll(contactLabel,contactText);
@@ -20,6 +21,12 @@ public class BLBox extends VBox{
 		this.setMinSize(width, height);
 		
 		
+	}
+	public String getContact() {
+		return contactText.getText();
+	}
+	public void setContact(String contactText) {
+		this.contactText.setText(contactText);;
 	}
 
 }

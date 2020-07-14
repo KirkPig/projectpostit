@@ -61,7 +61,7 @@ public class ReportUtil {
 	}
 	
 	public static float getFontHeight(PDDocument document, PDFont font, float fontSize) throws Exception{
-		return (font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000.0f * fontSize) * MMPI / DPI;
+		return (font.getFontDescriptor().getFontBoundingBox().getHeight() / 2400.0f * fontSize) * MMPI / DPI;
 	}
 	
 	public static ArrayList<String> getMutilineStringList(PDDocument document, PDFont font, float fontSize, String str, float width) throws Exception{
@@ -120,17 +120,17 @@ public class ReportUtil {
 		
 	
 	public static void addParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize, float x,
-			float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment, ReportFontType fontType)
+			float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment, ReportFontType fontType, String fontFamily)
 			throws Exception {
 
 		cs.beginText();
 
-		PDFont font = getFont(document, "THSarabunNew", fontType);
+		PDFont font = getFont(document, fontFamily, fontType);
 		cs.setFont(font, fontSize);
 		cs.setNonStrokingColor(Color.BLACK);
 
-		float strWidth = getFontWidth(document, font, fontSize, str);
-		float strHeight = getFontHeight(document, font, fontSize);
+		float strWidth = cpx(getFontWidth(document, font, fontSize, str));
+		float strHeight = cpx(getFontHeight(document, font, fontSize));
 		float pivotX = cpx(x);
 		float pivotY = cpy(y) - strHeight;
 		float pixelWidth = cpx(width);
@@ -143,10 +143,10 @@ public class ReportUtil {
 			pointX = pivotX + ((pixelWidth - strWidth) / 2.0f);
 			break;
 		case LEFT:
-			pointX = pivotX;
+			pointX = pivotX + 2f;
 			break;
 		case RIGHT:
-			pointX = pivotX + ((pixelWidth - strWidth));
+			pointX = pivotX + ((pixelWidth - strWidth)) - 2f;
 			break;
 		default:
 			pointX = pivotX;
@@ -177,11 +177,11 @@ public class ReportUtil {
 
 	}
 	
-	public static void addMultiLineParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize,
+	public static void addMultilineParagraph(PDDocument document, PDPageContentStream cs, String str, float fontSize,
 			float x, float y, float width, float height, ReportHAlignment hAlignment, ReportVAlignment vAlignment,
-			ReportFontType fontType) throws Exception {
+			ReportFontType fontType, String fontFamily) throws Exception {
 		
-		float lineSpacing = 1f;
+		float lineSpacing = 3.5f;
 		PDFont font = getFont(document, "THSarabunNew", fontType);
 		ArrayList<String> mutilineList = getMutilineStringList(document, font, fontSize, str, width);
 		int row = mutilineList.size();
@@ -190,10 +190,10 @@ public class ReportUtil {
 		
 		switch(vAlignment) {
 		case BOTTOM:
-			x = x + (height - paragraphSpace);
+			y = y + (height - paragraphSpace);
 			break;
 		case CENTER:
-			x = x + ((height - paragraphSpace) / 2.0f);
+			y = y + ((height - paragraphSpace) / 2.0f);
 			break;
 		case TOP:
 			break;
@@ -206,9 +206,9 @@ public class ReportUtil {
 			
 			String s = mutilineList.get(i);
 			
-			addParagraph(document, cs, s, fontSize, x, y, width, fontHeight, hAlignment, ReportVAlignment.CENTER, fontType);
+			addParagraph(document, cs, s, fontSize, x, y, width, fontHeight, hAlignment, ReportVAlignment.CENTER, fontType, fontFamily);
 			
-			x = x + fontHeight + lineSpacing;
+			y = y + fontHeight + lineSpacing;
 			
 		}
 		
@@ -236,7 +236,7 @@ public class ReportUtil {
 	
 	public static void main(String[] args) {
 		
-		
+		System.out.println(String.format("%,.2f%%", 10000.1234));
 		
 	}
 

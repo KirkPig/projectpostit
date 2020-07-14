@@ -3,9 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.base.Header;
-import ui.selection.*;
-import javafx.*;
+import ui.selection.BLSelection;
 
 public class ContextTest extends Application{
 	public void main(String[] args) {
