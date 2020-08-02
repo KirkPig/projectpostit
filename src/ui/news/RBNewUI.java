@@ -374,13 +374,7 @@ public class RBNewUI extends VBox {
 		rb.setPsText(billing.getPs());
 		rb.setBillingByBox(billing.getBillingBy());
 		invoiceTable.getItems().clear();
-		// TODO fix this sheit;
-//		for (Invoice invoice : invoiceTable.getItems()) {
-//			if (billing.getInvoiceList().contains(invoice)) {
-//				invoice.getSelect().setSelected(true);
-//			}
-//
-//		}
+	
 		invoiceTable.getItems().addAll(billing.getInvoiceList());
 		calculate();
 
