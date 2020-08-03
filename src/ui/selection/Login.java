@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import database.User;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -30,6 +31,7 @@ public class Login extends VBox {
 	private Label statusLabel = new Label(status);
 	private GridPane pane = new GridPane();
 	public static String usernameShow = "";
+	public static User user;
 	private Stage myStage;
 
 	public Login(Stage myStage) {
@@ -110,10 +112,13 @@ public class Login extends VBox {
 						ResultSet rs = stmt.executeQuery(sql);
 
 						String passwordCheck = "";
+						String permission = "";
+						String name = "";
 						while (rs.next()) {
 
+							name = rs.getString("name");
 							passwordCheck = rs.getString("password");
-
+							permission = rs.getString("permission");
 						}
 
 						if (passwordCheck.equals(passwordField.getText()) && !passwordField.getText().equals("")) {
@@ -123,16 +128,20 @@ public class Login extends VBox {
 								stage.setScene(testScene);
 								stage.setResizable(false);
 								stage.show();
-								
+
 							} else {
+								Login.user = new User(userField.getText(), passwordCheck, name, permission);
+
 								System.out.println("you login sucessfully!!.");
-								usernameShow = userField.getText();
+								usernameShow = name;
 								Stage stage = new Stage();
 								Scene testScene = new Scene(new Header(stage), 1280, 720);
 								stage.setScene(testScene);
 								stage.setResizable(false);
 								stage.show();
-							
+
+								// TODO pick permission from database
+
 							}
 							myStage.close();
 
@@ -169,11 +178,15 @@ public class Login extends VBox {
 					String sql = "select * from account WHERE username = '" + userField.getText() + "';";
 					Statement stmt = conn.createStatement();
 					ResultSet rs = stmt.executeQuery(sql);
-
+					
+					String name = "";
 					String passwordCheck = "";
+					String permission = "";
 					while (rs.next()) {
 
+						name = rs.getString("name");
 						passwordCheck = rs.getString("password");
+						permission = rs.getString("permission");
 
 					}
 
@@ -186,8 +199,10 @@ public class Login extends VBox {
 							stage.show();
 
 						} else {
+							Login.user = new User(userField.getText(), passwordCheck, name, permission);
+
 							System.out.println("you login sucessfully!!.");
-							usernameShow = userField.getText();
+							usernameShow = name;
 							Stage stage = new Stage();
 							Scene testScene = new Scene(new Header(stage), 1280, 720);
 							stage.setScene(testScene);
@@ -212,10 +227,8 @@ public class Login extends VBox {
 					System.out.println(e1);
 				}
 			}
-			
+
 		});
 	}
-
-	
 
 }
