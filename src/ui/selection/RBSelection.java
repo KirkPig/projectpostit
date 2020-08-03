@@ -12,8 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import bill.Billing;
 import bill.Invoice;
 import bill.Item;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -105,11 +103,12 @@ public class RBSelection extends VBox {
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
-		search.textProperty().addListener(new ChangeListener<String>() {
-
+		search.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				updateRB(search.getText());
+			public void handle(KeyEvent k) {
+				if (k.getCode().equals(KeyCode.ENTER)) {
+					updateRB(search.getText());
+				}
 			}
 		});
 		genre = new ComboBox<String>();
