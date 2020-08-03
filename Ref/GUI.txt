@@ -24,3 +24,10 @@ BL : Product Loan
 
 
 \ print report \ แก้ DELIVERY REPORT ให้มี 2 หน้า KIRK
+
+getting username in search /// product into invoice @RBselection /// LAGGING when load selection(insert thread) : naem
+
+
+story of my life: ask TA P' mack (ACT)
+
+moral of my life: When you can't do it, you'll be forced to do it.
