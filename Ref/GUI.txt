@@ -17,3 +17,10 @@ CR : ลดหนี้
 RB : วางบิล 
 YN : Invoice
 BL : Product Loan
+
+แก้ Admin\ ZARA
+
+แก้ selection search \แก้ HOME \เพิ่มลด Product\ โชว์ header ตาม permission
+
+
+\ print report \ แก้ DELIVERY REPORT ให้มี 2 หน้า KIRK
