@@ -1,5 +1,6 @@
 package ui.base;
 
+import database.Permission;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -176,6 +177,10 @@ public class Header extends Pane {
 		toggleGroup.getToggles().addAll(homeButton, quoButton, orderButton, productButton, creditButton, deliveryButton,
 				invoiceButton, BillingButton, databaseButton);
 		
+		
+		set_allow();
+		
+		
 		mainBox.getChildren().add(headerBox);
 		
 		bottomPane = new StackPane();
@@ -239,5 +244,15 @@ public class Header extends Pane {
 		loginStage.show();
 		
 	}
-
+	public void set_allow() {
+		Permission per = Login.user.getPermission();
+		quoButton.setDisable(!per.isQY());
+		orderButton.setDisable(!per.isOR());
+		productButton.setDisable(!per.isPO());
+		creditButton.setDisable(!per.isCR());
+		deliveryButton.setDisable(!per.isDE());
+		invoiceButton.setDisable(!per.isIV());
+		BillingButton.setDisable(!per.isBL());
+		databaseButton.setDisable(!per.isDatabase());
+	}
 }

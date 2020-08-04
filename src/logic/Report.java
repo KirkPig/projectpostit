@@ -520,6 +520,7 @@ public class Report {
 		PDDocument document = new PDDocument();
 
 		PDPage page = new PDPage(NORMAL_PAGE);
+		PDPage page2 = new PDPage(NORMAL_PAGE);
 
 		document.addPage(page);
 
@@ -603,6 +604,177 @@ public class Report {
 		ArrayList<Item> itemList = form.getItemList();
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		DecimalFormat formatterInt = new DecimalFormat("#,###");
+		for (int i = 0; i < itemList.size(); i++) {
+
+			Item item = itemList.get(i);
+			float a = 6f;
+			addParagraph(document, contentStream, Integer.toString(i + 1), listFontSize, 12.7f, (123.1f + (i * a)),
+					6.1f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, item.getProduct().getDescription(), listFontSize, 19.7f,
+					(123.1f + (i * a)), 75f, a, HAlignment.LEFT, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, formatterInt.format(item.getQuantity()), listFontSize, 93.6f,
+					(123.1f + (i * a)), 23.3f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, item.getProduct().getUnit(), listFontSize, 116.7f, (123.1f + (i * a)),
+					11.4f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, formatterDouble.format(item.getProduct().getPrice()), listFontSize,
+					128.1f, (123.1f + (i * a)), 23.1f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, String.format("%.0f", item.getDiscount()) + "%", listFontSize, 151.1f,
+					(123.1f + (i * a)), 23.1f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
+			addParagraph(document, contentStream, formatterDouble.format(item.getAmount()), listFontSize, 174.1f,
+					(123.1f + (i * a)), 22f, a, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
+
+		}
+
+		/*
+		 * Footer
+		 */
+		contentStream.addRect(cpx(12.7f), cpy(224.3f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(12.7f), cpy(241.2f) - cpx(8.7f), cpx(184.6f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+
+
+		addParagraph(document, contentStream, new ThaiBaht().getText(form.getValueAfterTax()), footerFontSize, 12.7f,
+				241.2f, 103.8f, 8.7f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+
+		addParagraph(document, contentStream, "  มูลค่าก่อนภาษี", footerFontSize, 116.7f, 224.3f, 34.4f, 8.7f,
+				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "  ภาษีมูลค่าเพิ่ม", footerFontSize, 116.7f, 233.0f, 34.4f, 8.7f,
+				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "  รวมสุทธิ", footerFontSize, 116.7f, 241.2f, 34.4f, 8.7f,
+				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
+
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueBeforeTax()), footerFontSize, 151.1f,
+				224.3f, 45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueTax()), footerFontSize, 151.1f,
+				233.0f, 45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, formatterDouble.format(form.getValueAfterTax()), footerFontSize, 151.1f,
+				241.2f, 45.1f, 8.7f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+
+		/*
+		 * P.S.
+		 */
+		addParagraph(document, contentStream,
+				"หมายเหตุ : สินค้าตามรายการข้างต้น หากมีการเสียหายหรือขาดตกบกพร่อง โปรดแจ้งให้ทราบภายใน 3 วัน นับจากวันที่ได้รับสินค้า มิฉะนั้น ทางบริษัทฯ จะไม่รับผิดชอบใดๆ ทั้งสิ้น",
+				11f, 14f, 251f, 1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+
+		/*
+		 * Signature
+		 */
+
+		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
+				12.8f, 258.1f, 93.1f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "ผู้ส่งสินค้า", signatureFontSize, 12.8f, 265.1f, 93.1f, 6f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "วันที่....../....../......", signatureFontSize, 12.8f, 272.1f, 93.1f, 6f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+
+		addParagraph(document, contentStream, "ลงชื่อ.............................................", signatureFontSize,
+				105.9f, 258.1f, 91.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "ผู้รับสินค้า", signatureFontSize, 105.9f, 265.1f, 91.2f, 6f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "วันที่....../....../......", signatureFontSize, 105.9f, 272.1f, 91.2f,
+				6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+
+		/*
+		 * DrawLine
+		 */
+		// Vertical
+		contentStream.drawLine(cpx(12.7f), cpy(114.6f), cpx(12.7f), cpy(249.9f));
+		contentStream.drawLine(cpx(18.7f), cpy(114.6f), cpx(18.7f), cpy(224.3f));
+		contentStream.drawLine(cpx(93.6f), cpy(114.6f), cpx(93.6f), cpy(224.3f));
+		contentStream.drawLine(cpx(116.7f), cpy(114.6f), cpx(116.7f), cpy(249.9f));
+		contentStream.drawLine(cpx(128f), cpy(114.6f), cpx(128f), cpy(224.3f));
+		contentStream.drawLine(cpx(151.1f), cpy(114.6f), cpx(151.1f), cpy(224.3f));
+		contentStream.drawLine(cpx(174.1f), cpy(114.6f), cpx(174.1f), cpy(224.3f));
+		contentStream.drawLine(cpx(197.1f), cpy(114.6f), cpx(197.1f), cpy(249.9f));
+
+		// Horizontal
+		contentStream.drawLine(cpx(12.7f), cpy(114.6f), cpx(197.1f), cpy(114.6f));
+		contentStream.drawLine(cpx(12.7f), cpy(123.1f), cpx(197.1f), cpy(123.1f));
+		contentStream.drawLine(cpx(12.7f), cpy(224.3f), cpx(197.1f), cpy(224.3f));
+		contentStream.drawLine(cpx(116.7f), cpy(233f), cpx(197.1f), cpy(233f));
+		contentStream.drawLine(cpx(116.7f), cpy(241.2f), cpx(197.1f), cpy(241.2f));
+		contentStream.drawLine(cpx(12.7f), cpy(249.9f), cpx(197.1f), cpy(249.9f));
+
+		contentStream.close();
+		
+		document.addPage(page2);
+
+		base = Color.YELLOW; // Another Page Yellow Color
+
+		contentStream = new PDPageContentStream(document, page2);
+
+		/*
+		 * Header
+		 */
+		addHeader(document, contentStream, base, "ใบส่งสินค้า(Delivery Note)", form.getId(), form.getDate());
+
+		/*
+		 * Side Header
+		 */
+
+		contentStream.addRect(cpx(12.7f), cpy(89.2f) - cpx(17.2f), cpx(69.9f), cpx(17.2f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+
+
+		addParagraph(document, contentStream, "Contact: " + form.getContact(), shFontSize, 12.7f, 89.2f, 69.9f, 17.2f,
+				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+
+		/*
+		 * Customer Header
+		 */
+		addCustomerInfo(document, contentStream, base, form.getCustomer());
+
+		/*
+		 * List Header
+		 */
+
+		contentStream.addRect(cpx(12.7f), cpy(114.6f) - cpx(8.7f), cpx(6.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(18.7f), cpy(114.6f) - cpx(8.7f), cpx(75f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(93.6f), cpy(114.6f) - cpx(8.7f), cpx(23.3f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(116.7f), cpy(114.6f) - cpx(8.7f), cpx(11.4f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(128.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(151.1f), cpy(114.6f) - cpx(8.7f), cpx(23.1f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+		contentStream.addRect(cpx(174.1f), cpy(114.6f) - cpx(8.7f), cpx(23f), cpx(8.7f));
+		contentStream.setNonStrokingColor(base);
+		contentStream.fill();
+
+		addParagraph(document, contentStream, "NO", lhFontSize, 12.7f, 114.6f, 6.1f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "DESCRIPTION", lhFontSize, 18.7f, 114.6f, 75f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "QUANTITY", lhFontSize, 93.6f, 114.6f, 23.3f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "UNIT", lhFontSize, 116.7f, 114.6f, 11.4f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "PRICE", lhFontSize, 128.1f, 114.6f, 23.1f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "DISCOUNT", lhFontSize, 151.1f, 114.6f, 23.1f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+		addParagraph(document, contentStream, "AMOUNT", lhFontSize, 174.1f, 114.6f, 23f, 8.7f, HAlignment.CENTER,
+				VAlignment.CENTER, FontType.BOLD);
+
+		/*
+		 * List
+		 */
+
+		itemList = form.getItemList();
 		for (int i = 0; i < itemList.size(); i++) {
 
 			Item item = itemList.get(i);
@@ -1570,7 +1742,7 @@ public class Report {
 			/*
 			 * Test Form Building
 			 */
-			String dest = "C:/Users/ASUS/Desktop/ULTIMA/sample.pdf";
+			String dest = "C:/Users/Kirk Pig/Desktop/PdfTest/sample.pdf";
 			ArrayList<Item> itemList = new ArrayList<>();
 			itemList.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2, 1), 1000, 35));
 			itemList.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52, 35), 45, 22));
