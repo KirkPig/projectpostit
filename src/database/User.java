@@ -9,7 +9,12 @@ public class User {
 	private String name;
 	private Permission permission = new Permission(true,true,true,true,true,true,true,true); 
 	private Gson gson = new Gson();
-	
+	public User(String username, String password, String name) {
+		// TODO Auto-generated constructor stub
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setName(name);
+	}
 	public User(String username, String password, String name, Permission permission) {
 		// TODO Auto-generated constructor stub
 		this.setUsername(username);
