@@ -48,7 +48,7 @@ public class QYSelection extends VBox {
 	private static ComboBox<Integer> year;
 	private static ComboBox<String> genre;
 	private static TextField search;
-	private SortedSet<String> allTree;
+	private SortedSet<String> allTree; //TODO
 	@SuppressWarnings("unchecked")
 	public QYSelection() {
 
@@ -113,11 +113,14 @@ public class QYSelection extends VBox {
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
+		//TODO
 		SortedSet<String> customerTree = getCustomerTree();
 		SortedSet<String> codeTree = getCodeTree();
 		SortedSet<String> amountTree = getAmountTree();
 		SortedSet<String> creatorTree = getCreatorTree();
+		SortedSet<String> productTree = getProductTree();
 		
+
 		ContextMenu allSuggest = new ContextMenu();
 		search.textProperty().addListener(new ChangeListener<String>() {
 
@@ -143,7 +146,13 @@ public class QYSelection extends VBox {
 					case "Customer Name":
 						allTree = customerTree;
 						break;
+						
+					case "Product":
+						allTree = productTree;
+						break;
 					}
+					
+					
 					
 					searchResult.addAll(allTree.subSet(search.getText(), search.getText() + Character.MAX_VALUE));
 					if (allTree.size() > 0) {
@@ -263,7 +272,6 @@ public class QYSelection extends VBox {
 				}
 			}
 		});
-//=========================
 		table2 = new TableView<Quotation>();
 		TableColumn<Quotation, String> codeCol = new TableColumn<Quotation, String>("code");
 		codeCol.setMinWidth(20);
@@ -379,7 +387,7 @@ public class QYSelection extends VBox {
 						break;
 					case "Creator":
 
-						// TODO create getting user name
+						addToTable = rs.getString("user").contains(search);
 						break;
 					case "Amount":
 						try {
@@ -430,22 +438,25 @@ public class QYSelection extends VBox {
 			conn.close();
 			updateQY("");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 
 	}
 	
+	//TODO
 	public SortedSet<String> getCustomerTree(){
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String sql = "select name from customer";
+			String sql = "select code,name from customer";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				String a = rs.getString("name");
+				String b = rs.getString("code");
 				treeSet.add(a);
+				treeSet.add(b);
 			}
 			stmt.close();
 			conn.close();
@@ -520,5 +531,27 @@ public class QYSelection extends VBox {
 		return null;
 	}
 	
-	//TODO : PRoduct tree
+	public SortedSet<String> getProductTree(){
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select code,description from product";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("code");
+				String b = rs.getString("description");
+				treeSet.add(a);
+				treeSet.add(b);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }
