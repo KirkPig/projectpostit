@@ -10,12 +10,12 @@ public class User {
 	private Permission permission = new Permission(true,true,true,true,true,true,true,true); 
 	private Gson gson = new Gson();
 	
-	public User(String username, String password, String name, String permission) {
+	public User(String username, String password, String name, Permission permission) {
 		// TODO Auto-generated constructor stub
 		this.setUsername(username);
 		this.setPassword(password);
 		this.setName(name);
-		this.permission = gson.fromJson(permission, Permission.class);
+		this.permission = permission;
 	}
 	
 	public String getGson() {
