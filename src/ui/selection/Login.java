@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.google.gson.Gson;
+
+import database.Permission;
 import database.User;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -33,6 +36,7 @@ public class Login extends VBox {
 	public static String usernameShow = "";
 	public static User user;
 	private Stage myStage;
+	private Gson gson = new Gson();
 
 	public Login(Stage myStage) {
 		this.myStage = myStage;
@@ -130,7 +134,9 @@ public class Login extends VBox {
 								stage.show();
 
 							} else {
-								Login.user = new User(userField.getText(), passwordCheck, name, permission);
+
+								Login.user = new User(userField.getText(), passwordCheck, name,
+										gson.fromJson(permission, Permission.class));
 
 								System.out.println("you login sucessfully!!.");
 								usernameShow = name;
@@ -178,7 +184,7 @@ public class Login extends VBox {
 					String sql = "select * from account WHERE username = '" + userField.getText() + "';";
 					Statement stmt = conn.createStatement();
 					ResultSet rs = stmt.executeQuery(sql);
-					
+
 					String name = "";
 					String passwordCheck = "";
 					String permission = "";
@@ -199,7 +205,8 @@ public class Login extends VBox {
 							stage.show();
 
 						} else {
-							Login.user = new User(userField.getText(), passwordCheck, name, permission);
+							Login.user = new User(userField.getText(), passwordCheck, name,
+									gson.fromJson(permission, Permission.class));
 
 							System.out.println("you login sucessfully!!.");
 							usernameShow = name;
