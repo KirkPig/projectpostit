@@ -11,8 +11,6 @@ import com.google.gson.reflect.TypeToken;
 
 import bill.Item;
 import bill.ProductLoan;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -104,11 +102,12 @@ public class BLSelection extends VBox {
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
-		search.textProperty().addListener(new ChangeListener<String>() {
-
+		search.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				updateBL(search.getText());
+			public void handle(KeyEvent k) {
+				if (k.getCode().equals(KeyCode.ENTER)) {
+					updateBL(search.getText());
+				}
 			}
 		});
 		genre = new ComboBox<String>();

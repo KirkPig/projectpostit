@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,9 +19,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -40,7 +48,7 @@ public class QYSelection extends VBox {
 	private static ComboBox<Integer> year;
 	private static ComboBox<String> genre;
 	private static TextField search;
-
+	private SortedSet<String> allTree;
 	@SuppressWarnings("unchecked")
 	public QYSelection() {
 
@@ -105,11 +113,92 @@ public class QYSelection extends VBox {
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
+		SortedSet<String> customerTree = getCustomerTree();
+		SortedSet<String> codeTree = getCodeTree();
+		SortedSet<String> amountTree = getAmountTree();
+		SortedSet<String> creatorTree = getCreatorTree();
+		
+		ContextMenu allSuggest = new ContextMenu();
 		search.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				updateQY(search.getText());
+				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue()== null)) {
+					allSuggest.hide();
+				} else {
+					LinkedList<String> searchResult = new LinkedList<>();
+					switch (genre.getValue()){
+					case "Code": 
+						allTree = codeTree;
+						break;
+						
+					case "Amount": 
+						allTree = amountTree;
+						break;
+						
+					case "Creator":
+						allTree = creatorTree;
+						break;
+						
+					case "Customer Name":
+						allTree = customerTree;
+						break;
+					}
+					
+					searchResult.addAll(allTree.subSet(search.getText(), search.getText() + Character.MAX_VALUE));
+					if (allTree.size() > 0) {
+						populatePopup(searchResult);
+						if (!allSuggest.isShowing()) {
+							allSuggest.show(search, Side.BOTTOM, 0, 0);
+						}
+					} else {
+						allSuggest.hide();
+					}
+				}
+
+			}
+
+			private void populatePopup(LinkedList<String> searchResult) {
+				List<CustomMenuItem> menuItems = new LinkedList<>();
+
+				int maxEntries = 10;
+				int count = Math.min(searchResult.size(), maxEntries);
+
+				for (int i = 0; i < count; i++) {
+					final String result = searchResult.get(i);
+					Label entryLabel = new Label(result);
+					CustomMenuItem item = new CustomMenuItem(entryLabel, true);
+					item.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent actionEvent) {
+							System.out.println(result);
+							updateQY(result);
+							allSuggest.hide();
+						}
+					});
+					menuItems.add(item);
+				}
+				allSuggest.getItems().clear();
+				allSuggest.getItems().addAll(menuItems);
+			}
+		});
+
+		search.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+
+				allSuggest.hide();
+			}
+		});
+		
+		search.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent k) {
+				if (k.getCode().equals(KeyCode.ENTER)) {
+					updateQY(search.getText());
+				}
+				
 			}
 		});
 		genre = new ComboBox<String>();
@@ -346,4 +435,90 @@ public class QYSelection extends VBox {
 		}
 
 	}
+	
+	public SortedSet<String> getCustomerTree(){
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select name from customer";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("name");
+				treeSet.add(a);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public SortedSet<String> getCodeTree(){
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select id from quotation";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("id");
+				treeSet.add(a);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public SortedSet<String> getCreatorTree(){
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select user from quotation";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("user");
+				treeSet.add(a);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public SortedSet<String> getAmountTree(){
+		try {
+			SortedSet<String> treeSet = new TreeSet<String>();
+			Connection conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			String sql = "select valueaftertax from quotation";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String a = rs.getString("valueaftertax");
+				treeSet.add(a);
+			}
+			stmt.close();
+			conn.close();
+			return treeSet;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//TODO : PRoduct tree
 }
