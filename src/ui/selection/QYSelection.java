@@ -48,7 +48,7 @@ public class QYSelection extends VBox {
 	private static ComboBox<Integer> year;
 	private static ComboBox<String> genre;
 	private static TextField search;
-	private SortedSet<String> allTree; //TODO
+	private SortedSet<String> allTree;
 	@SuppressWarnings("unchecked")
 	public QYSelection() {
 
@@ -113,7 +113,7 @@ public class QYSelection extends VBox {
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
-		//TODO
+		
 		SortedSet<String> customerTree = getCustomerTree();
 		SortedSet<String> codeTree = getCodeTree();
 		SortedSet<String> amountTree = getAmountTree();
@@ -444,7 +444,7 @@ public class QYSelection extends VBox {
 
 	}
 	
-	//TODO
+	
 	public SortedSet<String> getCustomerTree(){
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
