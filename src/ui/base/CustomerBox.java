@@ -14,25 +14,34 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import logic.Customer;
 import logic.DatabaseConnection;
+import ui.news.RBNewUI;
 
 public class CustomerBox extends VBox {
 	private Label codeBox;
+	private Label nameBox;
+	private Label taxIdBox;
+	private Label addressBox;
+	private Label teleBox;
+	private Label faxBox;
+	private Label mailBox;
+
 	public CustomerBox(int width, int height) {
 		Label header = new Label("CUSTOMER");
 		codeBox = new Label();
-		Label nameBox = new Label();
-		Label taxIdBox = new Label();
-		Label addressBox = new Label();
-		Label teleBox = new Label();
-		Label faxBox = new Label();
-		Label mailBox = new Label();
+		nameBox = new Label();
+		taxIdBox = new Label();
+		addressBox = new Label();
+		teleBox = new Label();
+		faxBox = new Label();
+		mailBox = new Label();
 		TextField searchBox = new TextField();
 		searchBox.setPromptText("search");
 
@@ -104,7 +113,12 @@ public class CustomerBox extends VBox {
 									mailBox.setText(rs2.getString("email"));
 
 								}
-
+								if (RBNewUI.getGenre() != null) {
+									RBNewUI.getGenre().setValue("Customer Name");
+									RBNewUI.updateNewRB(nameBox.getText());
+								}
+								
+								searchBox.clear();
 								stmt.close();
 								conn.close();
 							} catch (Exception e) {
@@ -182,6 +196,7 @@ public class CustomerBox extends VBox {
 		this.setMaxWidth(width);
 	}
 
+	@SuppressWarnings("unused")
 	private SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> codeSet = new TreeSet<String>();
@@ -203,8 +218,6 @@ public class CustomerBox extends VBox {
 
 		return null;
 	}
-
-	
 
 	public SortedSet<String> getNameTree() {
 		try {
@@ -250,8 +263,27 @@ public class CustomerBox extends VBox {
 		}
 		return null;
 	}
-	
+
 	public String getCustomer() {
 		return codeBox.getText();
+	}
+
+	public void setSelectedCustomer(Customer customer) {
+		codeBox.setText(customer.getCode());
+		nameBox.setText(customer.getName());
+		taxIdBox.setText(customer.getTaxID());
+		addressBox.setText(customer.getAddress());
+		teleBox.setText(customer.getTel());
+		faxBox.setText(customer.getFax());
+		mailBox.setText(customer.getEmail());
+
+	}
+	
+	public Label getCodeLabel() {
+		return this.codeBox;
+	}
+	
+	public Customer getSelectedCustomer() {
+		return new Customer(codeBox.getText(),nameBox.getText(),taxIdBox.getText(),addressBox.getText(),teleBox.getText(),faxBox.getText(),mailBox.getText());
 	}
 }

@@ -1,6 +1,5 @@
 package ui.base;
 
-
 import java.time.LocalDate;
 import java.time.chrono.ThaiBuddhistChronology;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +16,6 @@ public class GeneralBox extends VBox {
 	public GeneralBox(int width, int height) {
 		Label header = new Label("General");
 
-
 		date = new DatePicker();
 		date.setValue(LocalDate.now());
 		date.setChronology(ThaiBuddhistChronology.INSTANCE);
@@ -31,7 +29,13 @@ public class GeneralBox extends VBox {
 	}
 
 	public String getSelectedDate() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //08-02-1111
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // 08-02-1111
 		return dateFormatter.format(date.getChronology().date(date.getValue()));
+	}
+
+	public void setGenBox(String id,String selectedDate) {
+		this.getChildren().add(1, new Label("ID:"+id));
+		date.setValue(LocalDate.of(Integer.parseInt(selectedDate.substring(6)) - 543,
+				Integer.parseInt(selectedDate.substring(3, 5)), Integer.parseInt(selectedDate.substring(0, 2))));
 	}
 }

@@ -35,8 +35,6 @@ public class Item extends Product{
 
 	public void setAmount() {
 		this.amount = multiply(multiply(this.getProduct().getPrice() , 1-this.getDiscount()/100),this.getItemQuantity()) ;
-		
-		
 	}
 
 	public Product getProduct() {

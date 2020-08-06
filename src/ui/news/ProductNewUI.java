@@ -1,7 +1,6 @@
 package ui.news;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import javafx.event.ActionEvent;
@@ -17,8 +16,16 @@ import logic.DatabaseConnection;
 import ui.selection.DatabaseUI;
 
 public class ProductNewUI extends GridPane {
+	private TextField codeBox;
+	private TextField descriptionBox;
+	private TextField unitBox;
+	private TextField quantityBox;
+	private TextField priceBox;
+	private Stage productStage;
+	
 	public ProductNewUI(Stage productStage) {
 		super();
+		this.productStage  = productStage;
 		this.setMinSize(400, 300);
 		this.setAlignment(Pos.CENTER);
 		HBox buttonGang = new HBox();
@@ -29,15 +36,15 @@ public class ProductNewUI extends GridPane {
 		buttonGang.getChildren().addAll(saveButton);
 
 		Label header = new Label("Product");
-		TextField codeBox = new TextField();
+		codeBox = new TextField();
 		Label codelabel = new Label("Code:");
-		TextField descriptionBox = new TextField();
-		TextField unitBox = new TextField();
+		descriptionBox = new TextField();
+		unitBox = new TextField();
 		Label descriptionLabel = new Label("Description:");
 		Label unitLabel = new Label("Unit:");
-		TextField quantityBox = new TextField();
+		quantityBox = new TextField();
 		Label quantityLabel = new Label("Quantity");
-		TextField priceBox = new TextField();
+		priceBox = new TextField();
 		Label priceLabel = new Label("Price:");
 		this.add(buttonGang, 0, 6);
 		this.add(codelabel, 0, 1);
@@ -58,39 +65,42 @@ public class ProductNewUI extends GridPane {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (!(codeBox.getText().isEmpty()) && (!descriptionBox.getText().isEmpty())
-						&& (!unitBox.getText().isEmpty()) && (!quantityBox.getText().isEmpty())
-						&& (!priceBox.getText().isEmpty())) {
-					try {
-						Connection conn = DatabaseConnection.getConnection();
-						Statement stmt = conn.createStatement();
-
-						String sql = "insert into product values(" + "'" + codeBox.getText() + "','"
-								+ descriptionBox.getText() + "'," + Integer.parseInt(quantityBox.getText()) + ",'"
-								+ unitBox.getText() + "'," + Float.parseFloat(priceBox.getText()) + ");";
-						int x = stmt.executeUpdate(sql);
-						System.out.println(sql);
-						if (x > 0) {
-							System.out.println("Updated Successfully");
-						} else {
-							System.out.println("Failed");
-						}
-
-						stmt.close();
-						conn.close();
-						DatabaseUI.updateProductTable("");
-						productStage.close();
-
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else {
-					System.out.println("Some Box is Empty");
-				}
-
+				save();
 			}
 		});
+	}
+
+	public void save() {
+		if (!(codeBox.getText().isEmpty()) && (!descriptionBox.getText().isEmpty())
+				&& (!unitBox.getText().isEmpty()) && (!quantityBox.getText().isEmpty())
+				&& (!priceBox.getText().isEmpty())) {
+			try {
+				Connection conn = DatabaseConnection.getConnection();
+				Statement stmt = conn.createStatement();
+
+				String sql = "insert into product values(" + "'" + codeBox.getText() + "','"
+						+ descriptionBox.getText() + "'," + Integer.parseInt(quantityBox.getText()) + ",'"
+						+ unitBox.getText() + "'," + Float.parseFloat(priceBox.getText()) + ");";
+				int x = stmt.executeUpdate(sql);
+				System.out.println(sql);
+				if (x > 0) {
+					System.out.println("Updated Successfully");
+				} else {
+					System.out.println("Failed");
+				}
+
+				stmt.close();
+				conn.close();
+				DatabaseUI.updateProductTable("");
+				productStage.close();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Some Box is Empty");
+		}
 	}
 
 }

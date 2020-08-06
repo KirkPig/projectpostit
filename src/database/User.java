@@ -9,17 +9,24 @@ public class User {
 	private String name;
 	private Permission permission = new Permission(true,true,true,true,true,true,true,true); 
 	private Gson gson = new Gson();
-	
 	public User(String username, String password, String name) {
 		// TODO Auto-generated constructor stub
 		this.setUsername(username);
 		this.setPassword(password);
 		this.setName(name);
-		gson.toJson(permission);
 	}
+	public User(String username, String password, String name, Permission permission) {
+		// TODO Auto-generated constructor stub
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setName(name);
+		this.permission = permission;
+	}
+	
 	public String getGson() {
 		return this.gson.toJson(permission);
 	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -42,6 +49,9 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Permission getPermission() {
+		return permission;
 	}
 	
 	

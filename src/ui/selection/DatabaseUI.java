@@ -6,7 +6,6 @@ import java.sql.Statement;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -237,5 +236,13 @@ public class DatabaseUI extends VBox {
 			e1.printStackTrace();
 		}
 
+	}
+	
+	public static void deleteProduct(String e) {
+		
+	}
+	
+	public static void deleteCustomer(String e) {
+		
 	}
 }

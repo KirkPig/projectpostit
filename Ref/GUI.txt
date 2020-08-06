@@ -17,3 +17,29 @@ CR : ลดหนี้
 RB : วางบิล 
 YN : Invoice
 BL : Product Loan
+
+แก้ Admin\ ZARA
+
+ \แก้ HOME \เพิ่มลด Product\
+
+
+\ print report  KIRK
+
+/// LAGGING when load selection(insert thread) : naem
+
+
+wrong username permission (delete OR change to RB, change BL to productLoan, PO)
+
+story of my life: ask TA P' mack (ACT)
+
+moral of my life: When you can't do it, you'll be forced to do it. fuck RB
+
+
+
+
+
+UPGRADE PROGRAM!!!!!!!
+ภาษาไทย.
+mail. ?
+COLOUR
+More Bill Add
