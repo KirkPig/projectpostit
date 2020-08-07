@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import logic.Customer;
 
-public class Quotation {
+public class Quotation implements Comparable<Quotation>{
 
 	private String id;
 	private String date;
@@ -180,4 +180,10 @@ public class Quotation {
 		DecimalFormat df = new DecimalFormat("#.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
+
+	@Override
+	public int compareTo(Quotation o) {
+		return this.getDate().compareTo(o.getDate());
+	}
+	
 }

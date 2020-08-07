@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import logic.Customer;
 
-public class Billing {
+public class Billing implements Comparable<Billing>{
 
 	private String id;
 	private String date;
@@ -166,6 +166,12 @@ public class Billing {
 
 	public void setCreator(String creator) {
 		this.creator = creator;
+	}
+
+	@Override
+	public int compareTo(Billing o) {
+		// TODO Auto-generated method stub
+		return this.getDate().compareTo(o.getDate());
 	}
 
 }

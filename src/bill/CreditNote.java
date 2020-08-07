@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import logic.Customer;
 
-public class CreditNote {
+public class CreditNote implements Comparable<CreditNote>{
 	
 	private String id;
 	private String date;
@@ -202,5 +202,11 @@ public class CreditNote {
 	public void setValueOldForTable(double valueOldForTable) {
 		DecimalFormat df = new DecimalFormat("#.##");
 		this.valueOldForTable = df.format(valueOldForTable);
+	}
+
+	@Override
+	public int compareTo(CreditNote o) {
+		// TODO Auto-generated method stub
+		return this.getDate().compareTo(o.getDate());
 	}
 }

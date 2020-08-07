@@ -308,7 +308,7 @@ public class IVNewUI extends VBox {
 			int k = 1;
 
 			while (true) {
-				gid = "IV" + date.substring(8) + "00" + date.substring(3, 5) + String.format("%03d", k);
+				gid = "YN" + date.substring(8) + "00" + date.substring(3, 5) + String.format("%03d", k);
 				String str = "select * from invoice where id like '" + gid + "'";
 				ResultSet rs = stmt.executeQuery(str);
 				if (rs.next()) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import logic.Customer;
 
-public class Invoice {
+public class Invoice implements Comparable<Invoice>{
 
 	private String id;
 	private String date;
@@ -226,5 +226,11 @@ public class Invoice {
 
 	public void setPs(String ps) {
 		this.ps = ps;
+	}
+
+	@Override
+	public int compareTo(Invoice o) {
+		// TODO Auto-generated method stub
+		return this.getDate().compareTo(o.getDate());
 	}
 }
