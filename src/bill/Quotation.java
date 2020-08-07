@@ -177,7 +177,7 @@ public class Quotation implements Comparable<Quotation>{
 	}
 
 	public void setValueAfterTaxForTable(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
 

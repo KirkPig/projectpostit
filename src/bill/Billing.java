@@ -102,7 +102,7 @@ public class Billing implements Comparable<Billing>{
 	}
 
 	public void setValue(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.value = Double.parseDouble(df.format(value));
 	}
 

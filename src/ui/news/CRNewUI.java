@@ -165,7 +165,7 @@ public class CRNewUI extends VBox {
 
 	public static void calculateTax() {
 		if (cr.getInvoice() != null) {
-			DecimalFormat df = new DecimalFormat("#.##");
+			DecimalFormat df = new DecimalFormat("#,###.##");
 			valueOld = cr.getInvoice().getValueAfterTax();
 			valueReal = cr.getValueRealText();
 			valueBeforeTax = valueOld - valueReal;
@@ -195,7 +195,7 @@ public class CRNewUI extends VBox {
 				conn.close();
 				CRSelection.updateCR("");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 

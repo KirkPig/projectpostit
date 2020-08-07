@@ -6,6 +6,7 @@ import java.sql.Connection;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -287,9 +288,10 @@ public class QYNewUI extends VBox {
 		for (Item item : productTable.getItems()) {
 			total += item.getAmount();
 		}
-		valueBeforeTaxText.setText(Double.toString(total));
-		valueTaxText.setText(Double.toString(total * 7 / 100));
-		valueAfterTaxText.setText(Double.toString(total * 107 / 100));
+		DecimalFormat df = new DecimalFormat("#,###.##");
+		valueBeforeTaxText.setText(df.format(total));
+		valueTaxText.setText(df.format(total*7/100));
+		valueAfterTaxText.setText(df.format(total*107/100));
 	}
 
 	public String generateId(String date) {

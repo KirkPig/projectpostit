@@ -175,7 +175,7 @@ public class CreditNote implements Comparable<CreditNote>{
 	}
 
 	public void setValueAfterTaxForTable(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
 
@@ -200,7 +200,7 @@ public class CreditNote implements Comparable<CreditNote>{
 	}
 
 	public void setValueOldForTable(double valueOldForTable) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueOldForTable = df.format(valueOldForTable);
 	}
 
