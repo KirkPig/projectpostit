@@ -53,7 +53,7 @@ public class ReportTemplate {
 		ReportTextBox titleBox = new ReportTextBox("titleBox", 12.8f, 38.4f, 80.8f, 8.7f, "YONO TOOLS CO.,LTD.", 24f,
 				ReportHAlignment.LEFT, ReportVAlignment.CENTER, ReportFontType.BOLD);
 		ReportTextBox sideTitleBox = new ReportTextBox("sideTitleBox", 12.8f, 47.1f, 98f, 33.8f,
-				"103/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon,\nSamut Sakhon 74000"
+				"108/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon,\nSamut Sakhon 74000"
 						+ "\nTEL: 034-116655  Fax: 034-116656  MOBILE: 099-0568889\nE-MAIL: sale.yonotools@gmail.com\n"
 						+ "TAX-ID: 0125560000590",
 				13f, ReportHAlignment.LEFT, ReportVAlignment.CENTER, ReportFontType.BOLD);
@@ -167,7 +167,7 @@ public class ReportTemplate {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		String dest = "C:/Users/ASUS/Desktop/ULTIMA/sample.pdf";
+		String dest = "C:\\Users\\Kirk Pig\\Desktop\\PdfTest\\sample.pdf";
 		ArrayList<Item> itemList = new ArrayList<>();
 		itemList.add(new Item(new Product("TRI-1235", "Product Test 1", "Piece", 157.2, 1), 1000, 35));
 		itemList.add(new Item(new Product("COM-5623", "Product Test 2", "Set", 63.52, 35), 45, 22));

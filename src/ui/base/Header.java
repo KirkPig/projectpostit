@@ -246,13 +246,13 @@ public class Header extends Pane {
 	}
 	public void set_allow() {
 		Permission per = Login.user.getPermission();
-		quoButton.setDisable(!per.isQY());
-		orderButton.setDisable(!per.isOR());
-		productButton.setDisable(!per.isPO());
-		creditButton.setDisable(!per.isCR());
-		deliveryButton.setDisable(!per.isDE());
-		invoiceButton.setDisable(!per.isIV());
-		BillingButton.setDisable(!per.isBL());
-		databaseButton.setDisable(!per.isDatabase());
+		quoButton.setDisable(!per.QY);
+		orderButton.setDisable(!per.PO);
+		productButton.setDisable(!per.BL);
+		creditButton.setDisable(!per.CR);
+		deliveryButton.setDisable(!per.DE);
+		invoiceButton.setDisable(!per.YN);
+		BillingButton.setDisable(!per.RB);
+		databaseButton.setDisable(!per.database);
 	}
 }
