@@ -66,7 +66,7 @@ public class DatabaseUI extends VBox {
 		TableColumn colProductDesciption = new TableColumn("Description");
 		colProductDesciption.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn colProductPrice = new TableColumn("Price");
-		colProductPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+		colProductPrice.setCellValueFactory(new PropertyValueFactory<>("priceForTable"));
 		TableColumn colProductUnit = new TableColumn("Unit");
 		colProductUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
 		TableColumn colProductQuantity = new TableColumn("Quantity");

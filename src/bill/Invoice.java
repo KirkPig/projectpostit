@@ -188,7 +188,7 @@ public class Invoice implements Comparable<Invoice>{
 	}
 
 	public void setValueAfterTaxForTable(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
 

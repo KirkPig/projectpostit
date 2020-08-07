@@ -158,7 +158,7 @@ public class ProductLoan implements Comparable<ProductLoan>{
 	}
 
 	public void setValueAfterTaxForTable(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
 
