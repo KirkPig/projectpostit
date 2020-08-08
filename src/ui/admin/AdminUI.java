@@ -20,7 +20,7 @@ public class AdminUI extends VBox {
 		
 		HBox tab = new HBox();
 		tab.setMinHeight(50);
-		Button btnAccount = new Button("Account");
+		Button btnAccount = new Button("Back");
 		btnAccount.setPrefSize(200, 50);
 		tab.getChildren().add(btnAccount);
 		
