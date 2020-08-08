@@ -5,6 +5,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -153,12 +154,7 @@ public class RBNewUI extends VBox {
 		genBox = new GeneralBox(300, 120); // TODO if setCustomer Search that customer;
 		rb = new RBBox(300, 120);
 		cusBox = new CustomerBox(300, 250);
-//		cusBox.getCodeLabel().textProperty().addListener(new ChangeListener<String>() {
-//			@Override
-//			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-//				genre.setValue("Customer Name");
-//				updateNewRB(cusBox.getCodeLabel().getV);
-//			}});
+
 		left.getChildren().addAll(genBox, rb);
 		left.setSpacing(4);
 		upper.getChildren().addAll(left, cusBox);
@@ -171,31 +167,7 @@ public class RBNewUI extends VBox {
 		invoiceTable.setMinWidth(1000);
 		invoiceTable.setEditable(true);
 		TableColumn<Invoice, Boolean> selectCol = new TableColumn<>("Select");
-//		selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
-//		selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
-//		selectCol.setOnEditCommit(new EventHandler<CellEditEvent<Invoice, Boolean>>() {
-//			@Override
-//			public void handle(CellEditEvent<Invoice, Boolean> t) {
-//				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setSelect(t.getNewValue());
-//		
-//				invoiceTable.refresh();
-//				calculate();
-//
-//			}
-//
-//		});
-		
-//		selectCol.setOnEditStart(new EventHandler<CellEditEvent<Invoice, Boolean>>() {
-//			@Override
-//			public void handle(CellEditEvent<Invoice, Boolean> t) {
-//				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setSelect(t.getNewValue());
-//		
-//				invoiceTable.refresh();
-//				calculate();
-//
-//			}
-//
-//		});
+
 
 		 
 		        selectCol.setCellFactory(column -> new CheckBoxTableCell<>());
@@ -203,7 +175,6 @@ public class RBNewUI extends VBox {
 		            Invoice cellValue = cellData.getValue();
 		            BooleanProperty property = new SimpleBooleanProperty(cellValue.getSelect());
 
-		            // Add listener to handler change
 		            property.addListener((observable, oldValue, newValue) -> {
 		            	cellValue.setSelect(newValue);
 		            	calculate();
@@ -388,7 +359,8 @@ public class RBNewUI extends VBox {
 			}
 
 		}
-		totalAmount.setText(Double.toString(total));
+		DecimalFormat df = new DecimalFormat("#,###.##");
+		totalAmount.setText(df.format(total));
 	}
 
 	public void save() {

@@ -1,5 +1,7 @@
 package logic;
 
+import java.text.DecimalFormat;
+
 public class Product {
 	
 	private String code;
@@ -7,13 +9,14 @@ public class Product {
 	private String unit;
 	private double price;
 	private int quantity;
-	
+	private String priceForTable;
 	public Product(String code, String description,String unit, double price, int quantity) {
 		this.setCode(code);
 		this.setDescription(description);
 		this.setPrice(price);
 		this.setUnit(unit);
 		this.setQuantity(quantity);
+		this.setPriceForTable(price);
 	}
 
 
@@ -64,5 +67,16 @@ public class Product {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+
+	public String getPriceForTable() {
+		return priceForTable;
+	}
+
+
+	public void setPriceForTable(double price) {
+		DecimalFormat df = new DecimalFormat("#,###.##");
+		this.priceForTable = df.format(price);
 	}
 }

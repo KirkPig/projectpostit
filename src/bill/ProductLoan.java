@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import logic.Customer;
 
-public class ProductLoan {
+public class ProductLoan implements Comparable<ProductLoan>{
 	
 	private String id;
 	private String date;
@@ -158,7 +158,7 @@ public class ProductLoan {
 	}
 
 	public void setValueAfterTaxForTable(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueAfterTaxForTable = df.format(value);
 	}
 
@@ -168,5 +168,11 @@ public class ProductLoan {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	@Override
+	public int compareTo(ProductLoan o) {
+		// TODO Auto-generated method stub
+		return this.getDate().compareTo(o.getDate());
 	}
 }
