@@ -296,15 +296,9 @@ public class QYSelection extends VBox {
 			TableRow<Quotation> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					
-					Thread th = new Thread(new Runnable() {
 
-						@Override
-						public void run() {
-							openQY(row.getItem());
-						}
-					});
-					th.start();
+					openQY(row.getItem());
+
 				}
 			});
 			return row;
@@ -316,7 +310,7 @@ public class QYSelection extends VBox {
 				Quotation qy = table.getSelectionModel().getSelectedItem();
 				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						
+
 						Thread th = new Thread(new Runnable() {
 
 							@Override
@@ -351,7 +345,7 @@ public class QYSelection extends VBox {
 			TableRow<Quotation> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					
+
 					Thread th = new Thread(new Runnable() {
 
 						@Override
@@ -371,7 +365,7 @@ public class QYSelection extends VBox {
 				Quotation qy = table.getSelectionModel().getSelectedItem();
 				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						
+
 						Thread th = new Thread(new Runnable() {
 
 							@Override
@@ -399,7 +393,7 @@ public class QYSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		
+
 		Thread th = new Thread(new Runnable() {
 
 			@Override
