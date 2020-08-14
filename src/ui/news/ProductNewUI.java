@@ -65,7 +65,15 @@ public class ProductNewUI extends GridPane {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				save();
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						save();
+					}
+				});
+				th.start();
+				
 			}
 		});
 	}

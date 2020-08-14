@@ -21,10 +21,10 @@ public class Billing implements Comparable<Billing>{
 	private String amountForTable = "";
 	private String customerName;
 	private String creator;
+	private String valueForTable;
 	
 	public Billing(String id, String date, Customer customer, ArrayList<Invoice> invoiceList, ArrayList<String> psList, String billingBy,
 			String billingDate, String ps,String creator) {
-		// TODO Auto-generated constructor stub
 		this.setCustomer(customer);
 		this.setDate(date);
 		this.setId(id);
@@ -47,6 +47,7 @@ public class Billing implements Comparable<Billing>{
 		this.setAmountForTable(invoiceList);
 		this.setCustomerName(customer);
 		this.setCreator(creator);
+		this.setValueForTable(total);
 	}
 
 	public String getId() {
@@ -102,8 +103,7 @@ public class Billing implements Comparable<Billing>{
 	}
 
 	public void setValue(double value) {
-		DecimalFormat df = new DecimalFormat("#,###.##");
-		this.value = Double.parseDouble(df.format(value));
+		this.value = value;
 	}
 
 	public ArrayList<Invoice> getInvoiceList() {
@@ -170,8 +170,16 @@ public class Billing implements Comparable<Billing>{
 
 	@Override
 	public int compareTo(Billing o) {
-		// TODO Auto-generated method stub
 		return this.getDate().compareTo(o.getDate());
+	}
+
+	public String getValueForTable() {
+		return valueForTable;
+	}
+
+	public void setValueForTable(double value) {
+		DecimalFormat df = new DecimalFormat("#,###.##");
+		this.valueForTable = df.format(value);
 	}
 
 }

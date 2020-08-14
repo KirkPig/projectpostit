@@ -17,6 +17,14 @@ import logic.DatabaseConnection;
 import ui.selection.DatabaseUI;
 
 public class CustomerNewUI extends GridPane {
+	private Stage customerStage;
+	private TextField codeBox;
+	private TextField nameBox;
+	private TextField taxIdBox;
+	private TextArea addressBox;
+	private TextField teleBox;
+	private TextField faxBox;
+	private TextField mailBox;
 	public CustomerNewUI(Stage customerStage) {
 		this.setAlignment(Pos.CENTER);
 		this.setMinSize(600, 500);
@@ -29,13 +37,13 @@ public class CustomerNewUI extends GridPane {
 		this.add(buttonGang, 0, 9);
 
 		Label header = new Label("CUSTOMER");
-		TextField codeBox = new TextField();
-		TextField nameBox = new TextField();
-		TextField taxIdBox = new TextField();
-		TextArea addressBox = new TextArea();
-		TextField teleBox = new TextField();
-		TextField faxBox = new TextField();
-		TextField mailBox = new TextField();
+		codeBox = new TextField();
+		nameBox = new TextField();
+		taxIdBox = new TextField();
+		addressBox = new TextArea();
+		teleBox = new TextField();
+		faxBox = new TextField();
+		mailBox = new TextField();
 
 		Label codeLabel = new Label("CODE:");
 		Label nameLabel = new Label("NAME:");
@@ -66,40 +74,50 @@ public class CustomerNewUI extends GridPane {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				if ((!codeBox.getText().isEmpty()) && (!nameBox.getText().isEmpty()) && (!taxIdBox.getText().isEmpty())
-						&& (!addressBox.getText().isEmpty()) && (!teleBox.getText().isEmpty())
-						&& (!faxBox.getText().isEmpty()) && (!mailBox.getText().isEmpty())) {
-					try {
-						Connection conn = DatabaseConnection.getConnection();
-						Statement stmt = conn.createStatement();
-
-						String sql = "insert into customer values(" + "'" + codeBox.getText() + "','" + nameBox.getText()
-								+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
-						System.out.println(sql);
+				Thread th = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						save();
 						
-						int x = stmt.executeUpdate(sql);
-						System.out.println(sql);
-						if (x > 0) {
-							System.out.println("Updated Successfully");
-						} else {
-							System.out.println("Failed");
-						}
-
-						stmt.close();
-						conn.close();
-						DatabaseUI.updateCustomerTable("");
-						customerStage.close();
-
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-				} else {
-					System.out.println("Some Box is Empty");
-				}
+				});
+				th.start();
 
 			}
 		});
 	}
+	
+	public void save() {
+		if ((!codeBox.getText().isEmpty()) && (!nameBox.getText().isEmpty()) && (!taxIdBox.getText().isEmpty())
+				&& (!addressBox.getText().isEmpty()) && (!teleBox.getText().isEmpty())
+				&& (!faxBox.getText().isEmpty()) && (!mailBox.getText().isEmpty())) {
+			try {
+				Connection conn = DatabaseConnection.getConnection();
+				Statement stmt = conn.createStatement();
 
+				String sql = "insert into customer values(" + "'" + codeBox.getText() + "','" + nameBox.getText()
+						+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
+				System.out.println(sql);
+				
+				int x = stmt.executeUpdate(sql);
+				System.out.println(sql);
+				if (x > 0) {
+					System.out.println("Updated Successfully");
+				} else {
+					System.out.println("Failed");
+				}
+
+				stmt.close();
+				conn.close();
+				DatabaseUI.updateCustomerTable("");
+				customerStage.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Some Box is Empty");
+		}
+	}
 }

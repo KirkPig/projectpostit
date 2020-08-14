@@ -49,6 +49,7 @@ public class QYSelection extends VBox {
 	private static ComboBox<String> genre;
 	private static TextField search;
 	private SortedSet<String> allTree;
+
 	@SuppressWarnings("unchecked")
 	public QYSelection() {
 
@@ -65,7 +66,15 @@ public class QYSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateQY("");
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateQY("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -76,7 +85,14 @@ public class QYSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateQY("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateQY("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -92,68 +108,81 @@ public class QYSelection extends VBox {
 		editButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					openQY(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					openQY(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							openQY(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							openQY(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+					}
+				});
+				th.start();
 			}
 		});
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+					}
+				});
+				th.start();
 			}
 		});
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
-		
+
 		SortedSet<String> customerTree = getCustomerTree();
 		SortedSet<String> codeTree = getCodeTree();
 		SortedSet<String> amountTree = getAmountTree();
 		SortedSet<String> creatorTree = getCreatorTree();
 		SortedSet<String> productTree = getProductTree();
-		
 
 		ContextMenu allSuggest = new ContextMenu();
 		search.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue()== null)) {
+				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue() == null)) {
 					allSuggest.hide();
 				} else {
 					LinkedList<String> searchResult = new LinkedList<>();
-					switch (genre.getValue()){
-					case "Code": 
+					switch (genre.getValue()) {
+					case "Code":
 						allTree = codeTree;
 						break;
-						
-					case "Amount": 
+
+					case "Amount":
 						allTree = amountTree;
 						break;
-						
+
 					case "Creator":
 						allTree = creatorTree;
 						break;
-						
+
 					case "Customer Name":
 						allTree = customerTree;
 						break;
-						
+
 					case "Product":
 						allTree = productTree;
 						break;
 					}
-					
-					
-					
+
 					searchResult.addAll(allTree.subSet(search.getText(), search.getText() + Character.MAX_VALUE));
 					if (allTree.size() > 0) {
 						populatePopup(searchResult);
@@ -180,9 +209,17 @@ public class QYSelection extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							System.out.println(result);
-							updateQY(result);
-							allSuggest.hide();
+
+							Thread th = new Thread(new Runnable() {
+
+								@Override
+								public void run() {
+									System.out.println(result);
+									updateQY(result);
+									allSuggest.hide();
+								}
+							});
+							th.start();
 						}
 					});
 					menuItems.add(item);
@@ -200,14 +237,22 @@ public class QYSelection extends VBox {
 				allSuggest.hide();
 			}
 		});
-		
+
 		search.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
-					updateQY(search.getText());
+
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							updateQY(search.getText());
+						}
+					});
+					th.start();
 				}
-				
+
 			}
 		});
 		genre = new ComboBox<String>();
@@ -251,7 +296,15 @@ public class QYSelection extends VBox {
 			TableRow<Quotation> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openQY(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openQY(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 			return row;
@@ -261,14 +314,19 @@ public class QYSelection extends VBox {
 			@Override
 			public void handle(final KeyEvent keyEvent) {
 				Quotation qy = table.getSelectionModel().getSelectedItem();
-				if (qy!= null) {
+				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(qy);
 						
+						Thread th = new Thread(new Runnable() {
 
+							@Override
+							public void run() {
+								delete(qy);
+							}
+						});
+						th.start();
 					}
 
-					
 				}
 			}
 		});
@@ -293,7 +351,15 @@ public class QYSelection extends VBox {
 			TableRow<Quotation> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openQY(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openQY(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 
@@ -303,14 +369,20 @@ public class QYSelection extends VBox {
 			@Override
 			public void handle(final KeyEvent keyEvent) {
 				Quotation qy = table.getSelectionModel().getSelectedItem();
-				if (qy!= null) {
+				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(qy);
 						
+						Thread th = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								delete(qy);
+							}
+						});
+						th.start();
 
 					}
 
-					
 				}
 			}
 		});
@@ -327,7 +399,15 @@ public class QYSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		updateQY("");
+		
+		Thread th = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				updateQY("");
+			}
+		});
+		th.start();
 
 	}
 
@@ -359,7 +439,7 @@ public class QYSelection extends VBox {
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr,  rs.getString("user"));
+				Quotation quotation = new Quotation(id, date, customer, itemList, attn, cr, rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {
@@ -438,14 +518,13 @@ public class QYSelection extends VBox {
 			conn.close();
 			updateQY("");
 		} catch (Exception e) {
-		
+
 			e.printStackTrace();
 		}
 
 	}
-	
-	
-	public SortedSet<String> getCustomerTree(){
+
+	public SortedSet<String> getCustomerTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -467,8 +546,8 @@ public class QYSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCodeTree(){
+
+	public SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -488,8 +567,8 @@ public class QYSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCreatorTree(){
+
+	public SortedSet<String> getCreatorTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -509,8 +588,8 @@ public class QYSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getAmountTree(){
+
+	public SortedSet<String> getAmountTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -530,8 +609,8 @@ public class QYSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getProductTree(){
+
+	public SortedSet<String> getProductTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -553,5 +632,5 @@ public class QYSelection extends VBox {
 		}
 		return null;
 	}
-	
+
 }

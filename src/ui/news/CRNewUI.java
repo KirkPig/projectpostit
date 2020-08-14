@@ -68,11 +68,6 @@ public class CRNewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			// Stage newStage = new Stage();
-			// VBox newBox = new VBox(new QuotationNewUI());
-			// Scene newScene = new Scene(newBox);
-			// newStage.setScene(newScene);
-			// newStage.show();
 
 		});
 
@@ -138,8 +133,15 @@ public class CRNewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				save();
-				CRSelection.updateCR("");
+				Thread th = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						save();
+						CRSelection.updateCR("");
+					}
+				});
+				th.start();
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -151,16 +153,24 @@ public class CRNewUI extends VBox {
 
 	public CRNewUI(Stage yourOwnStage, CreditNote creditnote) {
 		this(yourOwnStage);
-		createNew = false;
-		id = creditnote.getId();
-		genBox.setGenBox(creditnote.getId(), creditnote.getDate());
-		cusBox.setSelectedCustomer(creditnote.getCustomer());
-		cr.setInvoiceText(creditnote.getInvoiceID());
-		cr.setDate(creditnote.getInvoice().getDate());
-		cr.setValueRealText(creditnote.getValueReal());
-		cr.setInvoice(creditnote.getInvoice());
-		productTable.getItems().addAll(creditnote.getInvoice().getItemList());
-		calculateTax();
+		Thread th = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				createNew = false;
+				id = creditnote.getId();
+				genBox.setGenBox(creditnote.getId(), creditnote.getDate());
+				cusBox.setSelectedCustomer(creditnote.getCustomer());
+				cr.setInvoiceText(creditnote.getInvoiceID());
+				cr.setDate(creditnote.getInvoice().getDate());
+				cr.setValueRealText(creditnote.getValueReal());
+				cr.setInvoice(creditnote.getInvoice());
+				productTable.getItems().addAll(creditnote.getInvoice().getItemList());
+				calculateTax();
+			}
+		});
+		th.start();
+		
 	}
 
 	public static void calculateTax() {

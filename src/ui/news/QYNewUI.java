@@ -105,10 +105,18 @@ public class QYNewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-					productTable.refresh();
-					calculateTax();
+					
+					Thread th = new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+							productTable.refresh();
+							calculateTax();
+						}
+					});
+					th.start();
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -134,10 +142,20 @@ public class QYNewUI extends VBox {
 		discountCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Double>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+				
+				Thread th = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+						productTable.refresh();
+						calculateTax();
+						
+						
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -202,7 +220,6 @@ public class QYNewUI extends VBox {
 					
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						save();
 						QYSelection.updateQY("");
 					}
@@ -220,14 +237,23 @@ public class QYNewUI extends VBox {
 
 	public QYNewUI(Stage yourOwnStage, Quotation quotation) {
 		this(yourOwnStage);
-		createNew = false;
-		id = quotation.getId();
-		genBox.setGenBox(quotation.getId(), quotation.getDate());
-		cusBox.setSelectedCustomer(quotation.getCustomer());
-		qy.setCr(quotation.getCr());
-		qy.setAttn(quotation.getAttn());
-		productTable.getItems().addAll(quotation.getItemList());
-		calculateTax();
+		Thread th = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				createNew = false;
+				id = quotation.getId();
+				genBox.setGenBox(quotation.getId(), quotation.getDate());
+				cusBox.setSelectedCustomer(quotation.getCustomer());
+				qy.setCr(quotation.getCr());
+				qy.setAttn(quotation.getAttn());
+				productTable.getItems().addAll(quotation.getItemList());
+				calculateTax();
+			}
+		});
+		th.start();
+
 	}
 
 	public void save() {
