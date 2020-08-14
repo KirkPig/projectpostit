@@ -102,10 +102,20 @@ public class IVNewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-					productTable.refresh();
-					calculateTax();
+
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							(t.getTableView().getItems().get(t.getTablePosition().getRow()))
+									.setItemQuantity(t.getNewValue());
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+							productTable.refresh();
+							calculateTax();
+
+						}
+					});
+					th.start();
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -131,10 +141,19 @@ public class IVNewUI extends VBox {
 		discountCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Double>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+						productTable.refresh();
+						calculateTax();
+
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -195,8 +214,17 @@ public class IVNewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				save();
-				IVSelection.updateIV("");
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						save();
+						IVSelection.updateIV("");
+
+					}
+				});
+				th.start();
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -235,7 +263,7 @@ public class IVNewUI extends VBox {
 				conn.close();
 				IVSelection.updateIV("");
 			} catch (Exception e) {
-				
+
 				e.printStackTrace();
 			}
 
@@ -278,7 +306,8 @@ public class IVNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
-			saveOnPC(new Invoice(id, date, cusBox.getSelectedCustomer(), itemList, po, order, payment, datedue, sale, Login.usernameShow));
+			saveOnPC(new Invoice(id, date, cusBox.getSelectedCustomer(), itemList, po, order, payment, datedue, sale,
+					Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -292,8 +321,8 @@ public class IVNewUI extends VBox {
 		}
 		DecimalFormat df = new DecimalFormat("#,###.##");
 		valueBeforeTaxText.setText(df.format(total));
-		valueTaxText.setText(df.format(total*7/100));
-		valueAfterTaxText.setText(df.format(total*107/100));
+		valueTaxText.setText(df.format(total * 7 / 100));
+		valueAfterTaxText.setText(df.format(total * 107 / 100));
 	}
 
 	public String generateId(String date) {
@@ -336,7 +365,7 @@ public class IVNewUI extends VBox {
 		return !date.isEmpty() && !po.isEmpty() && !order.isEmpty() && !code.isEmpty()
 				&& !productTable.getItems().isEmpty() && total != 0 && !sale.isEmpty() && !payment.isEmpty();
 	}
-	
+
 	public void saveOnPC(Invoice iv) throws Exception {
 		FileChooser file = new FileChooser();
 		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");

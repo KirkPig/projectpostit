@@ -72,7 +72,6 @@ public class PONewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			
 
 		});
 
@@ -105,10 +104,18 @@ public class PONewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-					productTable.refresh();
-					calculateTax();
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+							productTable.refresh();
+							calculateTax();
+						}
+					});
+					th.start();
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -134,10 +141,18 @@ public class PONewUI extends VBox {
 		discountCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Double>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+						productTable.refresh();
+						calculateTax();
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -198,8 +213,16 @@ public class PONewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				save();
-				POSelection.updatePO("");
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						save();
+						POSelection.updatePO("");
+					}
+				});
+				th.start();
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();

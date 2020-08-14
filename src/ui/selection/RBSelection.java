@@ -50,6 +50,7 @@ public class RBSelection extends VBox {
 	private static ComboBox<String> genre;
 	private static TextField search;
 	private SortedSet<String> allTree;
+
 	@SuppressWarnings("unchecked")
 	public RBSelection() {
 		HBox allFunc = new HBox();
@@ -65,7 +66,16 @@ public class RBSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateRB("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateRB("");
+
+					}
+				});
+				th.start();
+
 			}
 		});
 
@@ -76,7 +86,16 @@ public class RBSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateRB("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateRB("");
+
+					}
+				});
+				th.start();
+
 			}
 		});
 
@@ -92,22 +111,41 @@ public class RBSelection extends VBox {
 		editButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					openRB(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					openRB(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							openRB(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							openRB(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+
+					}
+				});
+				th.start();
+
 			}
 		});
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+
+					}
+				});
+				th.start();
 			}
 		});
 		// Button
@@ -117,7 +155,16 @@ public class RBSelection extends VBox {
 			@Override
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
-					updateRB(search.getText());
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							updateRB(search.getText());
+							
+						}
+					});
+					th.start();
+					
 				}
 			}
 		});
@@ -126,41 +173,38 @@ public class RBSelection extends VBox {
 		SortedSet<String> amountTree = getAmountTree();
 		SortedSet<String> creatorTree = getCreatorTree();
 		SortedSet<String> invoiceTree = getInvoiceTree();
-		
 
 		ContextMenu allSuggest = new ContextMenu();
 		search.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue()== null)) {
+				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue() == null)) {
 					allSuggest.hide();
 				} else {
 					LinkedList<String> searchResult = new LinkedList<>();
-					switch (genre.getValue()){
-					case "Code": 
+					switch (genre.getValue()) {
+					case "Code":
 						allTree = codeTree;
 						break;
-						
-					case "Amount": 
+
+					case "Amount":
 						allTree = amountTree;
 						break;
-						
+
 					case "Creator":
 						allTree = creatorTree;
 						break;
-						
+
 					case "Customer Name":
 						allTree = customerTree;
 						break;
-						
+
 					case "Invoice ID":
 						allTree = invoiceTree;
 						break;
 					}
-					
-					
-					
+
 					searchResult.addAll(allTree.subSet(search.getText(), search.getText() + Character.MAX_VALUE));
 					if (allTree.size() > 0) {
 						populatePopup(searchResult);
@@ -234,13 +278,13 @@ public class RBSelection extends VBox {
 		customerName.setMinWidth(200);
 		customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 		TableColumn<Billing, String> totalAmount = new TableColumn<Billing, String>("Amount");
-		totalAmount.setCellValueFactory(new PropertyValueFactory<>("value"));
+		totalAmount.setCellValueFactory(new PropertyValueFactory<>("valueForTable"));
 		totalAmount.setMinWidth(120);
 		TableColumn<Billing, String> creator = new TableColumn<Billing, String>("Created by");
 		creator.setCellValueFactory(new PropertyValueFactory<>("creator"));
 		creator.setMinWidth(200);
-		
-		table.getColumns().addAll(code, date, customerName,  totalAmount,  creator);
+
+		table.getColumns().addAll(code, date, customerName, totalAmount, creator);
 		table.setMaxHeight(500);
 		this.getChildren().add(table);
 		this.setSpacing(5);
@@ -249,7 +293,15 @@ public class RBSelection extends VBox {
 			TableRow<Billing> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openRB(row.getItem());
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openRB(row.getItem());
+						}
+					});
+					th.start();
+					
 				}
 			});
 			return row;
@@ -261,7 +313,16 @@ public class RBSelection extends VBox {
 				Billing rb = table.getSelectionModel().getSelectedItem();
 				if (rb != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(rb);
+						Thread th = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								delete(rb);
+							}
+						});
+						th.start();
+						
+						
 
 					}
 
@@ -275,7 +336,7 @@ public class RBSelection extends VBox {
 		codeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		TableColumn<Billing, String> dateCol = new TableColumn<Billing, String>("date");
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-		
+
 		TableColumn<Billing, String> invoiceid2 = new TableColumn<Billing, String>("Invoice ID");
 		invoiceid2.setCellValueFactory(new PropertyValueFactory<>("invoiceIdForTable"));
 		invoiceid2.setMinWidth(100);
@@ -283,13 +344,20 @@ public class RBSelection extends VBox {
 		valueAfterTax2.setCellValueFactory(new PropertyValueFactory<>("psForTable"));
 		valueAfterTax2.setMinWidth(100);
 
-		
 		table2.getColumns().addAll(codeCol, dateCol, invoiceid2, valueAfterTax2, creator);
 		table2.setRowFactory(tv -> {
 			TableRow<Billing> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openRB(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openRB(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 
@@ -301,7 +369,15 @@ public class RBSelection extends VBox {
 				Billing rb = table.getSelectionModel().getSelectedItem();
 				if (rb != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(rb);
+						
+						Thread th = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								delete(rb);
+							}
+						});
+						th.start();
 
 					}
 
@@ -321,7 +397,15 @@ public class RBSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		updateRB("");
+		Thread th = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				updateRB("");
+			}
+		});
+		th.start();
+		
 
 	}
 
@@ -341,9 +425,7 @@ public class RBSelection extends VBox {
 					continue;
 				}
 				String code = rs.getString("customercode");
-				
-				// String user = rs.getString("user");
-				
+
 				String billingBy = rs.getString("billingby");
 				String billingDate = rs.getString("billingdate");
 				String ps = rs.getString("ps");
@@ -354,16 +436,16 @@ public class RBSelection extends VBox {
 				};
 				ArrayList<String> invoiceIdList = gson.fromJson(invoiceId, token.getType());
 				ArrayList<String> psList = gson.fromJson(pslist, token.getType());
-				
+
 				ArrayList<Invoice> invoiceList = new ArrayList<Invoice>();
-				
+
 				String sql2 = "select * from customer where code = '" + code + "';";
 				Statement stmt2 = conn.createStatement();
 				ResultSet rs2 = stmt2.executeQuery(sql2);
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-				for (Integer i = 0 ; i<invoiceIdList.size(); i++) {
+				for (Integer i = 0; i < invoiceIdList.size(); i++) {
 					String sql3 = "select * from invoice where id = '" + invoiceIdList.get(i) + "';";
 					Statement stmt3 = conn.createStatement();
 					ResultSet rs3 = stmt3.executeQuery(sql3);
@@ -379,12 +461,9 @@ public class RBSelection extends VBox {
 					invoice.setSelect(true);
 					invoiceList.add(invoice);
 				}
-				
-					
-			
-				
-				
-				Billing billing =new Billing(id,date,customer,invoiceList,psList,billingBy,billingDate,ps,rs.getString("user"));
+
+				Billing billing = new Billing(id, date, customer, invoiceList, psList, billingBy, billingDate, ps,
+						rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {
@@ -392,7 +471,7 @@ public class RBSelection extends VBox {
 						addToTable = id.contains(search);
 						break;
 					case "Invoice ID":
-						for (Invoice invoice: invoiceList) {
+						for (Invoice invoice : invoiceList) {
 							if (invoice.getId().contains(search)) {
 								addToTable = true;
 							}
@@ -434,15 +513,14 @@ public class RBSelection extends VBox {
 		}
 
 	}
-	
+
 	public static void openRB(Billing rb) {
 		Stage newStage = new Stage();
 		Scene rbnewScene = new Scene(new RBNewUI(newStage, rb));
 		newStage.setScene(rbnewScene);
 		newStage.show();
 	}
-	
-	
+
 	public static void delete(Billing rb) {
 		Connection conn;
 		try {
@@ -455,12 +533,13 @@ public class RBSelection extends VBox {
 			conn.close();
 			updateRB("");
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 
 	}
-	public SortedSet<String> getCustomerTree(){
+
+	public SortedSet<String> getCustomerTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -482,8 +561,8 @@ public class RBSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCodeTree(){
+
+	public SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -503,8 +582,8 @@ public class RBSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCreatorTree(){
+
+	public SortedSet<String> getCreatorTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -524,8 +603,8 @@ public class RBSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getAmountTree(){
+
+	public SortedSet<String> getAmountTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -545,8 +624,8 @@ public class RBSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getInvoiceTree(){
+
+	public SortedSet<String> getInvoiceTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
