@@ -233,21 +233,12 @@ public class BLNewUI extends VBox {
 
 	public BLNewUI(Stage yourOwnStage, ProductLoan productloan) {
 		this(yourOwnStage);
-		
-		Thread th = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				createNew = false;
-				id = productloan.getId();
-				genBox.setGenBox(productloan.getId(), productloan.getDate());
-				cusBox.setSelectedCustomer(productloan.getCustomer());
-				bl.setContact(productloan.getContact());
-				productTable.getItems().addAll(productloan.getItemList());
-				calculateTax();
-			}
-		});
-		th.start();
+		createNew = false;
+		genBox.setGenBox(productloan.getId(), productloan.getDate());
+		cusBox.setSelectedCustomer(productloan.getCustomer());
+		bl.setContact(productloan.getContact());
+		productTable.getItems().addAll(productloan.getItemList());
+		calculateTax();
 	}
 
 	public void save() {
