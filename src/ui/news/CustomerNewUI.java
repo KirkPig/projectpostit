@@ -18,6 +18,7 @@ import logic.DatabaseConnection;
 import ui.selection.DatabaseUI;
 
 public class CustomerNewUI extends GridPane {
+
 	private TextField codeBox; 
 	private TextField nameBox; 
 	private TextField taxIdBox; 
@@ -25,7 +26,7 @@ public class CustomerNewUI extends GridPane {
 	private TextField teleBox;
 	private TextField faxBox;
 	private TextField mailBox;
-	private Boolean createNew;
+	private Stage customerStage;
 	public CustomerNewUI(Stage customerStage) {
 		this.setAlignment(Pos.CENTER);
 		this.setMinSize(600, 500);
@@ -105,13 +106,9 @@ public class CustomerNewUI extends GridPane {
 								+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
 						System.out.println(sql);
 						
-						int x = stmt.executeUpdate(sql);
-						System.out.println(sql);
-						if (x > 0) {
-							System.out.println("Updated Successfully");
-						} else {
-							System.out.println("Failed");
-						}
+					}
+				});
+				th.start();
 
 						stmt.close();
 						conn.close();
@@ -119,16 +116,29 @@ public class CustomerNewUI extends GridPane {
 						customerStage.close();
 						DatabaseUI.refresh();
 
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				String sql = "insert into customer values(" + "'" + codeBox.getText() + "','" + nameBox.getText()
+						+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
+				System.out.println(sql);
+				
+				int x = stmt.executeUpdate(sql);
+				System.out.println(sql);
+				if (x > 0) {
+					System.out.println("Updated Successfully");
 				} else {
-					System.out.println("Some Box is Empty");
+					System.out.println("Failed");
 				}
 
+				stmt.close();
+				conn.close();
+				DatabaseUI.updateCustomerTable("");
+				customerStage.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		});
+		} else {
+			System.out.println("Some Box is Empty");
+		}
 	}
 	
 	public CustomerNewUI(Stage customerStage,Customer ct) {

@@ -45,8 +45,6 @@ public class CustomerBox extends VBox {
 		TextField searchBox = new TextField();
 		searchBox.setPromptText("search");
 
-		//////// all autofill
-
 		SortedSet<String> allTree = getTree();
 
 		ContextMenu allSuggest = new ContextMenu();
