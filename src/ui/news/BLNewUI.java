@@ -211,7 +211,6 @@ public class BLNewUI extends VBox {
 	public BLNewUI(Stage yourOwnStage, ProductLoan productloan) {
 		this(yourOwnStage);
 		createNew = false;
-		id = productloan.getId();
 		genBox.setGenBox(productloan.getId(), productloan.getDate());
 		cusBox.setSelectedCustomer(productloan.getCustomer());
 		bl.setContact(productloan.getContact());

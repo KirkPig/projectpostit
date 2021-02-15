@@ -257,14 +257,17 @@ public class IVNewUI extends VBox {
 			ArrayList<Item> itemList = new ArrayList<>();
 			for (Item item : productTable.getItems()) {
 				if (item.getItemQuantity() > 0) {
+					item.getProduct().setDescription(item.getProduct().getDescription().replaceAll("\n", " "));
+					item.getProduct().setUnit(item.getProduct().getUnit().replaceAll("\n", " "));
 					itemList.add(item);
 				}
 
 			}
 
 			Gson gson = new Gson();
+			
 			String json = gson.toJson(itemList);
-
+			
 			String sql = "insert into invoice values('" + id + "','" + date + "','" + code + "','" + po + "','" + order
 					+ "','" + payment + "','" + datedue + "','" + sale + "'," + valueBeforeTax + "," + valueTax + ","
 					+ valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";

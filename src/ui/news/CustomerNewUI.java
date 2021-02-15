@@ -13,15 +13,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import logic.Customer;
 import logic.DatabaseConnection;
 import ui.selection.DatabaseUI;
 
 public class CustomerNewUI extends GridPane {
+	private TextField codeBox; 
+	private TextField nameBox; 
+	private TextField taxIdBox; 
+	private TextArea addressBox; 
+	private TextField teleBox;
+	private TextField faxBox;
+	private TextField mailBox;
+	private Boolean createNew;
 	public CustomerNewUI(Stage customerStage) {
 		this.setAlignment(Pos.CENTER);
 		this.setMinSize(600, 500);
+		createNew = true;
 		HBox buttonGang = new HBox();
-
+		
 		Button saveButton = new Button("Save");
 
 		saveButton.setMinSize(60, 40);
@@ -29,13 +39,13 @@ public class CustomerNewUI extends GridPane {
 		this.add(buttonGang, 0, 9);
 
 		Label header = new Label("CUSTOMER");
-		TextField codeBox = new TextField();
-		TextField nameBox = new TextField();
-		TextField taxIdBox = new TextField();
-		TextArea addressBox = new TextArea();
-		TextField teleBox = new TextField();
-		TextField faxBox = new TextField();
-		TextField mailBox = new TextField();
+		codeBox = new TextField();
+		nameBox = new TextField();
+		taxIdBox = new TextField();
+		addressBox = new TextArea();
+		teleBox = new TextField();
+		faxBox = new TextField();
+		mailBox = new TextField();
 
 		Label codeLabel = new Label("CODE:");
 		Label nameLabel = new Label("NAME:");
@@ -61,6 +71,8 @@ public class CustomerNewUI extends GridPane {
 		this.add(mailLabel, 0, 8);
 		this.add(mailBox, 1, 8);
 		this.setVgap(10);
+		
+		
 
 		saveButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -69,6 +81,22 @@ public class CustomerNewUI extends GridPane {
 				if ((!codeBox.getText().isEmpty()) && (!nameBox.getText().isEmpty()) && (!taxIdBox.getText().isEmpty())
 						&& (!addressBox.getText().isEmpty()) && (!teleBox.getText().isEmpty())
 						&& (!faxBox.getText().isEmpty()) && (!mailBox.getText().isEmpty())) {
+					if (!createNew) {
+						try {
+							Connection conn = DatabaseConnection.getConnection();
+							Statement stmt = conn.createStatement();
+
+							String sql = "DELETE from customer WHERE code ='" + codeBox.getText().trim() + "'";
+							stmt.executeUpdate(sql);
+							stmt.close();
+							conn.close();
+							DatabaseUI.refresh();
+						} catch (Exception e) {
+							
+							e.printStackTrace();
+						}
+
+					}
 					try {
 						Connection conn = DatabaseConnection.getConnection();
 						Statement stmt = conn.createStatement();
@@ -89,6 +117,7 @@ public class CustomerNewUI extends GridPane {
 						conn.close();
 						DatabaseUI.updateCustomerTable("");
 						customerStage.close();
+						DatabaseUI.refresh();
 
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -100,6 +129,19 @@ public class CustomerNewUI extends GridPane {
 
 			}
 		});
+	}
+	
+	public CustomerNewUI(Stage customerStage,Customer ct) {
+		this(customerStage);
+		createNew= false;
+		codeBox.setText(ct.getCode());
+		nameBox.setText(ct.getName());
+		taxIdBox.setText(ct.getTaxID());
+		addressBox.setText(ct.getAddress());
+		teleBox.setText(ct.getTel());
+		faxBox.setText(ct.getFax());
+		mailBox.setText(ct.getEmail());
+		
 	}
 
 }
