@@ -25,6 +25,7 @@ public class CustomerNewUI extends GridPane {
 	private TextField teleBox;
 	private TextField faxBox;
 	private TextField mailBox;
+	private Stage customerStage;
 	private Boolean createNew;
 	public CustomerNewUI(Stage customerStage) {
 		this.setAlignment(Pos.CENTER);
@@ -105,6 +106,7 @@ public class CustomerNewUI extends GridPane {
 								+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
 						System.out.println(sql);
 						
+
 						int x = stmt.executeUpdate(sql);
 						System.out.println(sql);
 						if (x > 0) {
