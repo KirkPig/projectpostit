@@ -447,7 +447,10 @@ public class IVSelection extends VBox {
 				Gson gson = new Gson();
 				TypeToken<ArrayList<Item>> token = new TypeToken<ArrayList<Item>>() {
 				};
-				ArrayList<Item> itemList = gson.fromJson(rs.getString("product"), token.getType());
+				String ivProductList = rs.getString("product");
+				ivProductList.replaceAll("\n", "");
+				
+				ArrayList<Item> itemList = gson.fromJson(ivProductList, token.getType());
 				String sql2 = "select * from customer where code = '" + code + "';";
 				Statement stmt2 = conn.createStatement();
 				ResultSet rs2 = stmt2.executeQuery(sql2);

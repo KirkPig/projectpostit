@@ -13,23 +13,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import logic.Customer;
 import logic.DatabaseConnection;
 import ui.selection.DatabaseUI;
 
 public class CustomerNewUI extends GridPane {
-	private Stage customerStage;
-	private TextField codeBox;
-	private TextField nameBox;
-	private TextField taxIdBox;
-	private TextArea addressBox;
+
+	private TextField codeBox; 
+	private TextField nameBox; 
+	private TextField taxIdBox; 
+	private TextArea addressBox; 
 	private TextField teleBox;
 	private TextField faxBox;
 	private TextField mailBox;
+	private Stage customerStage;
 	public CustomerNewUI(Stage customerStage) {
 		this.setAlignment(Pos.CENTER);
 		this.setMinSize(600, 500);
+		createNew = true;
 		HBox buttonGang = new HBox();
-
+		
 		Button saveButton = new Button("Save");
 
 		saveButton.setMinSize(60, 40);
@@ -69,32 +72,49 @@ public class CustomerNewUI extends GridPane {
 		this.add(mailLabel, 0, 8);
 		this.add(mailBox, 1, 8);
 		this.setVgap(10);
+		
+		
 
 		saveButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						save();
+				if ((!codeBox.getText().isEmpty()) && (!nameBox.getText().isEmpty()) && (!taxIdBox.getText().isEmpty())
+						&& (!addressBox.getText().isEmpty()) && (!teleBox.getText().isEmpty())
+						&& (!faxBox.getText().isEmpty()) && (!mailBox.getText().isEmpty())) {
+					if (!createNew) {
+						try {
+							Connection conn = DatabaseConnection.getConnection();
+							Statement stmt = conn.createStatement();
+
+							String sql = "DELETE from customer WHERE code ='" + codeBox.getText().trim() + "'";
+							stmt.executeUpdate(sql);
+							stmt.close();
+							conn.close();
+							DatabaseUI.refresh();
+						} catch (Exception e) {
+							
+							e.printStackTrace();
+						}
+
+					}
+					try {
+						Connection conn = DatabaseConnection.getConnection();
+						Statement stmt = conn.createStatement();
+
+						String sql = "insert into customer values(" + "'" + codeBox.getText() + "','" + nameBox.getText()
+								+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
+						System.out.println(sql);
 						
 					}
 				});
 				th.start();
 
-			}
-		});
-	}
-	
-	public void save() {
-		if ((!codeBox.getText().isEmpty()) && (!nameBox.getText().isEmpty()) && (!taxIdBox.getText().isEmpty())
-				&& (!addressBox.getText().isEmpty()) && (!teleBox.getText().isEmpty())
-				&& (!faxBox.getText().isEmpty()) && (!mailBox.getText().isEmpty())) {
-			try {
-				Connection conn = DatabaseConnection.getConnection();
-				Statement stmt = conn.createStatement();
+						stmt.close();
+						conn.close();
+						DatabaseUI.updateCustomerTable("");
+						customerStage.close();
+						DatabaseUI.refresh();
 
 				String sql = "insert into customer values(" + "'" + codeBox.getText() + "','" + nameBox.getText()
 						+ "','" + taxIdBox.getText()+"','"+addressBox.getText()+"','"+teleBox.getText()+"','"+faxBox.getText()+"','"+mailBox.getText() + "');";
@@ -120,4 +140,18 @@ public class CustomerNewUI extends GridPane {
 			System.out.println("Some Box is Empty");
 		}
 	}
+	
+	public CustomerNewUI(Stage customerStage,Customer ct) {
+		this(customerStage);
+		createNew= false;
+		codeBox.setText(ct.getCode());
+		nameBox.setText(ct.getName());
+		taxIdBox.setText(ct.getTaxID());
+		addressBox.setText(ct.getAddress());
+		teleBox.setText(ct.getTel());
+		faxBox.setText(ct.getFax());
+		mailBox.setText(ct.getEmail());
+		
+	}
+
 }

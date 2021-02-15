@@ -75,8 +75,8 @@ public class ProductAdd extends HBox {
 
 								while (rs.next()) {
 									String code = rs.getString("code");
-									String description = rs.getString("description");
-									String unit = rs.getString("unit");
+									String description = rs.getString("description").replaceAll("\n", " ");
+									String unit = rs.getString("unit").replaceAll("\n", " ");
 									double price = rs.getDouble("price");
 									int quantity = rs.getInt("quantity");
 									table.getItems().add(new Item(new Product(code, description, unit, price, quantity),0,0));

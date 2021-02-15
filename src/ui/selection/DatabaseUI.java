@@ -4,14 +4,18 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import bill.Invoice;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +24,7 @@ import logic.Customer;
 import logic.DatabaseConnection;
 import logic.Product;
 import ui.news.CustomerNewUI;
+import ui.news.IVNewUI;
 import ui.news.ProductNewUI;
 
 public class DatabaseUI extends VBox {
@@ -97,14 +102,52 @@ public class DatabaseUI extends VBox {
 
 		Button btnProductEdit = new Button("Edit");
 		btnProductEdit.setMinSize(100, 50);
+		btnProductEdit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+		
+					openProduct(productTable.getItems().get(productTable.getFocusModel().getFocusedCell().getRow()));
+					}
+				});
 		Button btnProductDelete = new Button("Delete");
 		btnProductDelete.setMinSize(100, 50);
-
+		btnProductDelete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				
+					deleteProduct(productTable.getItems().get(productTable.getFocusModel().getFocusedCell().getRow()));
+					refresh();
+				} 
+			}
+		);
 		productControl.getChildren().addAll(btnProductNew, btnProductEdit, btnProductDelete);
 
 		productPane.getChildren().add(productTable);
 		productPane.getChildren().add(productControl);
+		
+		productTable.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				Product pr = productTable.getSelectionModel().getSelectedItem();
+				if (pr != null) {
+					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+						deleteProduct(pr);
+						refresh();
+					}
 
+				}
+			}
+		});
+		
+		productTable.setRowFactory(tv -> {
+			TableRow<Product> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					openProduct(row.getItem());
+				}
+			});
+			return row;
+		});
 		// Customer Database
 		HBox customerPane = new HBox();
 		customerPane.setMinHeight(570);
@@ -147,14 +190,52 @@ public class DatabaseUI extends VBox {
 
 		Button btnCustomerEdit = new Button("Edit");
 		btnCustomerEdit.setMinSize(100, 50);
+		btnCustomerEdit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+		
+					openCustomer(customerTable.getItems().get(customerTable.getFocusModel().getFocusedCell().getRow()));
+					}
+				});
 		Button btnCustomerDelete = new Button("Delete");
 		btnCustomerDelete.setMinSize(100, 50);
+		btnCustomerDelete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				
+					deleteCustomer(customerTable.getItems().get(customerTable.getFocusModel().getFocusedCell().getRow()));
+					refresh();
+				} 
+			}
+		);
 
 		customerControl.getChildren().addAll(btnCustomerNew, btnCustomerEdit, btnCustomerDelete);
 
 		customerPane.getChildren().add(customerTable);
 		customerPane.getChildren().add(customerControl);
+		customerTable.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				Customer ct = customerTable.getSelectionModel().getSelectedItem();
+				if (ct != null) {
+					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+						deleteCustomer(ct);
+						refresh();
+					}
 
+				}
+			}
+		});
+		
+		customerTable.setRowFactory(tv -> {
+			TableRow<Customer> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					openCustomer(row.getItem());
+				}
+			});
+			return row;
+		});
 		// Added Children
 		this.getChildren().add(tab);
 		this.getChildren().add(productPane);
@@ -201,10 +282,10 @@ public class DatabaseUI extends VBox {
 			String sql = "select * from product;";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				System.out.println((rs.getString("code") + rs.getString("description") + rs.getInt("quantity")
-						+ rs.getString("unit") + rs.getFloat("price")));
-				productTable.getItems().add(new Product(rs.getString("code"), rs.getString("description"),
-						rs.getString("unit"), rs.getFloat("price"), rs.getInt("quantity")));
+				System.out.println((rs.getString("code").trim() + rs.getString("description").trim() + rs.getInt("quantity")
+						+ rs.getString("unit").trim() + rs.getFloat("price")));
+				productTable.getItems().add(new Product(rs.getString("code"), rs.getString("description").trim(),
+						rs.getString("unit").trim(), rs.getFloat("price"), rs.getInt("quantity")));
 
 			}
 
@@ -245,11 +326,58 @@ public class DatabaseUI extends VBox {
 
 	}
 	
-	public static void deleteProduct(String e) {
+	public static void deleteProduct(Product pr) {
 		
+			Connection conn;
+			try {
+				conn = DatabaseConnection.getConnection();
+				Statement stmt = conn.createStatement();
+
+				String sql = "DELETE from product WHERE code ='" + pr.getCode() + "'";
+				stmt.executeUpdate(sql);
+				stmt.close();
+				conn.close();
+			
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+
+		}
+	
+	
+	public static void deleteCustomer(Customer ct) {
+		Connection conn;
+		try {
+			conn = DatabaseConnection.getConnection();
+			Statement stmt = conn.createStatement();
+
+			String sql = "DELETE from customer WHERE code ='" + ct.getCode() + "'";
+			stmt.executeUpdate(sql);
+			stmt.close();
+			conn.close();
+		
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+	}
+	public static void refresh() {
+		updateCustomerTable("");
+		updateProductTable("");
 	}
 	
-	public static void deleteCustomer(String e) {
-		
+	public static void openProduct(Product pr) {
+		Stage newStage = new Stage();
+		Scene prnewScene = new Scene(new ProductNewUI(newStage, pr));
+		newStage.setScene(prnewScene);
+		newStage.show();
+	}
+	
+	public static void openCustomer(Customer ct) {
+		Stage newStage = new Stage();
+		Scene ctnewScene = new Scene(new CustomerNewUI(newStage, ct));
+		newStage.setScene(ctnewScene);
+		newStage.show();
 	}
 }
