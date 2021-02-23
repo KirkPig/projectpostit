@@ -71,7 +71,6 @@ public class BLNewUI extends VBox {
 
 		backButton.setOnMouseClicked((MouseEvent e) -> {
 			yourOwnStage.close();
-			
 
 		});
 
@@ -104,10 +103,19 @@ public class BLNewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
-					(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-					productTable.refresh();
-					calculateTax();
+
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							(t.getTableView().getItems().get(t.getTablePosition().getRow()))
+									.setItemQuantity(t.getNewValue());
+							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+							productTable.refresh();
+							calculateTax();
+						}
+					});
+					th.start();
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -133,10 +141,18 @@ public class BLNewUI extends VBox {
 		discountCol.setOnEditCommit(new EventHandler<CellEditEvent<Item, Double>>() {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
-				productTable.refresh();
-				calculateTax();
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
+						productTable.refresh();
+						calculateTax();
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -197,8 +213,15 @@ public class BLNewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				save();
-				BLSelection.updateBL("");
+				Thread th = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						save();
+						BLSelection.updateBL("");
+					}
+				});
+				th.start();
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -231,7 +254,7 @@ public class BLNewUI extends VBox {
 				conn.close();
 				BLSelection.updateBL("");
 			} catch (Exception e) {
-				
+
 				e.printStackTrace();
 			}
 
@@ -260,7 +283,8 @@ public class BLNewUI extends VBox {
 			String json = gson.toJson(itemList);
 
 			String sql = "insert into productloan values('" + id + "','" + date + "','" + code + "','" + contact + "',"
-					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + Login.usernameShow + "');";
+					+ valueBeforeTax + "," + valueTax + "," + valueAfterTax + ",'" + json + "','" + Login.usernameShow
+					+ "');";
 
 			int x = stmt.executeUpdate(sql);
 			if (x > 0) {
@@ -326,7 +350,7 @@ public class BLNewUI extends VBox {
 		return !date.isEmpty() && !contact.isEmpty() && !code.isEmpty() && !productTable.getItems().isEmpty()
 				&& total != 0;
 	}
-	
+
 	public void saveOnPC(ProductLoan bl) throws Exception {
 		FileChooser file = new FileChooser();
 		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");

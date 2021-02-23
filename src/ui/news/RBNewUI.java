@@ -91,7 +91,15 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateNewRB("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
+						updateNewRB("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -102,7 +110,15 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateNewRB("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
+						updateNewRB("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -112,7 +128,16 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				updateNewRB(search.getText());
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
+						updateNewRB("");
+					}
+				});
+				th.start();
+
 			}
 		});
 		genre = new ComboBox<String>();
@@ -120,28 +145,37 @@ public class RBNewUI extends VBox {
 
 		CheckBox selectAll = new CheckBox();
 		selectAll.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (selectAll.isSelected()) {
-					for (Invoice invoice : invoiceTable.getItems()) {
-						if (!invoice.getSelect()) {
-							invoice.setSelect(true);
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (selectAll.isSelected()) {
+							for (Invoice invoice : invoiceTable.getItems()) {
+								if (!invoice.getSelect()) {
+									invoice.setSelect(true);
+								}
+
+							}
+						} else {
+
+							for (Invoice invoice : invoiceTable.getItems()) {
+								if (invoice.getSelect()) {
+									invoice.setSelect(false);
+								}
+							}
+
 						}
 
+						invoiceTable.refresh();
+						calculate();
 					}
-				} else {
-					
-					for (Invoice invoice : invoiceTable.getItems()) {
-						if (invoice.getSelect()) {
-							invoice.setSelect(false);
-						}
-					}
-
-				}
-				
-				invoiceTable.refresh();
-				calculate();
+				});
+				th.start();
 			}
+
 		});
 
 		selectAll.setAlignment(Pos.CENTER_LEFT);
@@ -151,7 +185,7 @@ public class RBNewUI extends VBox {
 
 		HBox upper = new HBox();
 		VBox left = new VBox();
-		genBox = new GeneralBox(300, 120); // TODO if setCustomer Search that customer;
+		genBox = new GeneralBox(300, 120);
 		rb = new RBBox(300, 120);
 		cusBox = new CustomerBox(300, 250);
 
@@ -168,23 +202,26 @@ public class RBNewUI extends VBox {
 		invoiceTable.setEditable(true);
 		TableColumn<Invoice, Boolean> selectCol = new TableColumn<>("Select");
 
+		selectCol.setCellFactory(column -> new CheckBoxTableCell<>());
+		selectCol.setCellValueFactory(cellData -> {
+			Invoice cellValue = cellData.getValue();
+			BooleanProperty property = new SimpleBooleanProperty(cellValue.getSelect());
 
-		 
-		        selectCol.setCellFactory(column -> new CheckBoxTableCell<>());
-		        selectCol.setCellValueFactory(cellData -> {
-		            Invoice cellValue = cellData.getValue();
-		            BooleanProperty property = new SimpleBooleanProperty(cellValue.getSelect());
+			property.addListener((observable, oldValue, newValue) -> {
+				Thread th = new Thread(new Runnable() {
 
-		            property.addListener((observable, oldValue, newValue) -> {
-		            	cellValue.setSelect(newValue);
-		            	calculate();
-		            });
-		            
-		            
-		            
-		            return property;
-		        });
-		    
+					@Override
+					public void run() {
+						cellValue.setSelect(newValue);
+						calculate();
+					}
+				});
+				th.start();
+			});
+
+			return property;
+		});
+
 		TableColumn idCol = new TableColumn("Invoice ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -208,9 +245,16 @@ public class RBNewUI extends VBox {
 		psCol.setOnEditCommit(new EventHandler<CellEditEvent<Invoice, String>>() {
 			@Override
 			public void handle(CellEditEvent<Invoice, String> t) {
-				(t.getTableView().getItems().get(t.getTablePosition().getRow())).setPs(t.getNewValue());
-				invoiceTable.refresh();
+				
+				Thread th = new Thread(new Runnable() {
 
+					@Override
+					public void run() {
+						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setPs(t.getNewValue());
+						invoiceTable.refresh();
+					}
+				});
+				th.start();
 			}
 
 		});
@@ -231,8 +275,16 @@ public class RBNewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				save();
-				RBSelection.updateRB("");
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						save();
+						RBSelection.updateRB("");
+					}
+				});
+				th.start();
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -345,7 +397,7 @@ public class RBNewUI extends VBox {
 		rb.setPsText(billing.getPs());
 		rb.setBillingByBox(billing.getBillingBy());
 		invoiceTable.getItems().clear();
-	
+
 		invoiceTable.getItems().addAll(billing.getInvoiceList());
 		calculate();
 
@@ -420,7 +472,8 @@ public class RBNewUI extends VBox {
 
 			conn.close();
 			yourOwnStage.close();
-			saveOnPC(new Billing(id, date, cusBox.getSelectedCustomer(), invoiceList, psList, billingBy, billingDate, ps, Login.usernameShow));
+			saveOnPC(new Billing(id, date, cusBox.getSelectedCustomer(), invoiceList, psList, billingBy, billingDate,
+					ps, Login.usernameShow));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -465,11 +518,11 @@ public class RBNewUI extends VBox {
 		return !date.isEmpty() && !billingBy.isEmpty() && !ps.isEmpty() && !code.isEmpty()
 				&& !invoiceTable.getItems().isEmpty() && total != 0;
 	}
-	
-	public static ComboBox<String> getGenre(){
+
+	public static ComboBox<String> getGenre() {
 		return genre;
 	}
-	
+
 	public void saveOnPC(Billing rb) throws Exception {
 		FileChooser file = new FileChooser();
 		ExtensionFilter ext = new ExtensionFilter("pdffile", ".pdf");

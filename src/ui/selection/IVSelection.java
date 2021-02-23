@@ -65,7 +65,16 @@ public class IVSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateIV("");
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateIV("");
+
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -76,7 +85,15 @@ public class IVSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updateIV("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updateIV("");
+
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -92,22 +109,39 @@ public class IVSelection extends VBox {
 		editButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					openIV(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					openIV(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							openIV(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							openIV(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+
+					}
+				});
+				th.start();
 			}
 		});
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+				
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+					}
+				});
+				th.start();
 			}
 		});
 		// Button
@@ -117,7 +151,15 @@ public class IVSelection extends VBox {
 			@Override
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
-					updateIV(search.getText());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							updateIV(search.getText());
+						}
+					});
+					th.start();
 				}
 			}
 		});
@@ -188,9 +230,17 @@ public class IVSelection extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							System.out.println(result);
-							updateIV(result);
-							allSuggest.hide();
+							
+							Thread th = new Thread(new Runnable() {
+
+								@Override
+								public void run() {
+									System.out.println(result);
+									updateIV(result);
+									allSuggest.hide();
+								}
+							});
+							th.start();
 						}
 					});
 					menuItems.add(item);
@@ -254,7 +304,15 @@ public class IVSelection extends VBox {
 			TableRow<Invoice> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openIV(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openIV(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 			return row;
@@ -266,8 +324,15 @@ public class IVSelection extends VBox {
 				Invoice iv = table.getSelectionModel().getSelectedItem();
 				if (iv != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(iv);
+						
+						Thread th = new Thread(new Runnable() {
 
+							@Override
+							public void run() {
+								delete(iv);
+							}
+						});
+						th.start();
 					}
 
 				}
@@ -298,7 +363,15 @@ public class IVSelection extends VBox {
 			TableRow<Invoice> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openIV(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openIV(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 
@@ -310,7 +383,15 @@ public class IVSelection extends VBox {
 				Invoice iv = table.getSelectionModel().getSelectedItem();
 				if (iv != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(iv);
+						
+						Thread th = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								delete(iv);
+							}
+						});
+						th.start();
 
 					}
 
@@ -330,7 +411,15 @@ public class IVSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		updateIV("");
+		
+		Thread th = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				updateIV("");
+			}
+		});
+		th.start();
 
 	}
 

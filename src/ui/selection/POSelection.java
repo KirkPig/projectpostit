@@ -49,7 +49,7 @@ public class POSelection extends VBox {
 	private static ComboBox<String> genre;
 	private static TextField search;
 	private SortedSet<String> allTree;
-	
+
 	@SuppressWarnings("unchecked")
 	public POSelection() {
 		HBox allFunc = new HBox();
@@ -65,7 +65,15 @@ public class POSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updatePO("");
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updatePO("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -76,7 +84,14 @@ public class POSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				updatePO("");
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						updatePO("");
+					}
+				});
+				th.start();
 			}
 		});
 
@@ -92,22 +107,38 @@ public class POSelection extends VBox {
 		editButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					openPO(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					openPO(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							openPO(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							openPO(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+					}
+				});
+				th.start();
 			}
 		});
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (switchButton.getText().equals("Customer")) {
-					delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
-				} else {
-					delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
-				}
+
+				Thread th = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (switchButton.getText().equals("Customer")) {
+							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
+						} else {
+							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
+						}
+					}
+				});
+				th.start();
 			}
 		});
 		// Button
@@ -117,7 +148,15 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
-					updatePO(search.getText());
+
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							updatePO(search.getText());
+						}
+					});
+					th.start();
 				}
 			}
 		});
@@ -126,41 +165,38 @@ public class POSelection extends VBox {
 		SortedSet<String> amountTree = getAmountTree();
 		SortedSet<String> creatorTree = getCreatorTree();
 		SortedSet<String> productTree = getProductTree();
-		
 
 		ContextMenu allSuggest = new ContextMenu();
 		search.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue()== null)) {
+				if ((search.getText().length() == 0) || (!search.isFocused()) || (genre.getValue() == null)) {
 					allSuggest.hide();
 				} else {
 					LinkedList<String> searchResult = new LinkedList<>();
-					switch (genre.getValue()){
-					case "Code": 
+					switch (genre.getValue()) {
+					case "Code":
 						allTree = codeTree;
 						break;
-						
-					case "Amount": 
+
+					case "Amount":
 						allTree = amountTree;
 						break;
-						
+
 					case "Creator":
 						allTree = creatorTree;
 						break;
-						
+
 					case "Customer Name":
 						allTree = customerTree;
 						break;
-						
+
 					case "Product":
 						allTree = productTree;
 						break;
 					}
-					
-					
-					
+
 					searchResult.addAll(allTree.subSet(search.getText(), search.getText() + Character.MAX_VALUE));
 					if (allTree.size() > 0) {
 						populatePopup(searchResult);
@@ -187,9 +223,17 @@ public class POSelection extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							System.out.println(result);
-							updatePO(result);
-							allSuggest.hide();
+							Thread th = new Thread(new Runnable() {
+
+								@Override
+								public void run() {
+									System.out.println(result);
+									updatePO(result);
+									allSuggest.hide();
+								}
+							});
+							th.start();
+
 						}
 					});
 					menuItems.add(item);
@@ -248,7 +292,15 @@ public class POSelection extends VBox {
 			TableRow<Order> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openPO(row.getItem());
+
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openPO(row.getItem());
+						}
+					});
+					th.start();
 				}
 			});
 			return row;
@@ -258,14 +310,20 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(final KeyEvent keyEvent) {
 				Order po = table.getSelectionModel().getSelectedItem();
-				if (po!= null) {
+				if (po != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(po);
-						
+
+						Thread th = new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								delete(po);
+							}
+						});
+						th.start();
 
 					}
 
-					
 				}
 			}
 		});
@@ -291,7 +349,16 @@ public class POSelection extends VBox {
 			TableRow<Order> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					openPO(row.getItem());
+					
+					Thread th = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							openPO(row.getItem());
+						}
+					});
+					th.start();
+
 				}
 			});
 
@@ -301,14 +368,19 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(final KeyEvent keyEvent) {
 				Order po = table.getSelectionModel().getSelectedItem();
-				if (po!= null) {
+				if (po != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						delete(po);
 						
+						Thread th = new Thread(new Runnable() {
 
+							@Override
+							public void run() {
+								delete(po);
+							}
+						});
+						th.start();
 					}
 
-					
 				}
 			}
 		});
@@ -325,10 +397,18 @@ public class POSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		updatePO("");
+		
+		Thread th = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				updatePO("");
+			}
+		});
+		th.start();
 
 	}
-	
+
 	public static void updatePO(String search) {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
@@ -356,7 +436,7 @@ public class POSelection extends VBox {
 				rs2.next();
 				Customer customer = new Customer(rs2.getString("code"), rs2.getString("name"), rs2.getString("taxid"),
 						rs2.getString("address"), rs2.getString("tel"), rs2.getString("fax"), rs2.getString("email"));
-				Order order = new Order(id, date, customer, itemList, payment,  rs.getString("user"));
+				Order order = new Order(id, date, customer, itemList, payment, rs.getString("user"));
 				boolean addToTable = false;
 				if (genre.getValue() != null && !search.isEmpty()) {
 					switch (genre.getValue()) {
@@ -439,8 +519,8 @@ public class POSelection extends VBox {
 		}
 
 	}
-	
-	public SortedSet<String> getCustomerTree(){
+
+	public SortedSet<String> getCustomerTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -462,8 +542,8 @@ public class POSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCodeTree(){
+
+	public SortedSet<String> getCodeTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -483,8 +563,8 @@ public class POSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getCreatorTree(){
+
+	public SortedSet<String> getCreatorTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -504,8 +584,8 @@ public class POSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getAmountTree(){
+
+	public SortedSet<String> getAmountTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();
@@ -525,8 +605,8 @@ public class POSelection extends VBox {
 		}
 		return null;
 	}
-	
-	public SortedSet<String> getProductTree(){
+
+	public SortedSet<String> getProductTree() {
 		try {
 			SortedSet<String> treeSet = new TreeSet<String>();
 			Connection conn = DatabaseConnection.getConnection();

@@ -78,7 +78,14 @@ public class DatabaseUI extends VBox {
 		colProductQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 		productTable.getColumns().addAll(colProductCode, colProductDesciption, colProductQuantity, colProductUnit,
 				colProductPrice);
-		updateProductTable("");
+		Thread th = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				updateProductTable("");
+			}
+		});
+		th.start();
 		VBox productControl = new VBox();
 		productControl.setMinWidth(100);
 		productControl.setFillWidth(true);

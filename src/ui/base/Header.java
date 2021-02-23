@@ -19,6 +19,7 @@ import ui.selection.BLSelection;
 import ui.selection.CRSelection;
 import ui.selection.DESelection;
 import ui.selection.DatabaseUI;
+import ui.selection.Home;
 import ui.selection.IVSelection;
 import ui.selection.Login;
 import ui.selection.POSelection;
@@ -192,8 +193,9 @@ public class Header extends Pane {
 	}
 
 	public void homePushed() {
-//		bottomPane.getChildren().clear();
-//		bottomPane.getChildren().add(new Login());
+		bottomPane.getChildren().clear();
+		bottomPane.getChildren().add(new Home());
+		
 	}
 
 	public void quotationPushed() {
