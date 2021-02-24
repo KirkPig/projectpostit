@@ -66,15 +66,12 @@ public class CRSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				{
 
 						updateCR("");
-					}
-				});
-				th.start();
+					
+				}
+				
 			}
 		});
 
@@ -85,17 +82,13 @@ public class CRSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 
 						updateCR("");
 					}
 				});
-				th.start();
-			}
-		});
+				
+
 
 		Button newButton = new Button("new");
 		newButton.setOnMouseClicked((MouseEvent e) -> {
@@ -109,10 +102,7 @@ public class CRSelection extends VBox {
 		editButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							openCR(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
@@ -120,27 +110,23 @@ public class CRSelection extends VBox {
 						}
 					}
 				});
-				th.start();
-
-			}
-		});
+				
+		
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
+				
 
-					@Override
-					public void run() {
+					
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
-
+					
+			
+			
 			}
 		});
 		// Button
@@ -210,16 +196,12 @@ public class CRSelection extends VBox {
 						@Override
 						public void handle(ActionEvent actionEvent) {
 
-							Thread th = new Thread(new Runnable() {
+							
 
-								@Override
-								public void run() {
 									System.out.println(result);
 									updateCR(result);
 									allSuggest.hide();
-								}
-							});
-							th.start();
+								
 						}
 					});
 					menuItems.add(item);
@@ -243,14 +225,10 @@ public class CRSelection extends VBox {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updateCR(search.getText());
-						}
-					});
-					th.start();
+					
+					
 				}
 			}
 		});
@@ -301,14 +279,10 @@ public class CRSelection extends VBox {
 			TableRow<CreditNote> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					 
 							openCR(row.getItem());
-						}
-					});
-					th.start();
+					
+					
 
 				}
 			});
@@ -322,14 +296,10 @@ public class CRSelection extends VBox {
 				if (cr != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 						
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(cr);
-							}
-						});
-						th.start();
+						
+						
 					}
 
 				}
@@ -358,14 +328,9 @@ public class CRSelection extends VBox {
 			TableRow<CreditNote> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openCR(row.getItem());
-						}
-					});
-					th.start();
+					
 					
 				}
 			});
@@ -378,14 +343,8 @@ public class CRSelection extends VBox {
 				CreditNote cr = table.getSelectionModel().getSelectedItem();
 				if (cr != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(cr);
-							}
-						});
-						th.start();
 						
 
 					}
@@ -407,15 +366,9 @@ public class CRSelection extends VBox {
 			}
 		});
 		
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updateCR("");
-			}
-		});
-		th.start();
-
+		
 	}
 
 	public static void updateCR(String search) {

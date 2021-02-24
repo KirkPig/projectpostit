@@ -257,7 +257,7 @@ public class RBSelection extends VBox {
 		simpleFunc.getChildren().addAll(newButton, editButton, deleteBtn);
 
 		simpleFunc.setSpacing(3);
-		moreFunc.getChildren().addAll(new Button("print report"), switchButton, month, year);
+		moreFunc.getChildren().addAll(switchButton, month, year);
 		moreFunc.setSpacing(3);
 		searchBox.getChildren().addAll(search, genre);
 

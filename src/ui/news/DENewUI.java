@@ -103,18 +103,13 @@ public class DENewUI extends VBox {
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							(t.getTableView().getItems().get(t.getTablePosition().getRow()))
 									.setItemQuantity(t.getNewValue());
 							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
 							productTable.refresh();
 							calculateTax();
-						}
-					});
-					th.start();
+						
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -141,18 +136,13 @@ public class DENewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
 						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
 						productTable.refresh();
 						calculateTax();
 
-					}
-				});
-				th.start();
+					
 			}
 		});
 
@@ -214,16 +204,11 @@ public class DENewUI extends VBox {
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+			
 						save();
 						DESelection.updateDE("");
 
-					}
-				});
-				th.start();
+				
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -235,10 +220,7 @@ public class DENewUI extends VBox {
 
 	public DENewUI(Stage yourOwnStage, Delivery delivery) {
 		this(yourOwnStage);
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				createNew = false;
 				id = delivery.getId();
 				genBox.setGenBox(delivery.getId(), delivery.getDate());
@@ -248,9 +230,7 @@ public class DENewUI extends VBox {
 				productTable.getItems().addAll(delivery.getItemList());
 				calculateTax();
 
-			}
-		});
-		th.start();
+		
 	}
 
 	public void save() {
@@ -277,9 +257,10 @@ public class DENewUI extends VBox {
 			String id = generateId(date);
 			String contact = de.getContactText();
 			String code = cusBox.getCustomer();
-			double valueBeforeTax = total;
-			double valueTax = total * 7 / 100;
-			double valueAfterTax = total * 107 / 100;
+			DecimalFormat df = new DecimalFormat("#,###.##");
+			double valueBeforeTax = Double.parseDouble(df.format(total));
+			double valueTax = Double.parseDouble(df.format(total * 7 / 100));
+			double valueAfterTax = valueBeforeTax + valueTax;
 			ArrayList<Item> itemList = new ArrayList<>();
 			for (Item item : productTable.getItems()) {
 				if (item.getItemQuantity() > 0) {
@@ -316,10 +297,11 @@ public class DENewUI extends VBox {
 		for (Item item : productTable.getItems()) {
 			total += item.getAmount();
 		}
+		total+= 0.00;
 		DecimalFormat df = new DecimalFormat("#,###.##");
 		valueBeforeTaxText.setText(df.format(total));
 		valueTaxText.setText(df.format(total * 7 / 100));
-		valueAfterTaxText.setText(df.format(total * 107 / 100));
+		valueAfterTaxText.setText(df.format(total + Double.parseDouble(df.format((total * 7 / 100)+0.00))));
 	}
 
 	public String generateId(String date) {

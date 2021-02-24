@@ -106,17 +106,12 @@ public class QYNewUI extends VBox {
 			public void handle(CellEditEvent<Item, Integer> t) {
 				if (t.getNewValue() <= (t.getTableView().getItems().get(t.getTablePosition().getRow())).getQuantity()) {
 					
-					Thread th = new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
+					 
 							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setItemQuantity(t.getNewValue());
 							(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
 							productTable.refresh();
 							calculateTax();
-						}
-					});
-					th.start();
+					
 				} else {
 					Alert error = new Alert(AlertType.WARNING, "Out of stock", ButtonType.OK);
 					productTable.refresh();
@@ -143,19 +138,14 @@ public class QYNewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Item, Double> t) {
 				
-				Thread th = new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
+				
 						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setDiscount(t.getNewValue());
 						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setAmount();
 						productTable.refresh();
 						calculateTax();
 						
 						
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -216,16 +206,10 @@ public class QYNewUI extends VBox {
 
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
-				Thread th = new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
+			
 						save();
 						QYSelection.updateQY("");
-					}
-				});
-				
-				th.start();
+					
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -237,10 +221,7 @@ public class QYNewUI extends VBox {
 
 	public QYNewUI(Stage yourOwnStage, Quotation quotation) {
 		this(yourOwnStage);
-		Thread th = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
+		
 				
 				createNew = false;
 				id = quotation.getId();
@@ -250,10 +231,7 @@ public class QYNewUI extends VBox {
 				qy.setAttn(quotation.getAttn());
 				productTable.getItems().addAll(quotation.getItemList());
 				calculateTax();
-			}
-		});
-		th.start();
-
+			
 	}
 
 	public void save() {
@@ -283,9 +261,10 @@ public class QYNewUI extends VBox {
 			String attn = qy.getAttn();
 			String cr = qy.getCr();
 			String code = cusBox.getCustomer();
-			double valueBeforeTax = total;
-			double valueTax = total * 7 / 100;
-			double valueAfterTax = total * 107 / 100;
+			DecimalFormat df = new DecimalFormat("#,###.##");
+			double valueBeforeTax = Double.parseDouble(df.format(total));
+			double valueTax = Double.parseDouble(df.format(total * 7 / 100));
+			double valueAfterTax = valueBeforeTax + valueTax;
 			ArrayList<Item> itemList = new ArrayList<>();
 			for (Item item : productTable.getItems()) {
 				if (item.getItemQuantity() > 0) {
@@ -322,10 +301,11 @@ public class QYNewUI extends VBox {
 		for (Item item : productTable.getItems()) {
 			total += item.getAmount();
 		}
+		total+= 0.00;
 		DecimalFormat df = new DecimalFormat("#,###.##");
 		valueBeforeTaxText.setText(df.format(total));
-		valueTaxText.setText(df.format(total*7/100));
-		valueAfterTaxText.setText(df.format(total*107/100));
+		valueTaxText.setText(df.format(total * 7 / 100));
+		valueAfterTaxText.setText(df.format(total + Double.parseDouble(df.format((total * 7 / 100)+0.00))));
 	}
 
 	public String generateId(String date) {

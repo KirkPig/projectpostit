@@ -66,14 +66,9 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updatePO("");
-					}
-				});
-				th.start();
+					
 			}
 		});
 
@@ -84,14 +79,9 @@ public class POSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updatePO("");
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -108,18 +98,13 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							openPO(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							openPO(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+					
 			}
 		});
 		Button deleteBtn = new Button("delete");
@@ -127,18 +112,13 @@ public class POSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+					
 			}
 		});
 		// Button
@@ -149,14 +129,9 @@ public class POSelection extends VBox {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updatePO(search.getText());
-						}
-					});
-					th.start();
+					
 				}
 			}
 		});
@@ -223,16 +198,11 @@ public class POSelection extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							Thread th = new Thread(new Runnable() {
-
-								@Override
-								public void run() {
+							
 									System.out.println(result);
 									updatePO(result);
 									allSuggest.hide();
-								}
-							});
-							th.start();
+							
 
 						}
 					});
@@ -293,14 +263,9 @@ public class POSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openPO(row.getItem());
-						}
-					});
-					th.start();
+					
 				}
 			});
 			return row;
@@ -313,14 +278,9 @@ public class POSelection extends VBox {
 				if (po != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(po);
-							}
-						});
-						th.start();
+							
 
 					}
 
@@ -350,14 +310,9 @@ public class POSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openPO(row.getItem());
-						}
-					});
-					th.start();
+					
 
 				}
 			});
@@ -371,14 +326,9 @@ public class POSelection extends VBox {
 				if (po != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 						
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(po);
-							}
-						});
-						th.start();
+						
 					}
 
 				}
@@ -398,14 +348,9 @@ public class POSelection extends VBox {
 			}
 		});
 		
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updatePO("");
-			}
-		});
-		th.start();
+			
 
 	}
 

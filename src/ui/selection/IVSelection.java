@@ -66,15 +66,10 @@ public class IVSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateIV("");
 
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -85,15 +80,10 @@ public class IVSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateIV("");
 
-					}
-				});
-				th.start();
+			
 			}
 		});
 
@@ -110,19 +100,13 @@ public class IVSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							openIV(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							openIV(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
 
-					}
-				});
-				th.start();
 			}
 		});
 		Button deleteBtn = new Button("delete");
@@ -130,18 +114,13 @@ public class IVSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+				
 			}
 		});
 		// Button
@@ -152,14 +131,9 @@ public class IVSelection extends VBox {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 					
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updateIV(search.getText());
-						}
-					});
-					th.start();
+					
 				}
 			}
 		});
@@ -231,16 +205,11 @@ public class IVSelection extends VBox {
 						@Override
 						public void handle(ActionEvent actionEvent) {
 							
-							Thread th = new Thread(new Runnable() {
-
-								@Override
-								public void run() {
+							
 									System.out.println(result);
 									updateIV(result);
 									allSuggest.hide();
-								}
-							});
-							th.start();
+							
 						}
 					});
 					menuItems.add(item);
@@ -305,14 +274,9 @@ public class IVSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openIV(row.getItem());
-						}
-					});
-					th.start();
+						
 				}
 			});
 			return row;
@@ -325,14 +289,9 @@ public class IVSelection extends VBox {
 				if (iv != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 						
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(iv);
-							}
-						});
-						th.start();
+							
 					}
 
 				}
@@ -364,14 +323,9 @@ public class IVSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openIV(row.getItem());
-						}
-					});
-					th.start();
+					
 				}
 			});
 
@@ -384,14 +338,9 @@ public class IVSelection extends VBox {
 				if (iv != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 						
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(iv);
-							}
-						});
-						th.start();
+						
 
 					}
 
@@ -412,14 +361,9 @@ public class IVSelection extends VBox {
 			}
 		});
 		
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updateIV("");
-			}
-		});
-		th.start();
+		
 
 	}
 
