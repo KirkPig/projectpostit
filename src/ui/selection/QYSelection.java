@@ -67,14 +67,9 @@ public class QYSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateQY("");
-					}
-				});
-				th.start();
+			
 			}
 		});
 
@@ -85,14 +80,9 @@ public class QYSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateQY("");
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -109,18 +99,13 @@ public class QYSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							openQY(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							openQY(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+				
 			}
 		});
 		Button deleteBtn = new Button("delete");
@@ -128,18 +113,13 @@ public class QYSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+				
 			}
 		});
 		// Button
@@ -210,16 +190,11 @@ public class QYSelection extends VBox {
 						@Override
 						public void handle(ActionEvent actionEvent) {
 
-							Thread th = new Thread(new Runnable() {
-
-								@Override
-								public void run() {
+							
 									System.out.println(result);
 									updateQY(result);
 									allSuggest.hide();
-								}
-							});
-							th.start();
+							
 						}
 					});
 					menuItems.add(item);
@@ -243,14 +218,9 @@ public class QYSelection extends VBox {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updateQY(search.getText());
-						}
-					});
-					th.start();
+					
 				}
 
 			}
@@ -311,14 +281,9 @@ public class QYSelection extends VBox {
 				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(qy);
-							}
-						});
-						th.start();
+						
 					}
 
 				}
@@ -346,14 +311,9 @@ public class QYSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openQY(row.getItem());
-						}
-					});
-					th.start();
+						
 				}
 			});
 
@@ -366,14 +326,9 @@ public class QYSelection extends VBox {
 				if (qy != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(qy);
-							}
-						});
-						th.start();
+					
 
 					}
 
@@ -394,14 +349,9 @@ public class QYSelection extends VBox {
 			}
 		});
 
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updateQY("");
-			}
-		});
-		th.start();
+	
 
 	}
 

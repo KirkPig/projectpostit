@@ -22,6 +22,7 @@ public class Billing implements Comparable<Billing>{
 	private String customerName;
 	private String creator;
 	private String valueForTable;
+	private double total = 0.00;
 	
 	public Billing(String id, String date, Customer customer, ArrayList<Invoice> invoiceList, ArrayList<String> psList, String billingBy,
 			String billingDate, String ps,String creator) {
@@ -33,12 +34,12 @@ public class Billing implements Comparable<Billing>{
 		this.setPs(ps);
 		this.setInvoiceList(invoiceList);
 		this.setPsList(psList);
-		double total = 0.00;
+		
 		for(Invoice i : invoiceList) {
 			total = total + i.getValueAfterTax();
 			
 		}
-		this.setValue(total);
+		this.setValue(onlyTwoDecimalPlaces(Double.toString(total)));
 		for (Integer i = 0 ; i<invoiceList.size() ;i++) {
 			invoiceList.get(i).setPs(psList.get(i));
 		}
@@ -99,11 +100,15 @@ public class Billing implements Comparable<Billing>{
 	}
 
 	public double getValue() {
+		
 		return value;
 	}
 
 	public void setValue(double value) {
-		this.value = value;
+		DecimalFormat df = new DecimalFormat("#,###.##");
+
+		this.value = Double.parseDouble(df.format(value+0.00).replace(",", ""));
+;
 	}
 
 	public ArrayList<Invoice> getInvoiceList() {
@@ -181,5 +186,17 @@ public class Billing implements Comparable<Billing>{
 		DecimalFormat df = new DecimalFormat("#,###.##");
 		this.valueForTable = df.format(value);
 	}
+	public double onlyTwoDecimalPlaces(String number) {
+        StringBuilder sbFloat = new StringBuilder(number);
+        int start = sbFloat.indexOf(".");
+        if (start < 0) {
+            return Double.parseDouble(sbFloat.toString());
+        }
+        int end = start+3;
+        if((end)>(sbFloat.length()-1)) end = sbFloat.length();
 
+        String twoPlaces = sbFloat.substring(start, end);
+        sbFloat.replace(start, sbFloat.length(), twoPlaces);
+        return Double.parseDouble(sbFloat.toString());
+    }
 }

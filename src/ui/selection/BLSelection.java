@@ -65,17 +65,11 @@ public class BLSelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateBL("");
 					}
 				});
-				th.start();
-
-			}
-		});
+				
 
 		year = new ComboBox<Integer>();
 		year.getItems().addAll(2563, 2564, 2565, 2566, 2567, 2568, 2569, 2570, 2571, 2572);
@@ -85,14 +79,8 @@ public class BLSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateBL("");
-					}
-				});
-				th.start();
 			}
 		});
 
@@ -109,29 +97,20 @@ public class BLSelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						if (switchButton.getText().equals("Customer")) {
+										if (switchButton.getText().equals("Customer")) {
 							openBL(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							openBL(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
 					}
-				});
-				th.start();
-			}
+				
 		});
 		Button deleteBtn = new Button("delete");
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
@@ -139,9 +118,7 @@ public class BLSelection extends VBox {
 						}
 					}
 				});
-				th.start();
-			}
-		});
+				
 		// Button
 		search = new TextField();
 		search.setPromptText("Search");
@@ -150,17 +127,12 @@ public class BLSelection extends VBox {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updateBL(search.getText());
 						}
-					});
-					th.start();
-				}
 			}
-		});
+					});
+					
 
 		SortedSet<String> customerTree = getCustomerTree();
 		SortedSet<String> codeTree = getCodeTree();
@@ -225,19 +197,14 @@ public class BLSelection extends VBox {
 					item.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent actionEvent) {
-							Thread th = new Thread(new Runnable() {
-
-								@Override
-								public void run() {
+							
 									System.out.println(result);
 									updateBL(result);
 									allSuggest.hide();
 								}
 							});
-							th.start();
-
-						}
-					});
+							
+				
 					menuItems.add(item);
 				}
 				allSuggest.getItems().clear();
@@ -294,18 +261,12 @@ public class BLSelection extends VBox {
 			TableRow<ProductLoan> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openBL(row.getItem());
 							
 						}
 					});
-					th.start();
-
-				}
-			});
+					
 			return row;
 		});
 
@@ -315,22 +276,17 @@ public class BLSelection extends VBox {
 				ProductLoan bl = table.getSelectionModel().getSelectedItem();
 				if (bl != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(bl);
 								
 							}
-						});
-						th.start();
 						
+					
 
 					}
 
 				}
-			}
-		});
+			});
 //=========================
 		table2 = new TableView<ProductLoan>();
 		TableColumn<ProductLoan, String> codeCol = new TableColumn<ProductLoan, String>("code");
@@ -353,19 +309,12 @@ public class BLSelection extends VBox {
 			TableRow<ProductLoan> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openBL(row.getItem());
 							
 						}
 					});
-					th.start();
 					
-				}
-			});
-
 			return row;
 		});
 		table2.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -375,20 +324,13 @@ public class BLSelection extends VBox {
 				if (bl != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 						
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(bl);
 								
 							}
-						});
-						th.start();
-
-					}
-
 				}
-			}
+						}
+						
 		});
 
 		switchButton.setOnMouseClicked((MouseEvent e) -> {
@@ -403,18 +345,14 @@ public class BLSelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updateBL("");
 
 				
 			}
-		});
-		th.start();
 		
-	}
+		
+	
 
 	public static void updateBL(String search) {
 		try {
