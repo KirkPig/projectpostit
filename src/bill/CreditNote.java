@@ -109,7 +109,10 @@ public class CreditNote implements Comparable<CreditNote>{
 	}
 
 	public void setValueTax(double valueTax) {
-		this.valueTax = valueTax;
+		DecimalFormat df = new DecimalFormat("#,###.##");
+
+		this.valueTax = Double.parseDouble(df.format(valueTax+0.00).replace(",", ""));
+;
 	}
 
 	public double getValueAfterTax() {
@@ -117,7 +120,9 @@ public class CreditNote implements Comparable<CreditNote>{
 	}
 
 	public void setValueAfterTax(double valueAfterTax) {
-		this.valueAfterTax = valueAfterTax;
+		DecimalFormat df = new DecimalFormat("#,###.##");
+		this.valueAfterTax = Double.parseDouble(df.format(valueAfterTax+0.00).replace(",", ""));
+;
 	}
 
 	public String getCreator() {
@@ -209,4 +214,18 @@ public class CreditNote implements Comparable<CreditNote>{
 		// TODO Auto-generated method stub
 		return this.getDate().compareTo(o.getDate());
 	}
+	
+	public double onlyTwoDecimalPlaces(String number) {
+        StringBuilder sbFloat = new StringBuilder(number);
+        int start = sbFloat.indexOf(".");
+        if (start < 0) {
+            return Double.parseDouble(sbFloat.toString());
+        }
+        int end = start+3;
+        if((end)>(sbFloat.length()-1)) end = sbFloat.length();
+
+        String twoPlaces = sbFloat.substring(start, end);
+        sbFloat.replace(start, sbFloat.length(), twoPlaces);
+        return Double.parseDouble(sbFloat.toString());
+    }
 }

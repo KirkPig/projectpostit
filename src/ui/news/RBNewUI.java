@@ -91,15 +91,10 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 
 						updateNewRB("");
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -110,15 +105,9 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-
+				
 						updateNewRB("");
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -128,15 +117,10 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 
 						updateNewRB("");
-					}
-				});
-				th.start();
+				
 
 			}
 		});
@@ -148,10 +132,7 @@ public class RBNewUI extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (selectAll.isSelected()) {
 							for (Invoice invoice : invoiceTable.getItems()) {
 								if (!invoice.getSelect()) {
@@ -171,9 +152,7 @@ public class RBNewUI extends VBox {
 
 						invoiceTable.refresh();
 						calculate();
-					}
-				});
-				th.start();
+				
 			}
 
 		});
@@ -208,15 +187,10 @@ public class RBNewUI extends VBox {
 			BooleanProperty property = new SimpleBooleanProperty(cellValue.getSelect());
 
 			property.addListener((observable, oldValue, newValue) -> {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						cellValue.setSelect(newValue);
 						calculate();
-					}
-				});
-				th.start();
+					
 			});
 
 			return property;
@@ -246,15 +220,10 @@ public class RBNewUI extends VBox {
 			@Override
 			public void handle(CellEditEvent<Invoice, String> t) {
 				
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+			
 						(t.getTableView().getItems().get(t.getTablePosition().getRow())).setPs(t.getNewValue());
 						invoiceTable.refresh();
-					}
-				});
-				th.start();
+					
 			}
 
 		});
@@ -276,15 +245,10 @@ public class RBNewUI extends VBox {
 		saveButton.setOnMouseClicked((MouseEvent e) -> {
 			if (isFilled()) {
 				
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						save();
 						RBSelection.updateRB("");
-					}
-				});
-				th.start();
+				
 			} else {
 				Alert error = new Alert(AlertType.WARNING, "Some Box is missing", ButtonType.OK);
 				error.show();
@@ -412,7 +376,7 @@ public class RBNewUI extends VBox {
 
 		}
 		DecimalFormat df = new DecimalFormat("#,###.##");
-		totalAmount.setText(df.format(total));
+		totalAmount.setText(df.format(total+0.00));
 	}
 
 	public void save() {

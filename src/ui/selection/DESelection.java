@@ -66,14 +66,9 @@ public class DESelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateDE("");
-					}
-				});
-				th.start();
+					
 
 			}
 		});
@@ -85,14 +80,9 @@ public class DESelection extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						updateDE("");
-					}
-				});
-				th.start();
+				
 			}
 		});
 
@@ -109,18 +99,13 @@ public class DESelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							openDE(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							openDE(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+				
 			}
 		});
 		Button deleteBtn = new Button("delete");
@@ -128,18 +113,13 @@ public class DESelection extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 
-				Thread th = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
+				
 						if (switchButton.getText().equals("Customer")) {
 							delete(table.getItems().get(table.getFocusModel().getFocusedCell().getRow()));
 						} else {
 							delete(table2.getItems().get(table2.getFocusModel().getFocusedCell().getRow()));
 						}
-					}
-				});
-				th.start();
+				
 			}
 		});
 		// Button
@@ -149,14 +129,9 @@ public class DESelection extends VBox {
 			@Override
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							updateDE(search.getText());
-						}
-					});
-					th.start();
+					
 
 				}
 			}
@@ -226,16 +201,11 @@ public class DESelection extends VBox {
 						@Override
 						public void handle(ActionEvent actionEvent) {
 
-							Thread th = new Thread(new Runnable() {
-
-								@Override
-								public void run() {
+							
 									System.out.println(result);
 									updateDE(result);
 									allSuggest.hide();
-								}
-							});
-							th.start();
+						
 						}
 					});
 					menuItems.add(item);
@@ -294,15 +264,9 @@ public class DESelection extends VBox {
 			TableRow<Delivery> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openDE(row.getItem());
-						}
-					});
-					th.start();
-
+				
 				}
 			});
 			return row;
@@ -314,14 +278,9 @@ public class DESelection extends VBox {
 				Delivery de = table.getSelectionModel().getSelectedItem();
 				if (de != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(de);
-							}
-						});
-						th.start();
+					
 
 					}
 
@@ -351,14 +310,9 @@ public class DESelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
+					
 							openDE(row.getItem());
-						}
-					});
-					th.start();
+					
 				}
 			});
 
@@ -371,14 +325,9 @@ public class DESelection extends VBox {
 				if (de != null) {
 					if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 
-						Thread th = new Thread(new Runnable() {
-
-							@Override
-							public void run() {
+						
 								delete(de);
-							}
-						});
-						th.start();
+					
 					}
 
 				}
@@ -397,15 +346,9 @@ public class DESelection extends VBox {
 				switchButton.setText("Customer");
 			}
 		});
-		Thread th = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
+		
 				updateDE("");
 
-			}
-		});
-		th.start();
 
 	}
 
