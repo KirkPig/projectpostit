@@ -284,7 +284,7 @@ public class Report {
 				VAlignment.CENTER, FontType.BOLD);
 
 		float addressFontSize = 13.0f;
-		addParagraph(document, contentStream, "108/314 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon,", addressFontSize,
+		addParagraph(document, contentStream, "181/7 M.5 T.Phanthai Norasing, A.Muang Samut Sakhon,", addressFontSize,
 				12.8f, 47.1f, 98f, 6f, HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
 		addParagraph(document, contentStream, "Samut Sakhon 74000", addressFontSize, 12.8f, 53.1f, 98f, 6f,
 				HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
@@ -1578,14 +1578,14 @@ public class Report {
 				1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
 		addParagraphUPC(document, contentStream, "ต้นฉบับใบวางบิล", 24f, 151.3f, 15.1f, 1000f, 1000f, HAlignment.LEFT,
 				VAlignment.TOP, FontType.BOLD);
-		addParagraphUPC(document, contentStream, "108/314 หมู่ 5 ต.พันท้ายนรสิงส์ อ.เมืองสมุทรสาคร จ.สมุทรสาคร", 14f,
-				13.5f, 27.5f, 1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+		addParagraphUPC(document, contentStream, "181/7 หมู่ 5 ต.พันท้ายนรสิงส์ อ.เมืองสมุทรสาคร จ.สมุทรสาคร", 14f,
+				13.5f, 27.5f, 1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "โทร.034-116655, 099-0568889 แฟ็กส์.034-116655", 14f, 13.5f, 33.5f,
-				1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				1000f, 1000f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "หน้า 1/1", 14f, 154f, 27f, 1000f, 1000f, HAlignment.LEFT,
-				VAlignment.TOP, FontType.BOLD);
+				VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "TEX :ID 0 1 2 5 5 6 0 0 0 0 5 9 0", 14f, 154f, 33f, 1000f, 1000f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 
 		/*
 		 * Side Header
@@ -1594,25 +1594,27 @@ public class Report {
 		float shFontSize = 14f;
 
 		addParagraphUPC(document, contentStream, "เลขที่ใบวางบิล " + form.getId(), shFontSize, 154.1f, 43f, 46.6f, 6f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "วันที่วางบิล " + form.getBillingDate(), shFontSize, 154.1f, 49f,
-				46.6f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				46.6f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "บันทึกโดย " + form.getBillingBy(), shFontSize, 154.1f, 55f, 46.6f, 6f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
+		addParagraphUPC(document, contentStream, "วันที่บันทึก " + form.getDate(), shFontSize, 154.1f, 61f,
+				46.6f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 
 		Customer customer = form.getCustomer();
 		addParagraphUPC(document, contentStream, "รหัสลูกค้า : " + customer.getCode(), shFontSize, 13.6f, 43f, 137.8f,
-				6f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, customer.getName(), shFontSize, 13.6f, 49f, 137.8f, 6f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "ที่อยู่ : " + customer.getAddress(), shFontSize, 13.6f, 55f, 137.8f,
-				6f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "โทร: " + customer.getTel() + " แฟ็กส์ : " + customer.getFax(),
-				shFontSize, 13.6f, 61f, 137.8f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				shFontSize, 13.6f, 61f, 137.8f, 6f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "TEX :ID " + customer.getTaxID(), shFontSize, 13.6f, 67f, 137.8f, 6f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "หมายเหตุ " + form.getPs(), shFontSize, 13.6f, 73f, 137.8f, 6f,
-				HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 
 		/*
 		 * List Header
@@ -1638,6 +1640,7 @@ public class Report {
 		 */
 
 		ArrayList<Invoice> invoiceList = form.getInvoiceList();
+		Collections.sort(invoiceList);
 		DecimalFormat formatterDouble = new DecimalFormat("#,###.00");
 		float listFontSize = 14f;
 		float a = 6.3f;
@@ -1647,17 +1650,17 @@ public class Report {
 			Invoice invoice = invoiceList.get(i);
 
 			addParagraphUPC(document, contentStream, Integer.toString(i + 1), listFontSize, 13.5f, (93.1f + (i * a)),
-					14.8f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+					14.8f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 			addParagraphUPC(document, contentStream, invoice.getId(), listFontSize, 28.3f, (93.1f + (i * a)), 34.4f, a,
-					HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+					HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 			addParagraphUPC(document, contentStream, invoice.getDate(), listFontSize, 62.7f, (93.1f + (i * a)), 34.4f,
-					a, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+					a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 			addParagraphUPC(document, contentStream, invoice.getDateDue(), listFontSize, 97.1f, (93.1f + (i * a)),
-					29.4f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+					29.4f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 			addParagraphUPC(document, contentStream, formatterDouble.format(invoice.getValueAfterTax()), listFontSize,
-					126.5f, (93.1f + (i * a)), 26.5f, a, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+					126.5f, (93.1f + (i * a)), 26.5f, a, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
 			addParagraphUPC(document, contentStream, form.getPsList().get(i), listFontSize, 152.9f, (93.1f + (i * a)),
-					47.6f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+					47.6f, a, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 
 		}
 
@@ -1668,11 +1671,11 @@ public class Report {
 		float footerFontSize = 14f;
 
 		addParagraphUPC(document, contentStream, new ThaiBaht().getText(form.getValue()), footerFontSize, 13.6f, 219.8f,
-				83.6f, 7.1f, HAlignment.LEFT, VAlignment.CENTER, FontType.BOLD);
+				83.6f, 7.1f, HAlignment.LEFT, VAlignment.CENTER, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "จำนวนเงินรวม", footerFontSize, 97.1f, 219.8f, 29.4f, 7.1f,
-				HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+				HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, formatterDouble.format(form.getValue()), footerFontSize, 126.5f,
-				219.8f, 26.5f, 7.1f, HAlignment.RIGHT, VAlignment.CENTER, FontType.BOLD);
+				219.8f, 26.5f, 7.1f, HAlignment.RIGHT, VAlignment.CENTER, FontType.REGULAR);
 
 		/*
 		 * Signature
@@ -1680,21 +1683,21 @@ public class Report {
 		float signatureFontSize = 14f;
 
 		addParagraphUPC(document, contentStream, "รวมทั้งสิ้น " + invoiceList.size() + " ฉบับ", signatureFontSize,
-				13.5f, 230.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				13.5f, 230.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "ชื่อผู้รับวางบิล.............................", signatureFontSize,
-				13.5f, 236.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				13.5f, 236.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "วันที.......................................", signatureFontSize,
-				13.5f, 242.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				13.5f, 242.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream,
 				"นัดรับเช็ค/โอนเงิน วันที่............................. เวลา.............................",
-				signatureFontSize, 13.5f, 248.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				signatureFontSize, 13.5f, 248.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "หมายเหตุ.........................................................",
-				signatureFontSize, 13.5f, 253.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.BOLD);
+				signatureFontSize, 13.5f, 253.1f, 123.8f, 40.7f, HAlignment.LEFT, VAlignment.TOP, FontType.REGULAR);
 
 		addParagraphUPC(document, contentStream, "ชื่อผู้วางบิล.............................................",
-				signatureFontSize, 137.3f, 242.1f, 63.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+				signatureFontSize, 137.3f, 242.1f, 63.2f, 6f, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 		addParagraphUPC(document, contentStream, "วันที่....../....../......", signatureFontSize, 137.3f, 248.1f, 63.2f,
-				6f, HAlignment.CENTER, VAlignment.CENTER, FontType.BOLD);
+				6f, HAlignment.CENTER, VAlignment.CENTER, FontType.REGULAR);
 
 		/*
 		 * DrawLine

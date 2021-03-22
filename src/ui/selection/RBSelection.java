@@ -293,14 +293,8 @@ public class RBSelection extends VBox {
 			TableRow<Billing> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
 							openRB(row.getItem());
-						}
-					});
-					th.start();
+						
 					
 				}
 			});
@@ -350,14 +344,9 @@ public class RBSelection extends VBox {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					
-					Thread th = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							openRB(row.getItem());
-						}
-					});
-					th.start();
+					
+					openRB(row.getItem());
+						
 				}
 			});
 

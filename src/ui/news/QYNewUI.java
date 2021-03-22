@@ -262,8 +262,8 @@ public class QYNewUI extends VBox {
 			String cr = qy.getCr();
 			String code = cusBox.getCustomer();
 			DecimalFormat df = new DecimalFormat("#,###.##");
-			double valueBeforeTax = Double.parseDouble(df.format(total));
-			double valueTax = Double.parseDouble(df.format(total * 7 / 100));
+			double valueBeforeTax = Double.parseDouble(df.format(total+0.00).replace(",", ""));
+			double valueTax = Double.parseDouble(df.format(total * 7 / 100 + 0.00).replace(",", ""));
 			double valueAfterTax = valueBeforeTax + valueTax;
 			ArrayList<Item> itemList = new ArrayList<>();
 			for (Item item : productTable.getItems()) {

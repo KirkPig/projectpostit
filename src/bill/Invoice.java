@@ -234,7 +234,12 @@ public class Invoice implements Comparable<Invoice>{
 	@Override
 	public int compareTo(Invoice o) {
 		// TODO Auto-generated method stub
-		return this.getDate().compareTo(o.getDate());
+		if(this.getDate().equals(o.getDate())) {
+			return this.getId().compareTo(o.getId());
+		}else {
+			return this.getDate().compareTo(o.getDate());
+		}
+		
 	}
 	
 	public double onlyTwoDecimalPlaces(String number) {
